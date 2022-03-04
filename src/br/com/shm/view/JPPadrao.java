@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 
 public abstract class JPPadrao extends JPanel {
 	
-	protected Integer width = 1500;
-	protected Integer height = 750;
+	protected Integer width = 1000;
+	protected Integer height = 500;
 
 	public void limpaTela( )
 	{
