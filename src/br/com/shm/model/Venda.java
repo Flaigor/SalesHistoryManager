@@ -10,11 +10,13 @@ public class Venda {
 	private Cliente comprador;
 	private ArrayList<Produto> produtos;
 	
-	Venda(){
+	public Venda()
+	{
 		
 	}
 	
-	Venda(double preco, String dataVenda, String descricao, Cliente comprador, ArrayList<Produto> produtos){
+	public Venda(double preco, String dataVenda, String descricao, Cliente comprador, ArrayList<Produto> produtos)
+	{
 		this.preco = preco;
 		this.dataVenda = dataVenda;
 		this.descricao = descricao;
@@ -22,43 +24,53 @@ public class Venda {
 		this.produtos = produtos;
 	}
 	
-	public double getPreco() {
+	public double getPreco() 
+	{
 		return preco;
 	}
 	
-	public void setPreco(double preco) {
+	public void setPreco(double preco) 
+	{
 		this.preco = preco;
 	}
 	
-	public String getDataVenda() {
+	public String getDataVenda() 
+	{
 		return dataVenda;
 	}
 	
-	public void setDataVenda(String dataVenda) {
+	public void setDataVenda(String dataVenda) 
+	{
 		this.dataVenda = dataVenda;
 	}
 	
-	public String getDescricao() {
+	public String getDescricao() 
+	{
 		return descricao;
 	}
 
-	public void setDescricao(String descricao) {
+	public void setDescricao(String descricao) 
+	{
 		this.descricao = descricao;
 	}
 	
-	public Cliente getComprador() {
+	public Cliente getComprador() 
+	{
 		return comprador;
 	}
 	
-	public void setComprador(Cliente comprador) {
+	public void setComprador(Cliente comprador) 
+	{
 		this.comprador = comprador;
 	}
 	
-	public ArrayList<Produto> getProdutos() {
+	public ArrayList<Produto> getProdutos() 
+	{
 		return produtos;
 	}
 	
-	public void setProdutos(ArrayList<Produto> produtos) {
+	public void setProdutos(ArrayList<Produto> produtos) 
+	{
 		this.produtos = produtos;
 	}
 	

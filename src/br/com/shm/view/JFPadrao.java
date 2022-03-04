@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 
 public class JFPadrao extends JFrame {
 	
-	private Integer larguraFrame = 1000;
-	private Integer comprimentoFrame = 500;
+	private Integer width = 1000;
+	private Integer height = 500;
 	private JPPadrao tela;
 	
 	public static void main( String[ ] args )
@@ -26,10 +26,12 @@ public class JFPadrao extends JFrame {
 	public JFPadrao( )
 	{
 		this.setVisible( true );
-		this.setSize( larguraFrame, comprimentoFrame );
+		this.setSize( width, height );
 		this.setLocationRelativeTo( null );
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		this.setLayout( null );
+		
+		setTela( new JPLogin( this ), true );
 
 		this.addWindowListener( new WindowAdapter( )
 		{
@@ -43,6 +45,22 @@ public class JFPadrao extends JFrame {
 				System.exit( 0 );
 			}
 		} );
+	}
+	
+	public JPPadrao getTela( )
+	{
+		return tela;
+	}
+	
+	public void setTela( JPPadrao tela, boolean finaliza )
+	{
+		if ( finaliza && this.tela != null )
+		{
+			this.tela.finaliza( );
+		}
+
+		this.tela = tela;
+		this.add( tela );
 	}
 
 }

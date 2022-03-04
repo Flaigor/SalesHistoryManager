@@ -6,37 +6,45 @@ public class Produto {
 	private String descricao;
 	private double preco;
 	
-	Produto() {
+	public Produto() 
+	{
 		
 	}
 	
-	Produto(String nome, String descricao, double preco) {
+	public Produto(String nome, String descricao, double preco) 
+	{
 		this.nome = nome;
 		this.descricao = descricao;
 		this.preco = preco;
 	}
 	
-	public String getNome() {
+	public String getNome() 
+	{
 		return nome;
 	}
 	
-	public void setNome(String nome) {
+	public void setNome(String nome) 
+	{
 		this.nome = nome;
 	}
 	
-	public String getDescricao() {
+	public String getDescricao() 
+	{
 		return descricao;
 	}
 	
-	public void setDescricao(String descricao) {
+	public void setDescricao(String descricao) 
+	{
 		this.descricao = descricao;
 	}
 	
-	public double getPreco() {
+	public double getPreco() 
+	{
 		return preco;
 	}
 	
-	public void setPreco(double preco) {
+	public void setPreco(double preco) 
+	{
 		this.preco = preco;
 	}
 	
