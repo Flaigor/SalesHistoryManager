@@ -1,5 +1,6 @@
 package br.com.shm.view;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -8,8 +9,8 @@ import javax.swing.JFrame;
 
 public class JFPadrao extends JFrame {
 	
-	private Integer width = 1000;
-	private Integer height = 500;
+	private Integer width = 1200;
+	private Integer height = 600;
 	private JPPadrao tela;
 	
 	public static void main( String[ ] args )
@@ -27,9 +28,11 @@ public class JFPadrao extends JFrame {
 	{
 		this.setVisible( true );
 		this.setSize( width, height );
+		this.setResizable(false);
 		this.setLocationRelativeTo( null );
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		this.setLayout( null );
+		this.setTitle("Sales History Manager");
 		
 		setTela( new JPLogin( this ), true );
 
