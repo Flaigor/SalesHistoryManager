@@ -66,6 +66,9 @@ public class JPLogin extends JPPadrao {
 				if(tfUsuario.getText().equals(user) && tfSenha.getText().equals(senha) )
 				{
 					labelResposta.setText("Entrou!");
+					frame.remove(JPLogin.this);
+					frame.setTela(new JPMenuPrincipal(frame), false);
+					
 				}
 				else
 				{

@@ -12,7 +12,7 @@ public abstract class JPPadrao extends JPanel {
 	
 	protected Integer width = 1200 - 16;
 	protected Integer height = 600 - 39;
-	protected Color color = new Color( 175, 238, 238 );
+	protected Color color = new Color( 176, 224, 230 );
 
 	public void limpaTela( )
 	{
