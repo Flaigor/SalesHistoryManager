@@ -17,12 +17,6 @@ public class Cliente {
 		this.nome = nome;
 	}
 	
-	public Cliente(String endereco, String telefone) 
-	{
-		this.endereco = endereco;
-		this.telefone = telefone;
-	}
-	
 	public Cliente(String nome, String endereco, String telefone) 
 	{
 		this.nome = nome;
