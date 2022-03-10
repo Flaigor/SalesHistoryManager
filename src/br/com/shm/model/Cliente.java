@@ -2,7 +2,7 @@ package br.com.shm.model;
 
 public class Cliente {
 	
-	private Integer idCliente;
+	private Integer id;
 	private String nome;
 	private String endereco;
 	private String telefone;
@@ -30,12 +30,12 @@ public class Cliente {
 		this.telefone = telefone;
 	}
 	
-	public Integer getIdCliente() {
-		return idCliente;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setIdCliente(Integer idCliente) {
-		this.idCliente = idCliente;
+	public void setIdCliente(Integer id) {
+		this.id = id;
 	}
 
 	public String getNome() 

@@ -1,38 +1,38 @@
 package br.com.shm.model;
 
-public class ProdutosVenda {
+public class ProdutoVenda {
 	
-	private Integer idProdutosVenda;
-	private Integer idVenda;
+	private Integer id;
+	private Venda venda;
 	private Produto produto;
 	private Integer quantidade;
 	private Double valor;
 	
-	public ProdutosVenda() {
+	public ProdutoVenda() {
 		
 	}
 	
-	public ProdutosVenda(Integer idVenda, Produto produto, Integer quantidade) {
-		this.idVenda = idVenda;
+	public ProdutoVenda(Venda venda, Produto produto, Integer quantidade) {
+		this.venda = venda;
 		this.produto = produto;
 		this.quantidade = quantidade;
 		this.valor = produto.getPreco() * quantidade;
 	}
 	
 	public Integer getIdProdutosVenda() {
-		return idProdutosVenda;
+		return id;
 	}
 	
-	public void setIdProdutosVenda(Integer idProdutosVenda) {
-		this.idProdutosVenda = idProdutosVenda;
+	public void setIdProdutosVenda(Integer id) {
+		this.id = id;
 	}
 	
-	public Integer getIdVenda() {
-		return idVenda;
+	public Venda getIdVenda() {
+		return venda;
 	}
 	
-	public void setIdVenda(Integer idVenda) {
-		this.idVenda = idVenda;
+	public void setIdVenda(Venda venda) {
+		this.venda = venda;
 	}
 	
 	public Produto getProduto() {

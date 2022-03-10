@@ -2,41 +2,41 @@ package br.com.shm.model;
 
 import java.util.ArrayList;
 
+import javax.xml.crypto.Data;
+
 public class Venda {
 	
-	private Integer idVenda;
-	private String dataVenda;
+	private Integer id;
+	private Data dataVenda;
 	private String descricao;
 	private Cliente comprador;
-	private ArrayList<Produto> produtos;
 	
 	public Venda()
 	{
 		
 	}
 	
-	public Venda(String dataVenda, String descricao, Cliente comprador, ArrayList<Produto> produtos)
+	public Venda(Data dataVenda, String descricao, Cliente comprador)
 	{
 		this.dataVenda = dataVenda;
 		this.descricao = descricao;
 		this.comprador = comprador;
-		this.produtos = produtos;
 	}
 	
 	public Integer getIdVenda() {
-		return idVenda;
+		return id;
 	}
 
-	public void setIdVenda(Integer idVenda) {
-		this.idVenda = idVenda;
+	public void setIdVenda(Integer id) {
+		this.id = id;
 	}
 
-	public String getDataVenda() 
+	public Data getDataVenda() 
 	{
 		return dataVenda;
 	}
 	
-	public void setDataVenda(String dataVenda) 
+	public void setDataVenda(Data dataVenda) 
 	{
 		this.dataVenda = dataVenda;
 	}
@@ -59,16 +59,6 @@ public class Venda {
 	public void setComprador(Cliente comprador) 
 	{
 		this.comprador = comprador;
-	}
-	
-	public ArrayList<Produto> getProdutos() 
-	{
-		return produtos;
-	}
-	
-	public void setProdutos(ArrayList<Produto> produtos) 
-	{
-		this.produtos = produtos;
 	}
 	
 }

@@ -2,7 +2,7 @@ package br.com.shm.model;
 
 public class Produto {
 	
-	private Integer idProduto;
+	private Integer id;
 	private String nome;
 	private String descricao;
 	private Double preco;
@@ -19,6 +19,16 @@ public class Produto {
 		this.preco = preco;
 	}
 	
+	public Integer getIdProduto() 
+	{
+		return id;
+	}
+
+	public void setIdProduto(Integer id) 
+	{
+		this.id = id;
+	}
+
 	public String getNome() 
 	{
 		return nome;
@@ -44,7 +54,7 @@ public class Produto {
 		return preco;
 	}
 	
-	public void setPreco(double preco) 
+	public void setPreco(Double preco) 
 	{
 		this.preco = preco;
 	}
