@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Venda {
 	
-	private double preco;
+	private Integer idVenda;
 	private String dataVenda;
 	private String descricao;
 	private Cliente comprador;
@@ -15,25 +15,22 @@ public class Venda {
 		
 	}
 	
-	public Venda(double preco, String dataVenda, String descricao, Cliente comprador, ArrayList<Produto> produtos)
+	public Venda(String dataVenda, String descricao, Cliente comprador, ArrayList<Produto> produtos)
 	{
-		this.preco = preco;
 		this.dataVenda = dataVenda;
 		this.descricao = descricao;
 		this.comprador = comprador;
 		this.produtos = produtos;
 	}
 	
-	public double getPreco() 
-	{
-		return preco;
+	public Integer getIdVenda() {
+		return idVenda;
 	}
-	
-	public void setPreco(double preco) 
-	{
-		this.preco = preco;
+
+	public void setIdVenda(Integer idVenda) {
+		this.idVenda = idVenda;
 	}
-	
+
 	public String getDataVenda() 
 	{
 		return dataVenda;

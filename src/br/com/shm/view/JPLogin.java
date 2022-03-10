@@ -67,8 +67,7 @@ public class JPLogin extends JPPadrao {
 				{
 					labelResposta.setText("Entrou!");
 					frame.remove(JPLogin.this);
-					frame.setTela(new JPMenuPrincipal(frame), false);
-					
+					frame.setTela(new JPMenuPrincipal(frame), false);		
 				}
 				else
 				{
@@ -90,8 +89,6 @@ public class JPLogin extends JPPadrao {
 					tfSenha.setEchoChar('*');
 				}
 			}
-		} );
-		
+		} );	
 	}
-		
 }

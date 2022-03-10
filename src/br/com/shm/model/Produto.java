@@ -2,9 +2,10 @@ package br.com.shm.model;
 
 public class Produto {
 	
+	private Integer idProduto;
 	private String nome;
 	private String descricao;
-	private double preco;
+	private Double preco;
 	
 	public Produto() 
 	{

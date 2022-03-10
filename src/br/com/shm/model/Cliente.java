@@ -2,14 +2,25 @@ package br.com.shm.model;
 
 public class Cliente {
 	
+	private Integer idCliente;
 	private String nome;
 	private String endereco;
 	private String telefone;
-	private String dataCadastro;
 	
 	public Cliente() 
 	{
 		
+	}
+	
+	public Cliente(String nome) 
+	{
+		this.nome = nome;
+	}
+	
+	public Cliente(String endereco, String telefone) 
+	{
+		this.endereco = endereco;
+		this.telefone = telefone;
 	}
 	
 	public Cliente(String nome, String endereco, String telefone) 
@@ -19,6 +30,14 @@ public class Cliente {
 		this.telefone = telefone;
 	}
 	
+	public Integer getIdCliente() {
+		return idCliente;
+	}
+
+	public void setIdCliente(Integer idCliente) {
+		this.idCliente = idCliente;
+	}
+
 	public String getNome() 
 	{
 		return nome;
@@ -47,16 +66,6 @@ public class Cliente {
 	public void setTelefone(String telefone) 
 	{
 		this.telefone = telefone;
-	}
-	
-	public String getDataCadastro() 
-	{
-		return dataCadastro;
-	}
-	
-	public void setDataCadastro(String dataCadastro) 
-	{
-		this.dataCadastro = dataCadastro;
 	}
 	
 }
