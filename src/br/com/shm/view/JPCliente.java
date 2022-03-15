@@ -12,7 +12,13 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.text.MaskFormatter;
 
+import br.com.shm.dao.ClientesDAO;
+import br.com.shm.model.Cliente;
+
 public class JPCliente extends JPPadrao {
+	
+	private MaskFormatter ftmTelefone;
+	private JFormattedTextField tfTelefoneCli;
 	
 	public JPCliente( JFPadrao frame )
 	{
@@ -25,8 +31,6 @@ public class JPCliente extends JPPadrao {
 		width = frame.getBounds( ).width;
 		height = frame.getBounds( ).height;
 		this.setBounds( 0, 0, width, height );
-		
-		
 		
 		JLabel labelIdCli = new JLabel("ID: ");
 		labelIdCli.setBounds( 390, 10, 20, 30);
@@ -52,18 +56,16 @@ public class JPCliente extends JPPadrao {
 		labelTelefoneCli.setBounds( 10, 50, 60, 30);
 		
 		try {
-			MaskFormatter ftmTelefone;
-			JFormattedTextField tfTelefoneCli;
-			
 			ftmTelefone = new MaskFormatter("(##)#####-####");
 			tfTelefoneCli = new JFormattedTextField(ftmTelefone);
-			
+
 			ftmTelefone.setValidCharacters("0123456789");
 			
 			tfTelefoneCli.setColumns(14);
 			tfTelefoneCli.setBounds( 80, 50, 110, 30 );
 			
 			add(tfTelefoneCli);
+				
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -110,6 +112,15 @@ public class JPCliente extends JPPadrao {
 			}
 		} );
 		
+		btnCadastrarCli.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				Cliente cli = new Cliente(tfNomeCli.getText(), tfEderecoCli.getText(), tfTelefoneCli.getText());
+				ClientesDAO dao = new ClientesDAO();
+				dao.cadastrarCliente(cli);
+			}
+		} );
 	}
 		
 }
