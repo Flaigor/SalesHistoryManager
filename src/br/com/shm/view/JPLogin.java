@@ -11,8 +11,8 @@ import javax.swing.JTextField;
 
 public class JPLogin extends JPPadrao {
 	
-	private String user = "admin";
-	private String senha = "123";
+	private String user = "";
+	private String senha = "";
 
 	public JPLogin( JFPadrao frame )
 	{
@@ -65,7 +65,8 @@ public class JPLogin extends JPPadrao {
 			{
 				if(tfUsuario.getText().equals(user) && tfSenha.getText().equals(senha) )
 				{
-					labelResposta.setText("Entrou!");
+					tfUsuario.setText("");
+					tfSenha.setText("");
 					frame.remove(JPLogin.this);
 					frame.setTela(new JPMenuPrincipal(frame), false);		
 				}
