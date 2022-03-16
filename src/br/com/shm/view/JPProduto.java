@@ -144,7 +144,7 @@ public class JPProduto extends JPPadrao {
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				if(!tfNomeProd.getText().isEmpty())
+				if(!tfNomeProd.getText().isEmpty() && !tfPrecoProd.getText().isEmpty())
 				{
 					Double preco = Double.parseDouble(tfPrecoProd.getText().replace(",", "."));
 					Produto prod = new Produto(tfNomeProd.getText(), tfDescricaoProd.getText(), 
@@ -161,7 +161,7 @@ public class JPProduto extends JPPadrao {
 				}
 				else
 				{
-					labelResultado.setText("Nome vazio");
+					labelResultado.setText("Nome ou preço vazio");
 				}
 				
 			}
@@ -171,7 +171,7 @@ public class JPProduto extends JPPadrao {
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				if(!tfNomeProd.getText().isEmpty())
+				if(!tfNomeProd.getText().isEmpty() && !tfPrecoProd.getText().isEmpty())
 				{
 					Double preco = Double.parseDouble(tfPrecoProd.getText().replace(",", "."));
 					Produto prod = new Produto(Integer.parseInt(tfIdProd.getText()),tfNomeProd.getText(), 
@@ -183,7 +183,7 @@ public class JPProduto extends JPPadrao {
 				}
 				else
 				{
-					labelResultado.setText("Nome vazio");
+					labelResultado.setText("Nome ou preço vazio");
 				}
 				
 			}
