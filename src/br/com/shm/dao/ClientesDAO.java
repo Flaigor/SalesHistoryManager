@@ -2,7 +2,10 @@ package br.com.shm.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -64,14 +67,14 @@ public class ClientesDAO {
 		}
 	}
 	
-	public void excluirCliente(Cliente cli)
+	public void excluirCliente(String id) 
 	{
 		try
 		{
 			String sql = "Delete From SHMDB.Clientes Where IdCliente = ?";
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setString(1, cli.getId().toString());
+			stmt.setString(1, id);
 			
 			stmt.execute();
 			stmt.close();
@@ -81,6 +84,34 @@ public class ClientesDAO {
 		} catch(SQLException erro)
 		{
 			JOptionPane.showMessageDialog(null, "Falha na exclusão do Cliente, erro: " + erro);
+		}
+	}
+	
+	public List<Cliente> listarClientes()
+	{
+		try
+		{
+			List<Cliente> lista = new ArrayList<>();
+			String sql = "Select * From SHMDB.Clientes";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next())
+			{
+				Cliente cli = new Cliente();
+				cli.setIdCliente(rs.getInt("IdCliente"));
+				cli.setNome(rs.getString("NomeCliente"));
+				cli.setEndereco(rs.getString("EnderecoCliente"));
+				cli.setTelefone(rs.getString("TelefoneCliente"));
+				
+				lista.add(cli);
+			}
+			
+			return lista;
+		} catch(SQLException erro)
+		{
+			JOptionPane.showMessageDialog(null, "Falha em listar os Clientes, erro: " + erro);
+			return null;
 		}
 	}
 

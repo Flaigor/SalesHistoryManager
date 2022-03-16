@@ -12,13 +12,16 @@ public class Cliente {
 		
 	}
 	
-	public Cliente(String nome) 
-	{
-		this.nome = nome;
-	}
-	
 	public Cliente(String nome, String endereco, String telefone) 
 	{
+		this.nome = nome;
+		this.endereco = endereco;
+		this.telefone = telefone;
+	}
+	
+	public Cliente(Integer id, String nome, String endereco, String telefone) 
+	{
+		this.id = id;
 		this.nome = nome;
 		this.endereco = endereco;
 		this.telefone = telefone;
