@@ -55,6 +55,15 @@ public class JPMenuPrincipal extends JPPadrao {
 			}
 		} );
 		
+		btnPoduto.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				frame.remove(JPMenuPrincipal.this);
+				frame.setTela(new JPProduto(frame), false);		
+			}
+		} );
+		
 		btnlogOff.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )

@@ -9,22 +9,30 @@ public class Produto {
 	
 	public Produto() 
 	{
-		
+
 	}
 	
-	public Produto(String nome, String descricao, double preco) 
+	public Produto(String nome, String descricao, Double preco) 
 	{
 		this.nome = nome;
 		this.descricao = descricao;
 		this.preco = preco;
 	}
 	
-	public Integer getIdProduto() 
+	public Produto(Integer id, String nome, String descricao, Double preco) 
+	{
+		this.id = id;
+		this.nome = nome;
+		this.descricao = descricao;
+		this.preco = preco;
+	}
+	
+	public Integer getId() 
 	{
 		return id;
 	}
 
-	public void setIdProduto(Integer id) 
+	public void setId(Integer id) 
 	{
 		this.id = id;
 	}
@@ -49,7 +57,7 @@ public class Produto {
 		this.descricao = descricao;
 	}
 	
-	public double getPreco() 
+	public Double getPreco() 
 	{
 		return preco;
 	}

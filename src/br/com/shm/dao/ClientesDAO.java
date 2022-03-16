@@ -99,7 +99,7 @@ public class ClientesDAO {
 			while(rs.next())
 			{
 				Cliente cli = new Cliente();
-				cli.setIdCliente(rs.getInt("IdCliente"));
+				cli.setId(rs.getInt("IdCliente"));
 				cli.setNome(rs.getString("NomeCliente"));
 				cli.setEndereco(rs.getString("EnderecoCliente"));
 				cli.setTelefone(rs.getString("TelefoneCliente"));

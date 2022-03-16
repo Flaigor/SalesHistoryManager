@@ -31,7 +31,7 @@ public class Cliente {
 		return id;
 	}
 
-	public void setIdCliente(Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

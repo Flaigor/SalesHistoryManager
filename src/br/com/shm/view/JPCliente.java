@@ -27,7 +27,7 @@ public class JPCliente extends JPPadrao {
 	private JTable tClientes;
 	private DefaultTableModel dados;
 	private String[] colunas = {"ID","Nome","Endereço","Telefone"};
-	private List<Cliente> clientes;
+	private List<Cliente> clientes  = new ArrayList<>();
 	
 	public JPCliente( JFPadrao frame )
 	{
@@ -119,7 +119,6 @@ public class JPCliente extends JPPadrao {
 		
 		tClientes = new JTable(new DefaultTableModel(null, colunas));	
 		JScrollPane scrollClientes = new JScrollPane(tClientes);
-		tClientes.getSelectedRow();
 		
 		tClientes.setBounds( 10 , 90 , width - 40, height - 180 );
 		scrollClientes.setBounds( 10 , 90 , width - 40, height - 180 );
@@ -262,7 +261,6 @@ public class JPCliente extends JPPadrao {
 				{
 					ClientesDAO dao = new ClientesDAO();
 					List<Cliente> listaCli = dao.listarClientes();
-					clientes = new ArrayList<>();
 					for(int i = 0; i < linhas.length; i++)
 					{
 						clientes.add(listaCli.get(linhas[i] - 1));
@@ -272,7 +270,6 @@ public class JPCliente extends JPPadrao {
 				{
 					ClientesDAO dao = new ClientesDAO();
 					List<Cliente> listaCli = dao.listarClientes();
-					clientes = new ArrayList<>();
 					for(int i = 1; i < linhas.length; i++)
 					{
 						clientes.add(listaCli.get(linhas[i] - 1)); 
