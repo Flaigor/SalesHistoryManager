@@ -2,8 +2,6 @@ package br.com.shm.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
@@ -16,9 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import javax.swing.text.MaskFormatter;
 
 import br.com.shm.dao.ClientesDAO;
@@ -31,6 +27,7 @@ public class JPCliente extends JPPadrao {
 	private JTable tClientes;
 	private DefaultTableModel dados;
 	private String[] colunas = {"ID","Nome","Endereço","Telefone"};
+	private List<Cliente> clientes;
 	
 	public JPCliente( JFPadrao frame )
 	{
@@ -166,8 +163,12 @@ public class JPCliente extends JPPadrao {
 					Cliente cli = new Cliente(tfNomeCli.getText(), tfEderecoCli.getText(), tfTelefoneCli.getText());
 					ClientesDAO dao = new ClientesDAO();
 					dao.cadastrarCliente(cli);
-					listar();
 					labelResultado.setText("");
+					tfIdCli.setText("");
+					tfNomeCli.setText("");
+					tfEderecoCli.setText("");
+					tfTelefoneCli.setText("");
+					listar();
 				}
 				else
 				{
@@ -187,8 +188,8 @@ public class JPCliente extends JPPadrao {
 							tfEderecoCli.getText(), tfTelefoneCli.getText());
 					ClientesDAO dao = new ClientesDAO();
 					dao.alterarCliente(cli);
-					listar();
 					labelResultado.setText("");
+					listar();
 				}
 				else
 				{
@@ -203,9 +204,20 @@ public class JPCliente extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				ClientesDAO dao = new ClientesDAO();
-				dao.excluirCliente(tfIdCli.getText());
+				if(clientes.size() == 0)
+				{
+					dao.excluirCliente(tfIdCli.getText());
+				}
+				else
+				{
+					for(int i = 0; i < clientes.size(); i++)
+					{
+						dao.excluirCliente(clientes.get(i).getId().toString());
+					}
+				}
 				listar();
 				labelResultado.setText("");
+				clientes.clear();
 			}
 		} );
 
@@ -237,6 +249,7 @@ public class JPCliente extends JPPadrao {
 					btnAttCli.setEnabled(false);
 					btnDeletarCli.setEnabled(false);
 				}
+				clientes.clear();
 			}
 
 			public void mousePressed(MouseEvent e) {
@@ -244,7 +257,30 @@ public class JPCliente extends JPPadrao {
 			}
 
 			public void mouseReleased(MouseEvent e) {
-				
+				int[] linhas = tClientes.getSelectedRows();
+				if(linhas[0] > 0)
+				{
+					ClientesDAO dao = new ClientesDAO();
+					List<Cliente> listaCli = dao.listarClientes();
+					clientes = new ArrayList<>();
+					for(int i = 0; i < linhas.length; i++)
+					{
+						clientes.add(listaCli.get(linhas[i] - 1));
+					}
+				}
+				else if(linhas[0] == 0)
+				{
+					ClientesDAO dao = new ClientesDAO();
+					List<Cliente> listaCli = dao.listarClientes();
+					clientes = new ArrayList<>();
+					for(int i = 1; i < linhas.length; i++)
+					{
+						clientes.add(listaCli.get(linhas[i] - 1)); 
+					}
+				}
+				btnCadastrarCli.setEnabled(false);
+				btnAttCli.setEnabled(false);
+				btnDeletarCli.setEnabled(true);
 			}
 
 			public void mouseEntered(MouseEvent e) {
