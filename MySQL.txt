@@ -1,0 +1,49 @@
+Create DataBase SHMDB;
+
+create user 'admin'@'%' identified by '123';
+grant all on *.* to 'admin'@'%' with grant option;
+flush privileges;
+
+Create Table SHMDB.Users(
+	IdUser int auto_increment,
+	NameUser varchar(32) not null,
+    PasswordUser varchar(32) not null,
+    primary key(IdUser)
+);
+
+Create Table SHMDB.Clientes(
+	IdCliente int auto_increment,
+    NomeCliente varchar(128) not null,
+    EnderecoCliente varchar(258),
+    TelefoneCliente varchar(14),
+	primary key(IdCliente)
+);
+
+Create Table SHMDB.Produtos(
+	IdProduto int auto_increment,
+    NomeProduto varchar(32) not null,
+    DescricaoProduto varchar(128),
+    PrecoProduto double not null,
+	primary key(IdProduto)
+);
+
+Create Table SHMDB.Vendas(
+	IdVenda int auto_increment,
+    IdCliente int,
+    DataVenda date not null,
+    DescricaoVenda varchar(512),
+    PagoVenda boolean,
+    primary key(IdVenda),
+    foreign key(IdCliente) references SHMDB.Clientes(IdCliente)
+);
+
+Create Table SHMDB.ProdutoVenda(
+	IdProdutoVenda int auto_increment,
+    IdVenda int,
+    IdProduto int,
+    QuantidadeProdutoVenda int not null,
+    ValorProdutoVenda double not null,
+    primary key(IdProdutoVenda),
+    foreign key(IdVenda) references SHMDB.Vendas(IdVenda),
+    foreign key(IdProduto) references SHMDB.Produtos(IdProduto)
+);
