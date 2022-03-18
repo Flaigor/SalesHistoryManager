@@ -4,7 +4,9 @@ public class ProdutoVenda {
 	
 	private Integer id;
 	private Venda venda;
+	private Integer idVenda;
 	private Produto produto;
+	private Integer idProduto;
 	private Integer quantidade;
 	private Double valor;
 	
@@ -14,27 +16,37 @@ public class ProdutoVenda {
 	
 	public ProdutoVenda(Venda venda, Produto produto, Integer quantidade) {
 		this.venda = venda;
+		this.idVenda = venda.getId();
 		this.produto = produto;
+		this.idProduto = produto.getId();
 		this.quantidade = quantidade;
 		this.valor = produto.getPreco() * quantidade;
 	}
 	
-	public Integer getIdProdutosVenda() {
+	public Integer getId() {
 		return id;
 	}
 	
-	public void setIdProdutosVenda(Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	
-	public Venda getIdVenda() {
+	public Venda getVenda() {
 		return venda;
 	}
 	
-	public void setIdVenda(Venda venda) {
+	public void setVenda(Venda venda) {
 		this.venda = venda;
 	}
 	
+	public Integer getIdVenda() {
+		return idVenda;
+	}
+	
+	public void setIdVenda(Integer idVenda) {
+		this.idVenda = idVenda;
+	}
+
 	public Produto getProduto() {
 		return produto;
 	}
@@ -43,6 +55,14 @@ public class ProdutoVenda {
 		this.produto = produto;
 	}
 	
+	public Integer getIdProduto() {
+		return idProduto;
+	}
+
+	public void setIdProduto(Integer idProduto) {
+		this.idProduto = idProduto;
+	}
+
 	public Integer getQuantidade() {
 		return quantidade;
 	}

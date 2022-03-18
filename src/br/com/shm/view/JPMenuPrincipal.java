@@ -46,6 +46,7 @@ public class JPMenuPrincipal extends JPPadrao {
 		
 		frame.repaint();
 		
+		
 		btnCliente.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
@@ -72,5 +73,16 @@ public class JPMenuPrincipal extends JPPadrao {
 				frame.setTela(new JPLogin(frame), false);		
 			}
 		} );
+		
+		btnNovaVenda.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				frame.remove(JPMenuPrincipal.this);
+				frame.setTela(new JPNovaVenda(frame), false);	
+			}
+		} );
+		
+		
 	}
 }
