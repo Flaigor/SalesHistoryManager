@@ -30,7 +30,7 @@ Create Table SHMDB.Produtos(
 Create Table SHMDB.Vendas(
 	IdVenda int auto_increment,
     IdCliente int,
-    DataVenda date not null,
+    DataVenda varchar(10) not null,
     DescricaoVenda varchar(512),
     PagoVenda boolean,
     primary key(IdVenda),
