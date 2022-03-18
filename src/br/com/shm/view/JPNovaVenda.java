@@ -2,8 +2,11 @@ package br.com.shm.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -41,6 +44,7 @@ public class JPNovaVenda extends JPPadrao {
 	private String[] colunasCli = {"Nome Cliente"};
 	private String[] colunasProd = {"Nome Produto", "Preço", "Quantidade"};
 	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	private DecimalFormat dfpreco = new DecimalFormat(".##");
 	private LocalDateTime now = LocalDateTime.now();
 	private Cliente cliente  = null;
 	private List<Produto> produtos  = new ArrayList<>();
@@ -90,8 +94,9 @@ public class JPNovaVenda extends JPPadrao {
 		JLabel labelDescricaoVenda = new JLabel("Descrição: ");
 		labelDescricaoVenda.setBounds( 10, 10, 70, 30);
 		
-		JTextArea taDescricaoVenda = new JTextArea();
+		JTextArea taDescricaoVenda = new JTextArea(5, 10);
 		taDescricaoVenda.setBounds(10, 50, width - 40 , 60);
+		taDescricaoVenda.setWrapStyleWord(true);
 		
 		JLabel labelDataVenda = new JLabel("Data: ");
 		labelDataVenda.setBounds( 440, 10, 40, 30);
@@ -296,6 +301,8 @@ public class JPNovaVenda extends JPPadrao {
 			}
 
 			public void mouseReleased(MouseEvent e) {
+				linhas = null;
+				produtos.clear();
 				linhas = tProdutos.getSelectedRows();
 				Integer qtd;
 				Double valor = 0.0;
@@ -307,7 +314,7 @@ public class JPNovaVenda extends JPPadrao {
 				{
 					produtos.add(listaProd.get(linhas[i]));
 					qtd = Integer.parseInt(tProdutos.getModel().getValueAt(linhas[i], 2).toString());
-					preco = Double.parseDouble(tProdutos.getModel().getValueAt(i, 1).toString());
+					preco = Double.parseDouble(tProdutos.getModel().getValueAt(linhas[i], 1).toString());
 					if(qtd >= 0 || preco >= 0.0)
 					{
 						valor += (qtd * preco);
@@ -318,7 +325,7 @@ public class JPNovaVenda extends JPPadrao {
 						tProdutos.getModel().setValueAt("1.0", i, 1);
 					}
 				}
-				tfValorVenda.setText(valor.toString());
+				tfValorVenda.setText(dfpreco.format(valor));
 			}
 
 			public void mouseEntered(MouseEvent e) {
@@ -327,6 +334,33 @@ public class JPNovaVenda extends JPPadrao {
 
 			public void mouseExited(MouseEvent e) {
 				
+			}
+			
+		});
+		
+		taDescricaoVenda.addKeyListener(new KeyListener() {
+
+			public void keyTyped(KeyEvent e) {
+				
+			}
+
+			public void keyPressed(KeyEvent e) {
+				int contador = taDescricaoVenda.getText().length();
+				if(contador >= 512)
+				{
+					taDescricaoVenda.setText(taDescricaoVenda.getText().substring(0,
+							taDescricaoVenda.getText().length() - 1));
+				}
+			}
+
+			public void keyReleased(KeyEvent e) {
+				int contador = taDescricaoVenda.getText().length();
+				if(contador >= 512)
+				{
+					taDescricaoVenda.setText(taDescricaoVenda.getText().substring(0,
+							taDescricaoVenda.getText().length() - 1));
+				}
+
 			}
 			
 		});
