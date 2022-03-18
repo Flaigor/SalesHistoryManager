@@ -14,13 +14,13 @@ public class ProdutoVenda {
 		
 	}
 	
-	public ProdutoVenda(Venda venda, Produto produto, Integer quantidade) {
+	public ProdutoVenda(Venda venda, Produto produto, Integer quantidade, Double preco) {
 		this.venda = venda;
 		this.idVenda = venda.getId();
 		this.produto = produto;
 		this.idProduto = produto.getId();
 		this.quantidade = quantidade;
-		this.valor = produto.getPreco() * quantidade;
+		this.valor = preco;
 	}
 	
 	public Integer getId() {

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +26,9 @@ private Connection con;
 		try
 		{
 			String sql = "Insert Into SHMDB.Vendas(IdCliente, DataVenda, DescricaoVenda, PagoVenda) "
-					+ "Values (?, TO_DATE('?', 'DD/MM/YYYY'), ?, ?)";
-			
+					+ "Values (?, ?, ?, ?)";
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setInt(1, vend.getId());
+			stmt.setInt(1, vend.getIdcliente());
 			stmt.setString(2, vend.getDataVenda());
 			stmt.setString(3, vend.getDescricao());
 			stmt.setBoolean(4, vend.getPago());
@@ -134,6 +134,29 @@ private Connection con;
 		{
 			JOptionPane.showMessageDialog(null, "Falha em listar as Vendas, erro: " + erro);
 			return null;
+		}
+	}
+	
+	public int getMaiorId()
+	{
+		//Select max(IdVenda) from shmdb.vendas;
+		try
+		{
+			String sql = "Select max(IdVenda) from shmdb.vendas";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			int idVenda = 0;
+			while(rs.next())
+			{
+				idVenda = rs.getInt("max(IdVenda)");
+			}
+			
+			return idVenda;
+		} catch(SQLException erro)
+		{
+			JOptionPane.showMessageDialog(null, "Falha em listar as Vendas, erro: " + erro);
+			return 0;
 		}
 	}
 }
