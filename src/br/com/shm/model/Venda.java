@@ -1,11 +1,9 @@
 package br.com.shm.model;
 
-import javax.xml.crypto.Data;
-
 public class Venda {
 	
 	private Integer id;
-	private Data dataVenda;
+	private String dataVenda;
 	private String descricao;
 	private Cliente comprador;
 	private Integer Idcliente;
@@ -16,7 +14,7 @@ public class Venda {
 		
 	}
 	
-	public Venda(Data dataVenda, String descricao, Cliente comprador, boolean pago)
+	public Venda(String dataVenda, String descricao, Cliente comprador, boolean pago)
 	{
 		this.dataVenda = dataVenda;
 		this.descricao = descricao;
@@ -33,12 +31,12 @@ public class Venda {
 		this.id = id;
 	}
 
-	public Data getDataVenda() 
+	public String getDataVenda() 
 	{
 		return dataVenda;
 	}
 	
-	public void setDataVenda(Data dataVenda) 
+	public void setDataVenda(String dataVenda) 
 	{
 		this.dataVenda = dataVenda;
 	}
@@ -71,7 +69,7 @@ public class Venda {
 		Idcliente = idcliente;
 	}
 
-	public boolean isPago() {
+	public boolean getPago() {
 		return pago;
 	}
 
