@@ -2,6 +2,8 @@ package br.com.shm.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDateTime;
@@ -33,6 +35,7 @@ public class JPVenda extends JPPadrao {
 	private JTable tVendas;
 	private JTable tProdutos;
 	private DefaultTableModel dadosVen;
+	private DefaultTableModel dadosProdVen;
 	private String[] colunasVendas = {"Cliente", "Data", "Descição", "Pago"};
 	private String[] colunasProd = {"Nome do Produto", "Descrição", "Preço", "Quantidade"};
 	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -63,23 +66,29 @@ public class JPVenda extends JPPadrao {
 		
 	}
 	
-	public void listarProdVenda(int idVenda)
+	public Double listarProdVenda(int idVenda)
 	{
+		Double valor = 0.0;
 		ProdutoVendaDAO daoProdVen = new ProdutoVendaDAO();
 		List<ProdutoVenda> listaProdVen = daoProdVen.listarProdutoPorVenda(idVenda);
-		dadosVen = (DefaultTableModel) tVendas.getModel();
-		dadosVen.setNumRows(0);
+		dadosProdVen = (DefaultTableModel) tProdutos.getModel();
+		dadosProdVen.setNumRows(0);
 		
 		for(ProdutoVenda pv: listaProdVen)
 		{
-			dadosVen.addRow(new Object[]{
+			dadosProdVen.addRow(new Object[]{
 				pv.getProduto().getNome(),
 				pv.getProduto().getDescricao(),
 				pv.getValor(),
 				pv.getQuantidade()
 			});
+			
+			valor += (pv.getValor() * pv.getQuantidade());
 		}
 		
+		
+		
+		return valor;
 	}
 	
 	public void montaTelaMenuPrincipal( JFPadrao frame )
@@ -192,6 +201,43 @@ public class JPVenda extends JPPadrao {
 				frame.setTela(new JPMenuPrincipal(frame), false);		
 			}
 		} );
+		
+		tVendas.addMouseListener(new MouseListener() {
+
+			public void mouseClicked(MouseEvent e) {
+				Double valor = 0.0;
+				VendasDAO daoVen = new VendasDAO();
+				List<Venda> listaVen = daoVen.listarVendaJoinCliente();
+				Venda ven = new Venda();
+				ven = listaVen.get(tVendas.getSelectedRow());
+				
+				tfNomeCli.setText(ven.getComprador().getNome());
+				taDescricaoVenda.setText(ven.getDescricao());
+				tfDataVenda.setText(ven.getDataVenda());
+				chkbxPago.setSelected(ven.getPago());
+				
+				valor += listarProdVenda(ven.getId());
+				tfValorVenda.setText(dfpreco.format(valor));
+				
+			}
+
+			public void mousePressed(MouseEvent e) {
+				
+			}
+
+			public void mouseReleased(MouseEvent e) {
+				
+			}
+
+			public void mouseEntered(MouseEvent e) {
+				
+			}
+
+			public void mouseExited(MouseEvent e) {
+				
+			}
+			
+		});
 		
 	}
 

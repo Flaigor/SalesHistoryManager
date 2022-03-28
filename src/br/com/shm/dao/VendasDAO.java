@@ -166,8 +166,9 @@ private Connection con;
 		try
 		{
 			List<Venda> lista = new ArrayList<>();
-			String sql = "SELECT cli.NomeCliente, ven.DataVenda, ven.DesCricaoVenda, ven.PagoVenda FROM shmdb.vendas ven "
-					+ "INNER JOIN shmdb.clientes cli ON ven.IdCliente = cli.IdCliente ORDER BY ven.DataVenda;";
+			String sql = "SELECT ven.IdVenda, cli.NomeCliente, ven.DataVenda, ven.DesCricaoVenda, ven.PagoVenda "
+					+ "FROM shmdb.vendas ven INNER JOIN shmdb.clientes cli ON ven.IdCliente = cli.IdCliente "
+					+ "ORDER BY ven.DataVenda;";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			
@@ -175,6 +176,7 @@ private Connection con;
 			{
 				Venda vend = new Venda();
 				Cliente cli = new Cliente();
+				vend.setId(rs.getInt("ven.IdVenda"));
 				cli.setNome(rs.getString("cli.NomeCliente"));
 				vend.setComprador(cli);  
 				vend.setDataVenda(rs.getString("ven.DataVenda"));
