@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import br.com.shm.jdbc.ConnectionFactory;
+import br.com.shm.model.Produto;
 import br.com.shm.model.ProdutoVenda;
 
 public class ProdutoVendaDAO {
@@ -134,6 +135,38 @@ private Connection con;
 				prodVend.setIdProduto(rs.getInt("IdProduto"));
 				prodVend.setQuantidade(rs.getInt("QuantidadeProdutoVenda"));
 				prodVend.setValor(rs.getDouble("ValorProdutoVenda"));
+				
+				lista.add(prodVend);
+			}
+			
+			return lista;
+		} catch(SQLException erro)
+		{
+			JOptionPane.showMessageDialog(null, "Falha em listar os ProdutosVendas, erro: " + erro);
+			return null;
+		}
+	}
+	
+	public List<ProdutoVenda> listarProdutoPorVenda(int idVenda)
+	{
+		try
+		{
+			List<ProdutoVenda> lista = new ArrayList<>();
+			String sql = "SELECT prod.NomeProduto, prod.DescricaoProduto, prodVen.QuantidadeProdutoVenda, prodVen.ValorProdutoVenda"
+					+ " FROM shmdb.produtovenda prodVen INNER JOIN shmdb.produtos prod ON prodVen.IdProduto = prod.IdProduto "
+					+ "AND prodVen.IdVenda = '" + idVenda + "';";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next())
+			{
+				ProdutoVenda prodVend = new ProdutoVenda();
+				Produto prod = new Produto();
+				prod.setNome(rs.getString("prod.NomeProduto"));
+				prod.setDescricao(rs.getString("prod.DescricaoProduto"));
+				prodVend.setProduto(prod);
+				prodVend.setQuantidade(rs.getInt("prodVen.QuantidadeProdutoVenda"));
+				prodVend.setValor(rs.getDouble("prodVen.ValorProdutoVenda"));
 				
 				lista.add(prodVend);
 			}

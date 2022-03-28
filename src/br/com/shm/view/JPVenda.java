@@ -6,6 +6,8 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -18,13 +20,20 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
+import br.com.shm.dao.ProdutoVendaDAO;
+import br.com.shm.dao.VendasDAO;
+import br.com.shm.model.Cliente;
+import br.com.shm.model.ProdutoVenda;
+import br.com.shm.model.Venda;
+
 public class JPVenda extends JPPadrao {
 	
 	private MaskFormatter ftmData;
 	private JFormattedTextField tfDataVenda;
 	private JTable tVendas;
 	private JTable tProdutos;
-	private String[] colunasVendas = {"Cliente", "Data", "Descição", "Valor Total", "Pago"};
+	private DefaultTableModel dadosVen;
+	private String[] colunasVendas = {"Cliente", "Data", "Descição", "Pago"};
 	private String[] colunasProd = {"Nome do Produto", "Descrição", "Preço", "Quantidade"};
 	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	private DecimalFormat dfpreco = new DecimalFormat(".##");
@@ -35,8 +44,41 @@ public class JPVenda extends JPPadrao {
 		montaTelaMenuPrincipal( frame );
 	}
 	
-	public void listar()
+	public void listarVendas()
 	{
+		VendasDAO daoVen = new VendasDAO();
+		List<Venda> listaVenda = daoVen.listarVendaJoinCliente();
+		dadosVen = (DefaultTableModel) tVendas.getModel();
+		dadosVen.setNumRows(0);
+		
+		for(Venda v: listaVenda)
+		{
+			dadosVen.addRow(new Object[]{
+				v.getComprador().getNome(),
+				v.getDataVenda(),
+				v.getDescricao(),
+				v.getPago() ? "Sim" : "Não"
+			});
+		}
+		
+	}
+	
+	public void listarProdVenda(int idVenda)
+	{
+		ProdutoVendaDAO daoProdVen = new ProdutoVendaDAO();
+		List<ProdutoVenda> listaProdVen = daoProdVen.listarProdutoPorVenda(idVenda);
+		dadosVen = (DefaultTableModel) tVendas.getModel();
+		dadosVen.setNumRows(0);
+		
+		for(ProdutoVenda pv: listaProdVen)
+		{
+			dadosVen.addRow(new Object[]{
+				pv.getProduto().getNome(),
+				pv.getProduto().getDescricao(),
+				pv.getValor(),
+				pv.getQuantidade()
+			});
+		}
 		
 	}
 	
@@ -137,6 +179,8 @@ public class JPVenda extends JPPadrao {
 		add(btnVoltar);
 		add(btnAttVenda);
 		add(btnDeletarVenda);
+		
+		listarVendas();
 		
 		frame.repaint();
 		
