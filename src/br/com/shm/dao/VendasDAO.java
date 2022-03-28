@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import br.com.shm.jdbc.ConnectionFactory;
+import br.com.shm.model.Cliente;
 import br.com.shm.model.Venda;
 
 public class VendasDAO {
@@ -157,6 +158,68 @@ private Connection con;
 		{
 			JOptionPane.showMessageDialog(null, "Falha em listar as Vendas, erro: " + erro);
 			return 0;
+		}
+	}
+	
+	public List<Venda> listarVendaJoinCliente()
+	{
+		try
+		{
+			List<Venda> lista = new ArrayList<>();
+			String sql = "SELECT cli.NomeCliente, ven.DataVenda, ven.DesCricaoVenda, ven.PagoVenda FROM shmdb.vendas ven "
+					+ "INNER JOIN shmdb.clientes cli ON ven.IdCliente = cli.IdCliente ORDER BY ven.DataVenda;";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next())
+			{
+				Venda vend = new Venda();
+				Cliente cli = new Cliente();
+				cli.setNome(rs.getString("cli.NomeCliente"));
+				vend.setComprador(cli);  
+				vend.setDataVenda(rs.getString("ven.DataVenda"));
+				vend.setDescricao(rs.getString("ven.DesCricaoVenda"));
+				vend.setPago(rs.getBoolean("ven.PagoVenda"));
+				
+				lista.add(vend);
+			}
+			
+			return lista;
+		} catch(SQLException erro)
+		{
+			JOptionPane.showMessageDialog(null, "Falha em listar as Vendas, erro: " + erro);
+			return null;
+		}
+	}
+	
+	public List<Venda> listarVendaJoinClienteNaoPagas()
+	{
+		try
+		{
+			List<Venda> lista = new ArrayList<>();
+			String sql = "SELECT cli.NomeCliente, ven.DataVenda, ven.DesCricaoVenda, ven.PagoVenda FROM shmdb.vendas ven "
+					+ "INNER JOIN shmdb.clientes cli ON ven.IdCliente = cli.IdCliente AND ven.PagoVenda = '0' ORDER BY ven.DataVenda;";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next())
+			{
+				Venda vend = new Venda();
+				Cliente cli = new Cliente();
+				cli.setNome(rs.getString("cli.NomeCliente"));
+				vend.setComprador(cli);  
+				vend.setDataVenda(rs.getString("ven.DataVenda"));
+				vend.setDescricao(rs.getString("ven.DesCricaoVenda"));
+				vend.setPago(rs.getBoolean("ven.PagoVenda"));
+				
+				lista.add(vend);
+			}
+			
+			return lista;
+		} catch(SQLException erro)
+		{
+			JOptionPane.showMessageDialog(null, "Falha em listar as Vendas, erro: " + erro);
+			return null;
 		}
 	}
 }

@@ -96,6 +96,13 @@ public class JPMenuPrincipal extends JPPadrao {
 			}
 		} );
 		
-		
+		btnVenda.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				frame.remove(JPMenuPrincipal.this);
+				frame.setTela(new JPVenda(frame), false);	
+			}
+		} );
 	}
 }
