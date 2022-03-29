@@ -2,15 +2,33 @@ package br.com.shm.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import br.com.shm.dao.VendasDAO;
+import br.com.shm.model.Venda;
 
 public class JPMenuPrincipal extends JPPadrao {
 
+	private JTable tVendas;
+	private DefaultTableModel dados;
+	private String[] colunas = {"Nome", "Data", "Descição", "Valor"};
+	
 	public JPMenuPrincipal( JFPadrao frame )
 	{
 		montaTelaMenuPrincipal( frame );
+	}
+	
+	public void listar()
+	{
+		VendasDAO dao = new VendasDAO();
+		List<Venda> listaVen = dao.listarVendaJoinClienteNaoPagas();
+		dados = (DefaultTableModel) tVendas.getModel();
+		dados.setNumRows(0);
 	}
 	
 	public void montaTelaMenuPrincipal( JFPadrao frame )
@@ -44,7 +62,10 @@ public class JPMenuPrincipal extends JPPadrao {
 		JButton btnAgradecimentos = new JButton("Menções");
 		btnAgradecimentos.setBounds( width - 150 , height - 80 , 120, 30 );
 		
-		JScrollPane scrollClientes = new JScrollPane();
+		tVendas = new JTable(new DefaultTableModel(null, colunas));
+		JScrollPane scrollClientes = new JScrollPane(tVendas);
+		
+		tVendas.setBounds( 10 , 90 , width - 40, height - 180 );
 		scrollClientes.setBounds( 10 , 90 , width - 40, height - 180 );
 		
 		add(btnCliente);
