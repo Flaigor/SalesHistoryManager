@@ -14,7 +14,7 @@ Create Table SHMDB.Users(
 Create Table SHMDB.Clientes(
 	IdCliente int auto_increment,
     NomeCliente varchar(128) not null,
-    EnderecoCliente varchar(258),
+    EnderecoCliente varchar(256),
     TelefoneCliente varchar(14),
 	primary key(IdCliente)
 );

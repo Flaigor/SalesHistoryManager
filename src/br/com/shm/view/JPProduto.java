@@ -2,6 +2,8 @@ package br.com.shm.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
@@ -277,6 +279,60 @@ public class JPProduto extends JPPadrao {
 
 			public void mouseExited(MouseEvent e) {
 				
+			}
+			
+		});
+		
+		tfNomeProd.addKeyListener(new KeyListener() {
+
+			public void keyTyped(KeyEvent e) {
+				
+			}
+
+			public void keyPressed(KeyEvent e) {
+				int contador = tfNomeProd.getText().length();
+				if(contador >= 32)
+				{
+					tfNomeProd.setText(tfNomeProd.getText().substring(0,
+							tfNomeProd.getText().length() - 1));
+				}
+			}
+
+			public void keyReleased(KeyEvent e) {
+				int contador = tfNomeProd.getText().length();
+				if(contador >= 32)
+				{
+					tfNomeProd.setText(tfNomeProd.getText().substring(0,
+							tfNomeProd.getText().length() - 1));
+				}
+
+			}
+			
+		});
+		
+		tfDescricaoProd.addKeyListener(new KeyListener() {
+
+			public void keyTyped(KeyEvent e) {
+				
+			}
+
+			public void keyPressed(KeyEvent e) {
+				int contador = tfDescricaoProd.getText().length();
+				if(contador >= 128)
+				{
+					tfDescricaoProd.setText(tfDescricaoProd.getText().substring(0,
+							tfDescricaoProd.getText().length() - 1));
+				}
+			}
+
+			public void keyReleased(KeyEvent e) {
+				int contador = tfDescricaoProd.getText().length();
+				if(contador >= 128)
+				{
+					tfDescricaoProd.setText(tfDescricaoProd.getText().substring(0,
+							tfDescricaoProd.getText().length() - 1));
+				}
+
 			}
 			
 		});

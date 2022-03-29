@@ -2,6 +2,8 @@ package br.com.shm.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
@@ -286,6 +288,60 @@ public class JPCliente extends JPPadrao {
 
 			public void mouseExited(MouseEvent e) {
 				
+			}
+			
+		});
+		
+		tfNomeCli.addKeyListener(new KeyListener() {
+
+			public void keyTyped(KeyEvent e) {
+				
+			}
+
+			public void keyPressed(KeyEvent e) {
+				int contador = tfNomeCli.getText().length();
+				if(contador >= 128)
+				{
+					tfNomeCli.setText(tfNomeCli.getText().substring(0,
+							tfNomeCli.getText().length() - 1));
+				}
+			}
+
+			public void keyReleased(KeyEvent e) {
+				int contador = tfNomeCli.getText().length();
+				if(contador >= 128)
+				{
+					tfNomeCli.setText(tfNomeCli.getText().substring(0,
+							tfNomeCli.getText().length() - 1));
+				}
+
+			}
+			
+		});
+		
+		tfEderecoCli.addKeyListener(new KeyListener() {
+
+			public void keyTyped(KeyEvent e) {
+				
+			}
+
+			public void keyPressed(KeyEvent e) {
+				int contador = tfEderecoCli.getText().length();
+				if(contador >= 256)
+				{
+					tfEderecoCli.setText(tfEderecoCli.getText().substring(0,
+							tfEderecoCli.getText().length() - 1));
+				}
+			}
+
+			public void keyReleased(KeyEvent e) {
+				int contador = tfEderecoCli.getText().length();
+				if(contador >= 256)
+				{
+					tfEderecoCli.setText(tfEderecoCli.getText().substring(0,
+							tfEderecoCli.getText().length() - 1));
+				}
+
 			}
 			
 		});
