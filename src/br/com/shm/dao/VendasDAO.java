@@ -49,8 +49,8 @@ private Connection con;
 	{
 		try
 		{
-			String sql = "Update SHMDB.Vendas set DataVenda = TO_DATE('?', 'DD/MM/YYYY'), DescricaoVenda = ?, "
-					+ "PagoVenda = ?, Where IdVenda = ?";
+			String sql = "Update SHMDB.Vendas set DataVenda = ?, DescricaoVenda = ?, "
+					+ "PagoVenda = ? Where IdVenda = ?";
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, vend.getDataVenda());

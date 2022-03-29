@@ -47,7 +47,7 @@ private Connection con;
 	{
 		try
 		{
-			String sql = "Update SHMDB.ProdutoVenda set QuantidadeProdutoVenda = ?, ValorProdutoVenda = ?,"
+			String sql = "Update SHMDB.ProdutoVenda set QuantidadeProdutoVenda = ?, ValorProdutoVenda = ?"
 					+ " Where IdProdutoVenda = ?";
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -147,26 +147,33 @@ private Connection con;
 		}
 	}
 	
-	public List<ProdutoVenda> listarProdutoPorVenda(int idVenda)
+	public List<ProdutoVenda> listarProdutoPorVenda(String id)
 	{
 		try
 		{
 			List<ProdutoVenda> lista = new ArrayList<>();
-			String sql = "SELECT prod.NomeProduto, prod.DescricaoProduto, prodVen.QuantidadeProdutoVenda, prodVen.ValorProdutoVenda"
-					+ " FROM shmdb.produtovenda prodVen INNER JOIN shmdb.produtos prod ON prodVen.IdProduto = prod.IdProduto "
-					+ "AND prodVen.IdVenda = '" + idVenda + "';";
+			String sql = "SELECT if(prodVen.IdProdutoVenda is null, '0', prodVen.IdProdutoVenda) Id, "
+					+ "prod.IdProduto IdProduto ,prod.NomeProduto Nome, prod.DescricaoProduto Descrição, "
+					+ "if(prodVen.QuantidadeProdutoVenda is null, 0, prodVen.QuantidadeProdutoVenda) Quantidade, "
+					+ "if(prodVen.ValorProdutoVenda is null, prod.PrecoProduto, prodVen.ValorProdutoVenda) Preço "
+					+ "FROM shmdb.produtovenda prodVen right JOIN shmdb.produtos prod ON prodVen.IdProduto = prod.IdProduto "
+					+ "AND prodVen.IdVenda = ?;";
+			
 			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, id);
 			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next())
 			{
 				ProdutoVenda prodVend = new ProdutoVenda();
 				Produto prod = new Produto();
-				prod.setNome(rs.getString("prod.NomeProduto"));
-				prod.setDescricao(rs.getString("prod.DescricaoProduto"));
+				prodVend.setId(rs.getInt("Id"));
+				prodVend.setIdProduto(rs.getInt("IdProduto"));
+				prod.setNome(rs.getString("Nome"));
+				prod.setDescricao(rs.getString("Descrição"));
 				prodVend.setProduto(prod);
-				prodVend.setQuantidade(rs.getInt("prodVen.QuantidadeProdutoVenda"));
-				prodVend.setValor(rs.getDouble("prodVen.ValorProdutoVenda"));
+				prodVend.setQuantidade(rs.getInt("Quantidade"));
+				prodVend.setValor(rs.getDouble("Preço"));
 				
 				lista.add(prodVend);
 			}

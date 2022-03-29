@@ -2,13 +2,14 @@ package br.com.shm.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -24,7 +25,6 @@ import javax.swing.text.MaskFormatter;
 
 import br.com.shm.dao.ProdutoVendaDAO;
 import br.com.shm.dao.VendasDAO;
-import br.com.shm.model.Cliente;
 import br.com.shm.model.ProdutoVenda;
 import br.com.shm.model.Venda;
 
@@ -37,7 +37,7 @@ public class JPVenda extends JPPadrao {
 	private DefaultTableModel dadosVen;
 	private DefaultTableModel dadosProdVen;
 	private String[] colunasVendas = {"Cliente", "Data", "Descição", "Pago"};
-	private String[] colunasProd = {"Nome do Produto", "Descrição", "Preço", "Quantidade"};
+	private String[] colunasProd = {"Produto", "Descrição", "Preço", "Quantidade"};
 	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	private DecimalFormat dfpreco = new DecimalFormat(".##");
 	private LocalDateTime now = LocalDateTime.now();
@@ -66,11 +66,11 @@ public class JPVenda extends JPPadrao {
 		
 	}
 	
-	public Double listarProdVenda(int idVenda)
+	public Double listarProdVenda(String id)
 	{
 		Double valor = 0.0;
 		ProdutoVendaDAO daoProdVen = new ProdutoVendaDAO();
-		List<ProdutoVenda> listaProdVen = daoProdVen.listarProdutoPorVenda(idVenda);
+		List<ProdutoVenda> listaProdVen = daoProdVen.listarProdutoPorVenda(id);
 		dadosProdVen = (DefaultTableModel) tProdutos.getModel();
 		dadosProdVen.setNumRows(0);
 		
@@ -86,9 +86,39 @@ public class JPVenda extends JPPadrao {
 			valor += (pv.getValor() * pv.getQuantidade());
 		}
 		
-		
-		
 		return valor;
+	}
+	
+	public Double attValor()
+	{
+		Double valor = 0.0;
+		Double preco = 0.0;
+		Integer qtd;
+		VendasDAO daoVen = new VendasDAO();
+		List<Venda> listaVen = daoVen.listarVendaJoinCliente();
+		Venda ven = new Venda();
+		ven = listaVen.get(tVendas.getSelectedRow());
+		
+		ProdutoVendaDAO daoProdVen = new ProdutoVendaDAO();
+		List<ProdutoVenda> listaProdVen = daoProdVen.listarProdutoPorVenda(ven.getId().toString());
+		
+		for(int i = 0; i < listaProdVen.size(); i++)
+		{
+			preco = Double.parseDouble(tProdutos.getModel().getValueAt(i, 2).toString());
+			qtd = Integer.parseInt(tProdutos.getModel().getValueAt(i, 3).toString());
+			
+			valor += (preco * qtd);
+		}
+	
+		return valor;
+	}
+	
+	public void attTabelaVenda()
+	{
+		listarVendas();
+		tVendas.clearSelection();
+		tProdutos.removeAll();
+		tfDataVenda.setText(dtf.format(now));
 	}
 	
 	public void montaTelaMenuPrincipal( JFPadrao frame )
@@ -126,7 +156,6 @@ public class JPVenda extends JPPadrao {
 			tfDataVenda.setBounds( 640, 10, 100, 30 );
 			
 			tfDataVenda.setText(dtf.format(now));
-			tfDataVenda.setEnabled(false);
 			
 			add(tfDataVenda);
 				
@@ -140,7 +169,7 @@ public class JPVenda extends JPPadrao {
 		chkbxPago.setBounds( 760, 10, 120, 30);
 		chkbxPago.setBackground(color);
 		
-		JLabel labelResultado = new JLabel("Aqui");
+		JLabel labelResultado = new JLabel("");
 		labelResultado.setBounds( 600, height - 80, 300, 30);
 		
 		JLabel labelValorVenda = new JLabel("Valor: ");
@@ -202,6 +231,94 @@ public class JPVenda extends JPPadrao {
 			}
 		} );
 		
+		btnAttVenda.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				VendasDAO daoVen = new VendasDAO();
+				List<Venda> listaVen = daoVen.listarVendaJoinCliente();
+				Venda ven = new Venda();
+				ven = listaVen.get(tVendas.getSelectedRow());
+				
+				if(ven.getDataVenda().compareTo(tfDataVenda.getText()) != 0 || 
+						taDescricaoVenda.getText().compareTo(ven.getDescricao()) != 0 ||
+						(chkbxPago.isSelected() != ven.getPago()))
+				{
+					ven.setDataVenda(tfDataVenda.getText());
+					ven.setDescricao(taDescricaoVenda.getText());
+					ven.setPago(chkbxPago.isSelected());
+					daoVen.alterarVenda(ven);
+				}
+
+				ProdutoVendaDAO daoProdVen = new ProdutoVendaDAO();
+				List<ProdutoVenda> listaProdVen = daoProdVen.listarProdutoPorVenda(ven.getId().toString());
+				ProdutoVenda prodVen = new ProdutoVenda();
+				
+				Integer qtd;
+				Double preco = 0.0;
+				for(int i = 0; i < listaProdVen.size(); i++)
+				{
+					preco = Double.parseDouble(tProdutos.getModel().getValueAt(i, 2).toString());
+					qtd = Integer.parseInt(tProdutos.getModel().getValueAt(i, 3).toString());
+					if(qtd == 0 && listaProdVen.get(i).getId() != 0)
+					{
+						prodVen = listaProdVen.get(i);
+						daoProdVen.excluirProdutoVenda(prodVen.getId().toString());
+					}
+					else if ((qtd != listaProdVen.get(i).getQuantidade() || preco.compareTo(listaProdVen.get(i).getValor()) != 0) && 
+							listaProdVen.get(i).getId() != 0)
+					{
+						prodVen = listaProdVen.get(i);
+						prodVen.setQuantidade(qtd);
+						prodVen.setValor(preco);
+						daoProdVen.alterarProdutoVenda(prodVen);
+					}
+					else if(qtd != 0 && listaProdVen.get(i).getId() == 0)
+					{
+						prodVen = listaProdVen.get(i);
+						prodVen.setQuantidade(qtd);
+						prodVen.setValor(preco);
+						prodVen.setIdVenda(ven.getId());
+						daoProdVen.cadastrarProdutoVenda(prodVen);
+					}
+				}
+				
+				attTabelaVenda();
+				
+				tfNomeCli.setText("");
+				taDescricaoVenda.setText("");
+				chkbxPago.setSelected(false);
+				tfValorVenda.setText(dfpreco.format(0.0));
+				
+				labelResultado.setText("Venda e seus Produtos foram Atualizados");
+			}
+		} );
+		
+		btnDeletarVenda.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				VendasDAO daoVen = new VendasDAO();
+				List<Venda> listaVen = daoVen.listarVendaJoinCliente();
+				Venda ven = new Venda();
+				ven = listaVen.get(tVendas.getSelectedRow());
+				
+				ProdutoVendaDAO daoProdVen = new ProdutoVendaDAO();
+				
+				daoProdVen.excluirProdutoVendaPorVenda(ven.getId().toString());
+				daoVen.excluirVenda(ven.getId().toString());
+				
+				attTabelaVenda();
+				
+				tfNomeCli.setText("");
+				taDescricaoVenda.setText("");
+				chkbxPago.setSelected(false);
+				tfValorVenda.setText(dfpreco.format(0.0));
+				
+				labelResultado.setText("Venda e seus Produtos foram Deletados");
+			}
+		} );
+		
 		tVendas.addMouseListener(new MouseListener() {
 
 			public void mouseClicked(MouseEvent e) {
@@ -216,7 +333,7 @@ public class JPVenda extends JPPadrao {
 				tfDataVenda.setText(ven.getDataVenda());
 				chkbxPago.setSelected(ven.getPago());
 				
-				valor += listarProdVenda(ven.getId());
+				valor += listarProdVenda(ven.getId().toString());
 				tfValorVenda.setText(dfpreco.format(valor));
 				
 			}
@@ -235,6 +352,57 @@ public class JPVenda extends JPPadrao {
 
 			public void mouseExited(MouseEvent e) {
 				
+			}
+			
+		});
+		
+		tProdutos.addMouseListener(new MouseListener() {
+
+			public void mouseClicked(MouseEvent e) {
+				tfValorVenda.setText(dfpreco.format(attValor()));
+			}
+
+			public void mousePressed(MouseEvent e) {
+				tfValorVenda.setText(dfpreco.format(attValor()));
+			}
+
+			public void mouseReleased(MouseEvent e) {
+				tfValorVenda.setText(dfpreco.format(attValor()));
+			}
+
+			public void mouseEntered(MouseEvent e) {
+				
+			}
+
+			public void mouseExited(MouseEvent e) {
+				
+			}
+			
+		});
+		
+		taDescricaoVenda.addKeyListener(new KeyListener() {
+
+			public void keyTyped(KeyEvent e) {
+				
+			}
+
+			public void keyPressed(KeyEvent e) {
+				int contador = taDescricaoVenda.getText().length();
+				if(contador >= 512)
+				{
+					taDescricaoVenda.setText(taDescricaoVenda.getText().substring(0,
+							taDescricaoVenda.getText().length() - 1));
+				}
+			}
+
+			public void keyReleased(KeyEvent e) {
+				int contador = taDescricaoVenda.getText().length();
+				if(contador >= 512)
+				{
+					taDescricaoVenda.setText(taDescricaoVenda.getText().substring(0,
+							taDescricaoVenda.getText().length() - 1));
+				}
+
 			}
 			
 		});
