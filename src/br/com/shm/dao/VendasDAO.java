@@ -140,7 +140,6 @@ private Connection con;
 	
 	public int getMaiorId()
 	{
-		//Select max(IdVenda) from shmdb.vendas;
 		try
 		{
 			String sql = "Select max(IdVenda) from shmdb.vendas";
@@ -199,8 +198,11 @@ private Connection con;
 		try
 		{
 			List<Venda> lista = new ArrayList<>();
-			String sql = "SELECT cli.NomeCliente, ven.DataVenda, ven.DesCricaoVenda, ven.PagoVenda FROM shmdb.vendas ven "
-					+ "INNER JOIN shmdb.clientes cli ON ven.IdCliente = cli.IdCliente AND ven.PagoVenda = '0' ORDER BY ven.DataVenda;";
+			String sql = "SELECT cli.NomeCliente Cliente, ven.DataVenda, ven.DesCricaoVenda Descricao, "
+					+ "(prodven.QuantidadeProdutoVenda * prodven.ValorProdutoVenda) Valor "
+					+ "FROM shmdb.vendas ven INNER JOIN shmdb.clientes cli ON ven.IdCliente = cli.IdCliente "
+					+ "AND ven.PagoVenda = '0' INNER JOIN shmdb.produtovenda prodven "
+					+ "ON ven.IdVenda = prodven.IdVenda ORDER BY ven.DataVenda;";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			
@@ -208,11 +210,11 @@ private Connection con;
 			{
 				Venda vend = new Venda();
 				Cliente cli = new Cliente();
-				cli.setNome(rs.getString("cli.NomeCliente"));
+				cli.setNome(rs.getString("Cliente"));
 				vend.setComprador(cli);  
 				vend.setDataVenda(rs.getString("ven.DataVenda"));
-				vend.setDescricao(rs.getString("ven.DesCricaoVenda"));
-				vend.setPago(rs.getBoolean("ven.PagoVenda"));
+				vend.setDescricao(rs.getString("Descricao"));
+				vend.setValor(rs.getDouble("Valor"));
 				
 				lista.add(vend);
 			}

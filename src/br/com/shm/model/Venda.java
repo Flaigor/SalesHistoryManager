@@ -7,6 +7,7 @@ public class Venda {
 	private String descricao;
 	private Cliente comprador;
 	private Integer Idcliente;
+	private Double valor;
 	private boolean pago;
 	
 	public Venda()
@@ -67,6 +68,14 @@ public class Venda {
 
 	public void setIdcliente(Integer idcliente) {
 		Idcliente = idcliente;
+	}
+
+	public Double getValor() {
+		return valor;
+	}
+
+	public void setValor(Double valor) {
+		this.valor = valor;
 	}
 
 	public boolean getPago() {

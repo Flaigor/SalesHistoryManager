@@ -15,8 +15,8 @@ import br.com.shm.model.Venda;
 public class JPMenuPrincipal extends JPPadrao {
 
 	private JTable tVendas;
-	private DefaultTableModel dados;
-	private String[] colunas = {"Nome", "Data", "Descição", "Valor"};
+	private DefaultTableModel dadosVen;
+	private String[] colunas = {"Nome", "Data", "Descição", "Valor", "Pago"};
 	
 	public JPMenuPrincipal( JFPadrao frame )
 	{
@@ -26,9 +26,20 @@ public class JPMenuPrincipal extends JPPadrao {
 	public void listar()
 	{
 		VendasDAO dao = new VendasDAO();
-		List<Venda> listaVen = dao.listarVendaJoinClienteNaoPagas();
-		dados = (DefaultTableModel) tVendas.getModel();
-		dados.setNumRows(0);
+		List<Venda> listaVenda = dao.listarVendaJoinClienteNaoPagas();
+		dadosVen = (DefaultTableModel) tVendas.getModel();
+		dadosVen.setNumRows(0);
+		
+		for(Venda v: listaVenda)
+		{
+			dadosVen.addRow(new Object[]{
+				v.getComprador().getNome(),
+				v.getDataVenda(),
+				v.getDescricao(),
+				v.getValor(),
+				"Não"
+			});
+		}
 	}
 	
 	public void montaTelaMenuPrincipal( JFPadrao frame )
@@ -78,8 +89,9 @@ public class JPMenuPrincipal extends JPPadrao {
 		add(btnAgradecimentos);
 		add(scrollClientes);
 		
-		frame.repaint();
+		listar();
 		
+		frame.repaint();
 		
 		btnCliente.addActionListener( new ActionListener( )
 		{
