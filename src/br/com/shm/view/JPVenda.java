@@ -44,7 +44,7 @@ public class JPVenda extends JPPadrao {
 	
 	public JPVenda( JFPadrao frame )
 	{
-		montaTelaMenuPrincipal( frame );
+		montaTelaVenda( frame );
 	}
 	
 	public void listarVendas()
@@ -121,7 +121,7 @@ public class JPVenda extends JPPadrao {
 		tfDataVenda.setText(dtf.format(now));
 	}
 	
-	public void montaTelaMenuPrincipal( JFPadrao frame )
+	public void montaTelaVenda( JFPadrao frame )
 	{
 		limpaTela( );
 		width = frame.getBounds( ).width;

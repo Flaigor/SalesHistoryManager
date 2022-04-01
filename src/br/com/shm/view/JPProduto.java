@@ -30,7 +30,7 @@ public class JPProduto extends JPPadrao {
 	
 	public JPProduto( JFPadrao frame )
 	{
-		montaTelaCliente( frame );
+		montaTelaProduto( frame );
 	}
 	
 	public void listar()
@@ -58,7 +58,7 @@ public class JPProduto extends JPPadrao {
 		}
 	}
 	
-	public void montaTelaCliente( JFPadrao frame )
+	public void montaTelaProduto( JFPadrao frame )
 	{
 		limpaTela( );
 		width = frame.getBounds( ).width;

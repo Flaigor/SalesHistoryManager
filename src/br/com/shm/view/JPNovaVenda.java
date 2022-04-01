@@ -52,7 +52,7 @@ public class JPNovaVenda extends JPPadrao {
 	
 	public JPNovaVenda( JFPadrao frame )
 	{
-		montaTelaCliente( frame );
+		montaTelaNovaVenda( frame );
 	}
 	
 	public void listar()
@@ -84,7 +84,7 @@ public class JPNovaVenda extends JPPadrao {
 		}
 	}
 	
-	public void montaTelaCliente( JFPadrao frame )
+	public void montaTelaNovaVenda( JFPadrao frame )
 	{
 		limpaTela( );
 		width = frame.getBounds( ).width;
