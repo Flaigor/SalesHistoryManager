@@ -8,9 +8,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -191,6 +197,7 @@ public class JPNovaVenda extends JPPadrao {
 				if(cliente != null && !produtos.isEmpty())
 				{
 					boolean erro = false;
+					boolean dateErro = false;
 					Integer qtd = 0;
 					Double preco = 0.0;
 					for(int i = 0; i < linhas.length; i++)
@@ -203,8 +210,50 @@ public class JPNovaVenda extends JPPadrao {
 							break;
 						}
 					}
+					/*
+					Integer intdt = 0;
+					String strdt = tfDataVenda.getText();
+					String substr;
+					strdt = strdt.replace("/", "");
+					Calendar cal = Calendar.getInstance();
+					Date dt = new Date();
 					
-					if(!erro)
+					LocalDateTime ldt = LocalDateTime.parse(tfDataVenda.getText(), dtf);
+					System.out.println(strdt.toString());
+					
+					substr = strdt.substring(0, 2);
+					intdt = intdt.parseInt(substr);
+					
+					/*
+					substr = strdt.substring(2, 4);
+					intdt = intdt.parseInt(substr);
+					System.out.println("Mês:" + intdt);
+					dt.setMonth(04);
+					
+					substr = strdt.substring(4, 8);
+					intdt = intdt.parseInt(substr);
+					System.out.println("Ano:" + intdt);
+					dt.setYear(2022);
+					
+					dt.setHours(00);
+					dt.setMinutes(00);
+					dt.setSeconds(00);
+					
+					
+					System.out.println(dt.toString());
+					System.out.println(cal.getTime());
+					try
+					{
+						cal.setTime(dt);
+						System.out.println(cal.getTime());
+					} catch(DateTimeParseException de)
+					{
+						System.out.println(de.toString());
+						dateErro = true;
+					}
+					dateErro = true;
+					*/
+					if(!erro && !dateErro)
 					{
 						Venda venda = new Venda(tfDataVenda.getText(), taDescricaoVenda.getText(),
 								cliente, chkbxPago.isSelected());
@@ -230,7 +279,11 @@ public class JPNovaVenda extends JPPadrao {
 						tfValorVenda.setText("0");
 
 					}
-					else
+					else if(dateErro)
+					{
+						labelResultado.setText("Data não existe");
+					}
+					else if(erro)
 					{
 						labelResultado.setText("Produto com quantidade ou Preço errado");
 					}

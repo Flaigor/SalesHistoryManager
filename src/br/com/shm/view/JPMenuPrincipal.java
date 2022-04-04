@@ -2,6 +2,7 @@ package br.com.shm.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -17,6 +18,7 @@ public class JPMenuPrincipal extends JPPadrao {
 	private JTable tVendas;
 	private DefaultTableModel dadosVen;
 	private String[] colunas = {"Nome", "Data", "Descição", "Valor", "Pago"};
+	private DecimalFormat dfpreco = new DecimalFormat(".##");
 	
 	public JPMenuPrincipal( JFPadrao frame )
 	{
@@ -26,7 +28,7 @@ public class JPMenuPrincipal extends JPPadrao {
 	public void listar()
 	{
 		VendasDAO dao = new VendasDAO();
-		List<Venda> listaVenda = dao.listarVendaJoinClienteNaoPagas();
+		List<Venda> listaVenda = dao.listarVendaNaoPagas(dao.IdVendasNaoPagas());
 		dadosVen = (DefaultTableModel) tVendas.getModel();
 		dadosVen.setNumRows(0);
 		
@@ -36,7 +38,7 @@ public class JPMenuPrincipal extends JPPadrao {
 				v.getComprador().getNome(),
 				v.getDataVenda(),
 				v.getDescricao(),
-				v.getValor(),
+				dfpreco.format(v.getValor()),
 				"Não"
 			});
 		}

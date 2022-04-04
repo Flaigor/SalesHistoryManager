@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -39,6 +40,7 @@ public class JPVenda extends JPPadrao {
 	private String[] colunasVendas = {"Cliente", "Data", "Descição", "Pago"};
 	private String[] colunasProd = {"Produto", "Descrição", "Preço", "Quantidade"};
 	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	private DateTimeFormatter dtv = DateTimeFormatter.ofPattern("dd/MM/yyyy").withResolverStyle(ResolverStyle.STRICT);
 	private DecimalFormat dfpreco = new DecimalFormat(".##");
 	private LocalDateTime now = LocalDateTime.now();
 	

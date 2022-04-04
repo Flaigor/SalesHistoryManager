@@ -193,30 +193,60 @@ private Connection con;
 		}
 	}
 	
-	public List<Venda> listarVendaJoinClienteNaoPagas()
+	public List<Venda> listarVendaNaoPagas(List<Integer> idVendas)
 	{
 		try
 		{
 			List<Venda> lista = new ArrayList<>();
 			String sql = "SELECT cli.NomeCliente Cliente, ven.DataVenda, ven.DesCricaoVenda Descricao, "
-					+ "(prodven.QuantidadeProdutoVenda * prodven.ValorProdutoVenda) Valor "
-					+ "FROM shmdb.vendas ven INNER JOIN shmdb.clientes cli ON ven.IdCliente = cli.IdCliente "
-					+ "AND ven.PagoVenda = '0' INNER JOIN shmdb.produtovenda prodven "
-					+ "ON ven.IdVenda = prodven.IdVenda ORDER BY ven.DataVenda;";
+						+ "sum((prodven.QuantidadeProdutoVenda * prodven.ValorProdutoVenda)) Valor "
+						+ "FROM shmdb.vendas ven INNER JOIN shmdb.clientes cli ON ven.IdCliente = cli.IdCliente "
+						+ "AND ven.PagoVenda = '0' INNER JOIN shmdb.produtovenda prodven "
+						+ "ON ven.IdVenda = prodven.IdVenda AND ven.IdVenda = ? ORDER BY ven.DataVenda;";
+			
+			for(int i = 0; i < idVendas.size(); i++)
+			{
+				PreparedStatement stmt = con.prepareStatement(sql);
+				stmt.setString(1, idVendas.get(i).toString());
+				ResultSet rs = stmt.executeQuery();
+				Double valor = 0.0;
+				while(rs.next())
+				{
+					valor = rs.getDouble("Valor");
+					if(valor != 0.0)
+					{
+						Venda vend = new Venda();
+						Cliente cli = new Cliente();
+						cli.setNome(rs.getString("Cliente"));
+						vend.setComprador(cli);  
+						vend.setDataVenda(rs.getString("ven.DataVenda"));
+						vend.setDescricao(rs.getString("Descricao"));
+						vend.setValor(rs.getDouble("Valor"));
+						
+						lista.add(vend);
+					}
+				}
+			}
+			return lista;
+		} catch(SQLException erro)
+		{
+			JOptionPane.showMessageDialog(null, "Falha em listar as Vendas, erro: " + erro);
+			return null;
+		}
+	}
+	
+	public List<Integer> IdVendasNaoPagas()
+	{
+		try
+		{
+			List<Integer> lista = new ArrayList<>();
+			String sql = "SELECT IdVenda From shmdb.vendas where PagoVenda = '0'";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next())
 			{
-				Venda vend = new Venda();
-				Cliente cli = new Cliente();
-				cli.setNome(rs.getString("Cliente"));
-				vend.setComprador(cli);  
-				vend.setDataVenda(rs.getString("ven.DataVenda"));
-				vend.setDescricao(rs.getString("Descricao"));
-				vend.setValor(rs.getDouble("Valor"));
-				
-				lista.add(vend);
+				lista.add(rs.getInt("IdVenda"));
 			}
 			
 			return lista;
