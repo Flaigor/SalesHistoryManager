@@ -10,7 +10,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.ResolverStyle;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -40,7 +40,6 @@ public class JPVenda extends JPPadrao {
 	private String[] colunasVendas = {"Cliente", "Data", "Descição", "Pago"};
 	private String[] colunasProd = {"Produto", "Descrição", "Preço", "Quantidade"};
 	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	private DateTimeFormatter dtv = DateTimeFormatter.ofPattern("dd/MM/yyyy").withResolverStyle(ResolverStyle.STRICT);
 	private DecimalFormat dfpreco = new DecimalFormat(".##");
 	private LocalDateTime now = LocalDateTime.now();
 	
@@ -172,7 +171,7 @@ public class JPVenda extends JPPadrao {
 		chkbxPago.setBackground(color);
 		
 		JLabel labelResultado = new JLabel("");
-		labelResultado.setBounds( 600, height - 80, 300, 30);
+		labelResultado.setBounds( 600, height - 80, 330, 30);
 		
 		JLabel labelValorVenda = new JLabel("Valor: ");
 		labelValorVenda.setBounds( width - 190, height - 80, 40, 30);
@@ -237,6 +236,7 @@ public class JPVenda extends JPPadrao {
 		{
 			public void actionPerformed( ActionEvent e )
 			{
+				boolean dateErro = false;
 				VendasDAO daoVen = new VendasDAO();
 				List<Venda> listaVen = daoVen.listarVendaJoinCliente();
 				Venda ven = new Venda();
@@ -246,7 +246,34 @@ public class JPVenda extends JPPadrao {
 						taDescricaoVenda.getText().compareTo(ven.getDescricao()) != 0 ||
 						(chkbxPago.isSelected() != ven.getPago()))
 				{
-					ven.setDataVenda(tfDataVenda.getText());
+					
+					Integer dia = 0, mes = 0, ano = 0;
+					String substr, strdt = tfDataVenda.getText();
+					
+					strdt = strdt.replace("/", "");
+					
+					substr = strdt.substring(0, 2);
+					dia = Integer.parseInt(substr);
+					
+					substr = strdt.substring(2, 4);
+					mes = Integer.parseInt(substr);
+					
+					substr = strdt.substring(4, 8);
+					ano = Integer.parseInt(substr);
+					
+					Calendar calVenda = Calendar.getInstance();
+					
+					calVenda.set(ano, mes - 1, 1, 0, 0, 0);
+		
+					if(dia > calVenda.getActualMaximum(Calendar.DAY_OF_MONTH) || mes > 12)
+					{
+						dateErro = true;
+					}
+					else
+					{
+						ven.setDataVenda(tfDataVenda.getText());
+					}
+					
 					ven.setDescricao(taDescricaoVenda.getText());
 					ven.setPago(chkbxPago.isSelected());
 					daoVen.alterarVenda(ven);
@@ -292,7 +319,15 @@ public class JPVenda extends JPPadrao {
 				chkbxPago.setSelected(false);
 				tfValorVenda.setText(dfpreco.format(0.0));
 				
-				labelResultado.setText("Venda e seus Produtos foram Atualizados");
+				if(dateErro)
+				{
+					labelResultado.setText("Venda e seus Produtos foram Atualizados, Data Inválida");
+				}
+				else
+				{
+					labelResultado.setText("Venda e seus Produtos foram Atualizados");
+				}
+				
 			}
 		} );
 		

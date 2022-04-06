@@ -8,15 +8,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -210,49 +205,32 @@ public class JPNovaVenda extends JPPadrao {
 							break;
 						}
 					}
-					/*
-					Integer intdt = 0;
-					String strdt = tfDataVenda.getText();
-					String substr;
-					strdt = strdt.replace("/", "");
-					Calendar cal = Calendar.getInstance();
-					Date dt = new Date();
+
+					Integer dia = 0, mes = 0, ano = 0;
+					String substr, strdt = tfDataVenda.getText();
 					
-					LocalDateTime ldt = LocalDateTime.parse(tfDataVenda.getText(), dtf);
-					System.out.println(strdt.toString());
+					strdt = strdt.replace("/", "");
 					
 					substr = strdt.substring(0, 2);
-					intdt = intdt.parseInt(substr);
+					dia = Integer.parseInt(substr);
 					
-					/*
 					substr = strdt.substring(2, 4);
-					intdt = intdt.parseInt(substr);
-					System.out.println("Mês:" + intdt);
-					dt.setMonth(04);
+					mes = Integer.parseInt(substr);
 					
 					substr = strdt.substring(4, 8);
-					intdt = intdt.parseInt(substr);
-					System.out.println("Ano:" + intdt);
-					dt.setYear(2022);
+					ano = Integer.parseInt(substr);
 					
-					dt.setHours(00);
-					dt.setMinutes(00);
-					dt.setSeconds(00);
+					Calendar calVenda = Calendar.getInstance();
 					
+					calVenda.set(ano, mes - 1, 1, 0, 0, 0);
 					
-					System.out.println(dt.toString());
-					System.out.println(cal.getTime());
-					try
+		
+					if(dia > calVenda.getActualMaximum(Calendar.DAY_OF_MONTH) || mes > 12)
 					{
-						cal.setTime(dt);
-						System.out.println(cal.getTime());
-					} catch(DateTimeParseException de)
-					{
-						System.out.println(de.toString());
 						dateErro = true;
 					}
+					
 					dateErro = true;
-					*/
 					if(!erro && !dateErro)
 					{
 						Venda venda = new Venda(tfDataVenda.getText(), taDescricaoVenda.getText(),
