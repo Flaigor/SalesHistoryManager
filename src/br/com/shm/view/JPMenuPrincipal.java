@@ -76,10 +76,10 @@ public class JPMenuPrincipal extends JPPadrao {
 		btnAgradecimentos.setBounds( width - 150 , height - 80 , 120, 30 );
 		
 		tVendas = new JTable(new DefaultTableModel(null, colunas));
-		JScrollPane scrollClientes = new JScrollPane(tVendas);
+		JScrollPane scrollVendas = new JScrollPane(tVendas);
 		
 		tVendas.setBounds( 10 , 90 , width - 40, height - 180 );
-		scrollClientes.setBounds( 10 , 90 , width - 40, height - 180 );
+		scrollVendas.setBounds( 10 , 90 , width - 40, height - 180 );
 		
 		add(btnCliente);
 		add(btnPoduto);
@@ -89,7 +89,7 @@ public class JPMenuPrincipal extends JPPadrao {
 		add(btnNovaVenda);
 		add(btnHistorico);
 		add(btnAgradecimentos);
-		add(scrollClientes);
+		add(scrollVendas);
 		
 		listar();
 		
