@@ -29,7 +29,7 @@ private Connection con;
 			String sql = "Insert Into SHMDB.Vendas(IdCliente, DataVenda, DescricaoVenda, PagoVenda) "
 					+ "Values (?, ?, ?, ?)";
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setInt(1, vend.getIdcliente());
+			stmt.setInt(1, vend.getComprador().getId());
 			stmt.setString(2, vend.getDataVenda());
 			stmt.setString(3, vend.getDescricao());
 			stmt.setBoolean(4, vend.getPago());
@@ -124,7 +124,7 @@ private Connection con;
 				vend.setId(rs.getInt("IdVenda"));
 				vend.setDataVenda(rs.getString("DataVenda"));
 				vend.setDescricao(rs.getString("DescricaoVenda"));
-				vend.setIdcliente(rs.getInt("IdCliente"));
+				vend.getComprador().setId(rs.getInt("IdCliente"));
 				vend.setPago(rs.getBoolean("PagoVenda"));
 				
 				lista.add(vend);

@@ -21,8 +21,8 @@ public class JPHistorico extends JPPadrao {
 	private String[] colunas = {"Coluna 1", "Coluna 2", "Coluna 3"};
 	private String[] stTipo = {"Cliente", "Venda", "Produto"};
 	private String[] stClientePesquisa = {"Comprador", "Devedor"};
-	private String[] stVendaPesquisa = {"Por Mês", "Por Ano", "Média do valor"};
-	private String[] stProdutoPesquisa = {"Quantidade vendida", "Rentabilidade",};
+	private String[] stVendaPesquisa = {"Por Mês", "Por Ano"};
+	private String[] stProdutoPesquisa = {"Quantidade vendida"};
 	private String[] stOrdem = {"Crescente", "Decrescente"};
 	
 	public JPHistorico( JFPadrao frame )
@@ -30,7 +30,7 @@ public class JPHistorico extends JPPadrao {
 		montaTelaHistorico( frame );
 	}
 	
-	public void listar(String tipo, String pesquisa, String ordem)
+	public void listar(int tipo, int pesquisa, int ordem)
 	{
 		
 	}
@@ -60,14 +60,11 @@ public class JPHistorico extends JPPadrao {
 		JComboBox cbOrden = new JComboBox(stOrdem);
 		cbOrden.setBounds( 560, 10, 120, 30);
 		
-		JTextField tfPesquisaLivre = new JTextField();
-		tfPesquisaLivre.setBounds( 10, 50, width - 40, 30);
-		
 		tResultado = new JTable(new DefaultTableModel(null, colunas));
 		JScrollPane scrollResultado = new JScrollPane(tResultado);
 		
-		tResultado.setBounds( 10 , 90 , width - 40, height - 180 );
-		scrollResultado.setBounds( 10 , 90 , width - 40, height - 180 );
+		tResultado.setBounds( 10 , 50 , width - 40, height - 140 );
+		scrollResultado.setBounds( 10 , 50 , width - 40, height - 140 );
 		
 		JLabel labelResultado = new JLabel("Aqui");
 		labelResultado.setBounds( 670 , height - 80 , 120, 30 );
@@ -78,9 +75,6 @@ public class JPHistorico extends JPPadrao {
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.setBounds( 10 , height - 80 , 120, 30 );
 		
-		JButton btnPqsPerso = new JButton("Personalizada");
-		btnPqsPerso.setBounds( 230 , height - 80 , 120, 30 );
-		
 		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.setBounds( 450 , height - 80 , 120, 30 );
 		
@@ -90,12 +84,10 @@ public class JPHistorico extends JPPadrao {
 		add(cbPesquisa);
 		add(labelOrden);
 		add(cbOrden);
-		add(tfPesquisaLivre);
 		add(scrollResultado);
 		add(labelResultado);
 		add(btnVoltar);
 		add(btnPesquisar);
-		add(btnPqsPerso);
 		add(btnLimpar);
 		
 		frame.repaint();

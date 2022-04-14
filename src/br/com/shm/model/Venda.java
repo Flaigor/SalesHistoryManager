@@ -6,7 +6,6 @@ public class Venda {
 	private String dataVenda;
 	private String descricao;
 	private Cliente comprador;
-	private Integer Idcliente;
 	private Double valor;
 	private boolean pago;
 	
@@ -20,7 +19,6 @@ public class Venda {
 		this.dataVenda = dataVenda;
 		this.descricao = descricao;
 		this.comprador = comprador;
-		this.Idcliente = comprador.getId();
 		this.pago = pago;
 	}
 	
@@ -60,14 +58,6 @@ public class Venda {
 	public void setComprador(Cliente comprador) 
 	{
 		this.comprador = comprador;
-	}
-
-	public Integer getIdcliente() {
-		return Idcliente;
-	}
-
-	public void setIdcliente(Integer idcliente) {
-		Idcliente = idcliente;
 	}
 
 	public Double getValor() {

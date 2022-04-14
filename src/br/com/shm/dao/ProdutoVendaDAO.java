@@ -29,8 +29,8 @@ private Connection con;
 					+ " ValorProdutoVenda) Values (?, ?, ?, ?)";
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setInt(1, prodVend.getIdVenda());
-			stmt.setInt(2, prodVend.getIdProduto());
+			stmt.setInt(1, prodVend.getVenda().getId());
+			stmt.setInt(2, prodVend.getProduto().getId());
 			stmt.setInt(3, prodVend.getQuantidade());
 			stmt.setDouble(4, prodVend.getValor());
 			
@@ -131,8 +131,8 @@ private Connection con;
 			{
 				ProdutoVenda prodVend = new ProdutoVenda();
 				prodVend.setId(rs.getInt("IdProdutoVenda"));
-				prodVend.setIdVenda(rs.getInt("IdVenda"));
-				prodVend.setIdProduto(rs.getInt("IdProduto"));
+				prodVend.getVenda().setId(rs.getInt("IdVenda"));
+				prodVend.getProduto().setId(rs.getInt("IdProduto"));
 				prodVend.setQuantidade(rs.getInt("QuantidadeProdutoVenda"));
 				prodVend.setValor(rs.getDouble("ValorProdutoVenda"));
 				
@@ -168,7 +168,7 @@ private Connection con;
 				ProdutoVenda prodVend = new ProdutoVenda();
 				Produto prod = new Produto();
 				prodVend.setId(rs.getInt("Id"));
-				prodVend.setIdProduto(rs.getInt("IdProduto"));
+				prodVend.getProduto().setId(rs.getInt("IdProduto"));
 				prod.setNome(rs.getString("Nome"));
 				prod.setDescricao(rs.getString("Descrição"));
 				prodVend.setProduto(prod);

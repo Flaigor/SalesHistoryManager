@@ -307,7 +307,7 @@ public class JPVenda extends JPPadrao {
 						prodVen = listaProdVen.get(i);
 						prodVen.setQuantidade(qtd);
 						prodVen.setValor(preco);
-						prodVen.setIdVenda(ven.getId());
+						prodVen.getVenda().setId(ven.getId());
 						daoProdVen.cadastrarProdutoVenda(prodVen);
 					}
 				}
