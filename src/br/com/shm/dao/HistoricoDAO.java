@@ -18,6 +18,8 @@ import br.com.shm.model.Venda;
 public class HistoricoDAO {
 
 	private Connection con;
+	private String[] mes = { "Janerio", "Fevereiro", "Março", "Abril", "Maio", "Junho", 
+			"Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro",};
 	
 	public HistoricoDAO(){
 		this.con = new ConnectionFactory().getConnection();
@@ -25,7 +27,6 @@ public class HistoricoDAO {
 	
 	public List<ProdutoVenda> listar(int tipo, int pesquisa, int ordem)
 	{
-		
 		try
 		{
 			List<ProdutoVenda> lista = new ArrayList<>();
@@ -38,11 +39,13 @@ public class HistoricoDAO {
 				while(rs.next())
 				{
 					ProdutoVenda pv = new ProdutoVenda();
+					Venda ven = new Venda();
 					Cliente cli = new Cliente();
 					
 					cli.setNome(rs.getString("cliente"));
 					pv.setQuantidade(rs.getInt("compras"));
-					pv.getVenda().setComprador(cli);
+					ven.setComprador(cli);
+					pv.setVenda(ven);
 					
 					lista.add(pv);
 				}
@@ -54,7 +57,15 @@ public class HistoricoDAO {
 					ProdutoVenda pv = new ProdutoVenda();
 					Venda v = new Venda();
 					
-					v.setDataVenda(rs.getString("mes"));
+					if(pesquisa == 0)
+					{
+						v.setDataVenda(mes[rs.getInt("mes") - 1]);
+					}
+					else if(pesquisa == 1)
+					{
+						v.setDataVenda(rs.getString("mes"));
+					}
+					
 					pv.setQuantidade(rs.getInt("vendas"));
 					pv.setVenda(v);
 					
@@ -99,7 +110,7 @@ public class HistoricoDAO {
 			}
 			else if(pesquisa == 1)
 			{
-				sql = "Select c.NomeCliente cliente, count(*) dividas from shmdb.clientes c "
+				sql = "Select c.NomeCliente cliente, count(*) compras from shmdb.clientes c "
 						+ "inner join shmdb.vendas v on c.IdCliente = v.IdCliente and v.PagoVenda = 0 "
 						+ "group by c.NomeCliente order by count(*) ";
 			}
@@ -114,7 +125,7 @@ public class HistoricoDAO {
 			}
 			else if(pesquisa == 1)
 			{
-				sql = "Select year(str_to_date(DataVenda, '%d/%m/%Y')) ano, count(IdVenda) vendas "
+				sql = "Select year(str_to_date(DataVenda, '%d/%m/%Y')) mes, count(IdVenda) vendas "
 						+ "from shmdb.vendas group by year(str_to_date(DataVenda, '%d/%m/%Y')) "
 						+ "order by count(IdVenda) ";
 			}
