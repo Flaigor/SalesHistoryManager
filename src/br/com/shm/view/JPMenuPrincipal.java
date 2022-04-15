@@ -148,5 +148,14 @@ public class JPMenuPrincipal extends JPPadrao {
 				frame.setTela(new JPHistorico(frame), false);	
 			}
 		} );
+		
+		btnUsers.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				frame.remove(JPMenuPrincipal.this);
+				frame.setTela(new JPUsuario(frame), false);	
+			}
+		} );
 	}
 }
