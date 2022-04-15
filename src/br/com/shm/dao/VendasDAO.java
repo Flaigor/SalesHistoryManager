@@ -167,7 +167,7 @@ private Connection con;
 			List<Venda> lista = new ArrayList<>();
 			String sql = "SELECT ven.IdVenda, cli.NomeCliente, ven.DataVenda, ven.DesCricaoVenda, ven.PagoVenda "
 					+ "FROM shmdb.vendas ven INNER JOIN shmdb.clientes cli ON ven.IdCliente = cli.IdCliente "
-					+ "ORDER BY ven.DataVenda;";
+					+ "ORDER BY str_to_date(ven.DataVenda, \"%d/%m/%Y\");";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			

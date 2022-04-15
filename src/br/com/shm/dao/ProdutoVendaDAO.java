@@ -158,17 +158,16 @@ private Connection con;
 					+ "if(prodVen.ValorProdutoVenda is null, prod.PrecoProduto, prodVen.ValorProdutoVenda) Preço "
 					+ "FROM shmdb.produtovenda prodVen right JOIN shmdb.produtos prod ON prodVen.IdProduto = prod.IdProduto "
 					+ "AND prodVen.IdVenda = ?;";
-			
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, id);
 			ResultSet rs = stmt.executeQuery();
-			
+
 			while(rs.next())
 			{
 				ProdutoVenda prodVend = new ProdutoVenda();
 				Produto prod = new Produto();
 				prodVend.setId(rs.getInt("Id"));
-				prodVend.getProduto().setId(rs.getInt("IdProduto"));
+				prod.setId(rs.getInt("IdProduto"));
 				prod.setNome(rs.getString("Nome"));
 				prod.setDescricao(rs.getString("Descrição"));
 				prodVend.setProduto(prod);

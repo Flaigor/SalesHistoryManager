@@ -223,14 +223,12 @@ public class JPNovaVenda extends JPPadrao {
 					Calendar calVenda = Calendar.getInstance();
 					
 					calVenda.set(ano, mes - 1, 1, 0, 0, 0);
-					
 		
 					if(dia > calVenda.getActualMaximum(Calendar.DAY_OF_MONTH) || mes > 12)
 					{
 						dateErro = true;
 					}
 					
-					dateErro = true;
 					if(!erro && !dateErro)
 					{
 						Venda venda = new Venda(tfDataVenda.getText(), taDescricaoVenda.getText(),
