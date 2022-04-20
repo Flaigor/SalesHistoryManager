@@ -7,12 +7,12 @@ import javax.swing.JButton;
 
 public class JPUsuario extends JPPadrao {
 	
-	public JPUsuario( JFPadrao frame )
+	public JPUsuario( JFPadrao frame, boolean admin )
 	{
-		montaTelaCliente( frame );
+		montaTelaCliente( frame, admin );
 	}
 	
-	public void montaTelaCliente( JFPadrao frame )
+	public void montaTelaCliente( JFPadrao frame, boolean admin )
 	{
 		limpaTela( );
 		width = frame.getBounds( ).width;
@@ -31,7 +31,7 @@ public class JPUsuario extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove(JPUsuario.this);
-				frame.setTela(new JPMenuPrincipal(frame), false);		
+				frame.setTela(new JPMenuPrincipal(frame, admin), false);		
 			}
 		} );
 	

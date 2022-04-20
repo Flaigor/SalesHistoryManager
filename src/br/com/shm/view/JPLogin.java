@@ -9,10 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import br.com.shm.dao.UsuarioDAO;
+import br.com.shm.model.Usuario;
+
 public class JPLogin extends JPPadrao {
-	
-	private String user = "";
-	private String senha = "";
 
 	public JPLogin( JFPadrao frame )
 	{
@@ -63,12 +63,15 @@ public class JPLogin extends JPPadrao {
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				if(tfUsuario.getText().equals(user) && tfSenha.getText().equals(senha) )
+				UsuarioDAO dao = new UsuarioDAO();
+				if(dao.validaUsuario(tfUsuario.getText(), tfSenha.getText()))
 				{
+					Usuario user = new Usuario();
+					user = dao.getUsuario(tfUsuario.getText(), tfSenha.getText());
 					tfUsuario.setText("");
 					tfSenha.setText("");
 					frame.remove(JPLogin.this);
-					frame.setTela(new JPMenuPrincipal(frame), false);		
+					frame.setTela(new JPMenuPrincipal(frame, user.isAdmin()), false);		
 				}
 				else
 				{

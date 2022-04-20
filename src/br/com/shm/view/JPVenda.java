@@ -43,9 +43,9 @@ public class JPVenda extends JPPadrao {
 	private DecimalFormat dfpreco = new DecimalFormat(".##");
 	private LocalDateTime now = LocalDateTime.now();
 	
-	public JPVenda( JFPadrao frame )
+	public JPVenda( JFPadrao frame, boolean admin )
 	{
-		montaTelaVenda( frame );
+		montaTelaVenda( frame, admin );
 	}
 	
 	public void listarVendas()
@@ -122,7 +122,7 @@ public class JPVenda extends JPPadrao {
 		tfDataVenda.setText(dtf.format(now));
 	}
 	
-	public void montaTelaVenda( JFPadrao frame )
+	public void montaTelaVenda( JFPadrao frame, boolean admin )
 	{
 		limpaTela( );
 		width = frame.getBounds( ).width;
@@ -228,7 +228,7 @@ public class JPVenda extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove(JPVenda.this);
-				frame.setTela(new JPMenuPrincipal(frame), false);		
+				frame.setTela(new JPMenuPrincipal(frame, admin), false);		
 			}
 		} );
 		

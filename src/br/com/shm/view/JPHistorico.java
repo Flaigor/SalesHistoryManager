@@ -41,9 +41,9 @@ public class JPHistorico extends JPPadrao {
 	private String[] stOrdem = {"Crescente", "Decrescente"};
 	
 	
-	public JPHistorico( JFPadrao frame )
+	public JPHistorico( JFPadrao frame, boolean admin )
 	{
-		montaTelaHistorico( frame );
+		montaTelaHistorico( frame, admin );
 	}
 	
 	public void listar(int tipo, int pesquisa, int ordem)
@@ -98,7 +98,7 @@ public class JPHistorico extends JPPadrao {
 		}
 	}
 	
-	public void montaTelaHistorico( JFPadrao frame )
+	public void montaTelaHistorico( JFPadrao frame, boolean admin )
 	{
 		limpaTela( );
 		width = frame.getBounds( ).width;
@@ -172,7 +172,7 @@ public class JPHistorico extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove(JPHistorico.this);
-				frame.setTela(new JPMenuPrincipal(frame), false);		
+				frame.setTela(new JPMenuPrincipal(frame, admin), false);		
 			}
 		} );
 		

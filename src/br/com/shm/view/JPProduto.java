@@ -28,9 +28,9 @@ public class JPProduto extends JPPadrao {
 	private String[] colunas = {"ID","Nome","Descrição","Preço"};
 	private List<Produto> produtos = new ArrayList<>();
 	
-	public JPProduto( JFPadrao frame )
+	public JPProduto( JFPadrao frame, boolean admin )
 	{
-		montaTelaProduto( frame );
+		montaTelaProduto( frame, admin );
 	}
 	
 	public void listar()
@@ -58,7 +58,7 @@ public class JPProduto extends JPPadrao {
 		}
 	}
 	
-	public void montaTelaProduto( JFPadrao frame )
+	public void montaTelaProduto( JFPadrao frame, boolean admin )
 	{
 		limpaTela( );
 		width = frame.getBounds( ).width;
@@ -138,7 +138,7 @@ public class JPProduto extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove(JPProduto.this);
-				frame.setTela(new JPMenuPrincipal(frame), false);		
+				frame.setTela(new JPMenuPrincipal(frame, admin), false);		
 			}
 		} );
 		

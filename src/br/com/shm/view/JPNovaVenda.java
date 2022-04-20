@@ -51,9 +51,9 @@ public class JPNovaVenda extends JPPadrao {
 	private List<Produto> produtos  = new ArrayList<>();
 	int[] linhas;
 	
-	public JPNovaVenda( JFPadrao frame )
+	public JPNovaVenda( JFPadrao frame, boolean admin )
 	{
-		montaTelaNovaVenda( frame );
+		montaTelaNovaVenda( frame, admin );
 	}
 	
 	public void listar()
@@ -85,7 +85,7 @@ public class JPNovaVenda extends JPPadrao {
 		}
 	}
 	
-	public void montaTelaNovaVenda( JFPadrao frame )
+	public void montaTelaNovaVenda( JFPadrao frame, boolean admin )
 	{
 		limpaTela( );
 		width = frame.getBounds( ).width;
@@ -181,7 +181,7 @@ public class JPNovaVenda extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove(JPNovaVenda.this);
-				frame.setTela(new JPMenuPrincipal(frame), false);		
+				frame.setTela(new JPMenuPrincipal(frame, admin), false);		
 			}
 		} );
 		

@@ -20,9 +20,9 @@ public class JPMenuPrincipal extends JPPadrao {
 	private String[] colunas = {"Nome", "Data", "Descição", "Valor", "Pago"};
 	private DecimalFormat dfpreco = new DecimalFormat(".##");
 	
-	public JPMenuPrincipal( JFPadrao frame )
+	public JPMenuPrincipal( JFPadrao frame, boolean admin )
 	{
-		montaTelaMenuPrincipal( frame );
+		montaTelaMenuPrincipal( frame, admin);
 	}
 	
 	public void listar()
@@ -44,7 +44,7 @@ public class JPMenuPrincipal extends JPPadrao {
 		}
 	}
 	
-	public void montaTelaMenuPrincipal( JFPadrao frame )
+	public void montaTelaMenuPrincipal( JFPadrao frame, boolean admin )
 	{
 		limpaTela( );
 		width = frame.getBounds( ).width;
@@ -85,11 +85,15 @@ public class JPMenuPrincipal extends JPPadrao {
 		add(btnPoduto);
 		add(btnVenda);
 		add(btnlogOff);
-		add(btnUsers);
 		add(btnNovaVenda);
 		add(btnHistorico);
-		add(btnAgradecimentos);
 		add(scrollVendas);
+		
+		if(admin)
+		{
+			add(btnUsers);
+			add(btnAgradecimentos);
+		}
 		
 		listar();
 		
@@ -100,7 +104,7 @@ public class JPMenuPrincipal extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove(JPMenuPrincipal.this);
-				frame.setTela(new JPCliente(frame), false);		
+				frame.setTela(new JPCliente(frame, admin), false);		
 			}
 		} );
 		
@@ -109,7 +113,7 @@ public class JPMenuPrincipal extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove(JPMenuPrincipal.this);
-				frame.setTela(new JPProduto(frame), false);		
+				frame.setTela(new JPProduto(frame, admin), false);		
 			}
 		} );
 		
@@ -127,7 +131,7 @@ public class JPMenuPrincipal extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove(JPMenuPrincipal.this);
-				frame.setTela(new JPNovaVenda(frame), false);	
+				frame.setTela(new JPNovaVenda(frame, admin), false);	
 			}
 		} );
 		
@@ -136,7 +140,7 @@ public class JPMenuPrincipal extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove(JPMenuPrincipal.this);
-				frame.setTela(new JPVenda(frame), false);	
+				frame.setTela(new JPVenda(frame, admin), false);	
 			}
 		} );
 		
@@ -145,7 +149,7 @@ public class JPMenuPrincipal extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove(JPMenuPrincipal.this);
-				frame.setTela(new JPHistorico(frame), false);	
+				frame.setTela(new JPHistorico(frame, admin), false);	
 			}
 		} );
 		
@@ -154,7 +158,7 @@ public class JPMenuPrincipal extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove(JPMenuPrincipal.this);
-				frame.setTela(new JPUsuario(frame), false);	
+				frame.setTela(new JPUsuario(frame, admin), false);	
 			}
 		} );
 	}

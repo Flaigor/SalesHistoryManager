@@ -31,9 +31,9 @@ public class JPCliente extends JPPadrao {
 	private String[] colunas = {"ID","Nome","Endereço","Telefone"};
 	private List<Cliente> clientes  = new ArrayList<>();
 	
-	public JPCliente( JFPadrao frame )
+	public JPCliente( JFPadrao frame, boolean admin )
 	{
-		montaTelaCliente( frame );
+		montaTelaCliente( frame, admin );
 	}
 	
 	public void listar()
@@ -62,7 +62,7 @@ public class JPCliente extends JPPadrao {
 		
 	}
 	
-	public void montaTelaCliente( JFPadrao frame )
+	public void montaTelaCliente( JFPadrao frame, boolean admin )
 	{
 		limpaTela( );
 		width = frame.getBounds( ).width;
@@ -151,7 +151,7 @@ public class JPCliente extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove(JPCliente.this);
-				frame.setTela(new JPMenuPrincipal(frame), false);		
+				frame.setTela(new JPMenuPrincipal(frame, admin), false);		
 			}
 		} );
 		
