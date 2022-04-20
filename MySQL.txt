@@ -8,6 +8,7 @@ Create Table SHMDB.Users(
 	IdUser int auto_increment,
 	NameUser varchar(32) not null,
     PasswordUser varchar(32) not null,
+    AdminUser boolean not null, 
     primary key(IdUser)
 );
 
