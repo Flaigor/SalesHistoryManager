@@ -11,6 +11,12 @@ public class Usuario {
 		
 	}
 	
+	public Usuario(String login, String senha, boolean admin) {
+		this.login = login;
+		this.senha = senha;
+		this.admin = admin;
+	}
+	
 	public Usuario(Integer id, String login, String senha, boolean admin) {
 		this.id = id;
 		this.login = login;
