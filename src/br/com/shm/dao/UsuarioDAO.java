@@ -66,13 +66,13 @@ public class UsuarioDAO {
 		}
 	}
 	
-	public void excluirUsuario(Usuario user) {
+	public void excluirUsuario(String id) {
 		try
 		{
 			String sql = "Delete From shmdb.users Where IdUser = ?";
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setString(1, user.getId().toString());
+			stmt.setString(1, id);
 			
 			stmt.execute();
 			stmt.close();
