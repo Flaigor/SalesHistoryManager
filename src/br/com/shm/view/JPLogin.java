@@ -30,7 +30,7 @@ public class JPLogin extends JPPadrao {
 		this.setBounds( 0, 0, width, height );
 		
 		JLabel labelLogo = new JLabel("Sales History Manager " + frame.getVersao());
-		labelLogo.setBounds( 330, 50, 600, 90);
+		labelLogo.setBounds( 300, 50, 600, 90);
 		labelLogo.setFont(logo);
 		
 		JButton btnLogin = new JButton("Login");
