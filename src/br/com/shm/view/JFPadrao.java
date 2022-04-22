@@ -12,6 +12,7 @@ public class JFPadrao extends JFrame {
 	private Integer width = 1200;
 	private Integer height = 600;
 	private JPPadrao tela;
+	private String versao = "V1.0";
 	
 	public static void main( String[ ] args )
 	{
@@ -32,7 +33,7 @@ public class JFPadrao extends JFrame {
 		this.setLocationRelativeTo( null );
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		this.setLayout( null );
-		this.setTitle("Sales History Manager");
+		this.setTitle("Sales History Manager " + versao);
 		
 		setTela( new JPLogin( this ), true );
 
@@ -64,6 +65,14 @@ public class JFPadrao extends JFrame {
 
 		this.tela = tela;
 		this.add( tela );
+	}
+
+	public String getVersao() {
+		return versao;
+	}
+
+	public void setVersao(String versao) {
+		this.versao = versao;
 	}
 
 }
