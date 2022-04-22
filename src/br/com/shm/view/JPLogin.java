@@ -1,5 +1,6 @@
 package br.com.shm.view;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,6 +15,8 @@ import br.com.shm.model.Usuario;
 
 public class JPLogin extends JPPadrao {
 
+	private Font logo = new Font("Serif", Font.BOLD, 50);
+	
 	public JPLogin( JFPadrao frame )
 	{
 		montaTelaLogin( frame );
@@ -26,29 +29,34 @@ public class JPLogin extends JPPadrao {
 		height = frame.getBounds( ).height;
 		this.setBounds( 0, 0, width, height );
 		
+		JLabel labelLogo = new JLabel("Sales History Manager " + frame.getVersao());
+		labelLogo.setBounds( 330, 50, 600, 90);
+		labelLogo.setFont(logo);
+		
 		JButton btnLogin = new JButton("Login");
-		btnLogin.setBounds( width/2 - 55 , height - 200 , 120, 30 );
+		btnLogin.setBounds( 545 , 400 , 120, 30 );
 		
 		JLabel labelUser = new JLabel("Usuário: ");
-		labelUser.setBounds( width/2 - 200, height/3, 100, 30);
+		labelUser.setBounds( 400, 200, 100, 30);
 		
 		JTextField tfUsuario = new JTextField();
-		tfUsuario.setBounds( width/2 - 150, height/3 , 300, 30 );
+		tfUsuario.setBounds( 450, 200 , 300, 30 );
 		
 		JLabel labelSenha = new JLabel("Senha: ");
-		labelSenha.setBounds( width/2 - 200, height/2 - 30, 100, 30);
+		labelSenha.setBounds( 400, 270, 100, 30);
 		
 		JPasswordField tfSenha = new JPasswordField();
-		tfSenha.setBounds( width/2 - 150, height/2 - 30 , 300, 30 );
+		tfSenha.setBounds( 450, 270 , 300, 30 );
 		
 		JLabel labelResposta = new JLabel();
-		labelResposta.setBounds( width/2 - 90, height/2 + 30, 200, 30);
+		labelResposta.setBounds( 510, 330, 200, 30);
 		labelResposta.setHorizontalAlignment(JTextField.CENTER);
 		
 		JCheckBox chkbxSenha = new JCheckBox("Monstrar Senha");
-		chkbxSenha.setBounds( width/2 + 170, height/2 - 30, 120, 30);
+		chkbxSenha.setBounds( 770, 270, 120, 30);
 		chkbxSenha.setBackground(color);
 		
+		add(labelLogo);
 		add(btnLogin);
 		add(labelUser);
 		add(tfUsuario);
