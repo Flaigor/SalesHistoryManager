@@ -72,8 +72,6 @@ public class JPMenuPrincipal extends JPPadrao {
 		JButton btnVenda = new JButton("Venda");
 		btnVenda.setBounds( 10 , height - 80 , 120, 30 );
 		
-		JButton btnAgradecimentos = new JButton("Menções");
-		btnAgradecimentos.setBounds( width - 150 , height - 80 , 120, 30 );
 		
 		tVendas = new JTable(new DefaultTableModel(null, colunas));
 		JScrollPane scrollVendas = new JScrollPane(tVendas);
@@ -92,7 +90,6 @@ public class JPMenuPrincipal extends JPPadrao {
 		if(admin)
 		{
 			add(btnUsers);
-			add(btnAgradecimentos);
 		}
 		
 		listar();
@@ -161,5 +158,6 @@ public class JPMenuPrincipal extends JPPadrao {
 				frame.setTela(new JPUsuario(frame, admin), false);	
 			}
 		} );
+		
 	}
 }
