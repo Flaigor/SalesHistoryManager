@@ -1,0 +1,24 @@
+@startuml
+!theme blueprint
+left to right direction
+
+actor "Administrador" as Admin
+actor "Usuário" as User
+
+rectangle SHM {
+Admin -up- (Manter Cliente)
+Admin -up- (Manter Produto)
+Admin -up- (Manter Venda)
+Admin -up- (Histórico)
+Admin -up- (Manter Usuário)
+
+User -- (Manter Cliente)
+User -- (Manter Produto)
+User -- (Manter Venda)
+User -- (Histórico)
+}
+
+rectangle MySQL {
+(Cunsultar banco) <.. (Histórico)
+}
+@enduml
