@@ -19,6 +19,6 @@ User -- (Histórico)
 }
 
 rectangle MySQL {
-(Cunsultar banco) <.. (Histórico)
+(Cunsultar banco) <.. (Histórico) : include
 }
 @enduml
