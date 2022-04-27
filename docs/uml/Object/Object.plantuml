@@ -1,0 +1,86 @@
+@startuml
+!theme blueprint
+left to right direction
+
+object Cliente1 {
+-Id : 1
+-nome : Mariha
+-endereco : R. Francisco Real, 375 - Padre Miguel
+-telefone : (21) 2147-3617 
+}
+
+object Cliente2 {
+-Id : 2
+-nome : Baixo Valqueire
+-endereco : R. das Camélias, 437 - Vila Valqueire
+-telefone : (21) 3486-6816
+}
+
+object Produto1 {
+-id : 1
+-nome : Escama 20Kg
+-descicao : Saco de gelo não filtrado com 20Kg
+-preco : 12,00
+}
+
+object Produto2 {
+-id : 2
+-nome : Cubo 10Kg
+-descicao : Saco de gelo filtrado com 10Kg
+-preco : 8,00
+}
+
+object Venda1 {
+-id : 1
+-dataVenda : 09/04/2022
+-descricao : Venda de 50 escamas e 10 cubos, descontos aplicados
+-comprador : Cliente2
+-valor : 570,00
+-pago : 0
+}
+
+object Venda2 {
+-id : 2
+-dataVenda : 15/04/2022
+-descricao : Venda de 5 cubos, sem descontos
+-comprador : Cliente1
+-valor : 40,00
+-pago : 1
+}
+
+object ProdutoVenda1{
+-id : 1
+-venda : Venda1
+-produto : Produto2
+-quantidade : 50
+-valor : 500,00
+}
+
+object ProdutoVenda2{
+-id : 2
+-venda : Venda1
+-produto : Produto2
+-quantidade : 10
+-valor : 70,00
+}
+
+object ProdutoVenda3{
+-id : 3
+-venda : Venda2
+-produto : Produto2
+-quantidade : 5
+-valor : 40,00
+}
+
+Cliente1 ---> Venda2
+Cliente2 ---> Venda1
+
+Produto1 -up--> ProdutoVenda1
+Produto2 -up--> ProdutoVenda2
+Produto2 -up--> ProdutoVenda3
+
+Venda1 <--- ProdutoVenda1
+Venda1 <--- ProdutoVenda2
+Venda2 <--- ProdutoVenda3
+
+@enduml
