@@ -1,0 +1,37 @@
+@startuml
+!theme blueprint
+
+State Passo1 {
+	Passo1 : Tipo
+	Passo1 : Pesquisa
+	Passo1 : Ordem
+}
+
+State Passo2 {
+	State Passo2.1 {
+		Passo2.1 : Consultar no Banco
+	}
+
+	State Passo2.2 {
+		Passo2.2 : Preencher Lista
+	}
+
+	[*] -> Passo2.1
+	Passo2.1 --> Passo2.2 : Histórico retornados
+	Passo2.2 -left-> [*] : lista retornada
+	Passo2.1 --> [*] : Falha
+}
+
+State Passo3 {
+	Passo3 : Preenche tabela
+}
+
+[*] -> Passo1
+Passo1 -up-> Passo1 : Limpar
+Passo1 --> Passo2 : Pesquisar
+Passo1 --> [*] : Voltar
+
+Passo2 --> Passo3 : Resultado
+Passo3  --> Passo3 : Preencher linhas
+Passo3 -down-> Passo1 : Nova consulta
+@enduml

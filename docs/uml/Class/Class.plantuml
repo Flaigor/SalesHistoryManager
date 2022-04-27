@@ -3,41 +3,41 @@
 left to right direction
 
 class Cliente{
--id : Integer
--nome : String
--endereco : String
--telefone : String
+	-id : Integer
+	-nome : String
+	-endereco : String
+	-telefone : String
 }
 
 class Produto{
--id : Integer
--nome : String
--descicao : String
--preco : Double
+	-id : Integer
+	-nome : String
+	-descicao : String
+	-preco : Double
 }
 
 class Venda{
--id : Integer
--dataVenda : String
--descricao : String
--comprador : Cliente
--valor : Double
--pago : boolean
+	-id : Integer
+	-dataVenda : String
+	-descricao : String
+	-comprador : Cliente
+	-valor : Double
+	-pago : boolean
 }
 
 class ProdutoVenda{
--id : Integer
--venda : Venda
--produto : Produto
--quantidade : Integer
--valor : Double
+	-id : Integer
+	-venda : Venda
+	-produto : Produto
+	-quantidade : Integer
+	-valor : Double
 }
 
 class Usuario{
--id : Integer
--login : String
--senha : String
--admin : boolean
+	-id : Integer
+	-login : String
+	-senha : String
+	-admin : boolean
 }
 
 Venda "0..*" -up--> "1" Cliente: pertence
