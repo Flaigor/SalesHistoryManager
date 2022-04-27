@@ -82,5 +82,4 @@ Produto2 -up--> ProdutoVenda3
 Venda1 ---> ProdutoVenda1
 Venda1 ---> ProdutoVenda2
 Venda2 ---> ProdutoVenda3
-
 @enduml

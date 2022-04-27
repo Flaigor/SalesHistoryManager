@@ -17,8 +17,4 @@ User -- (Manter Produto)
 User -- (Manter Venda)
 User -- (Histórico)
 }
-
-rectangle MySQL {
-(Cunsultar banco) <.. (Histórico) : include
-}
 @enduml

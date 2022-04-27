@@ -43,5 +43,4 @@ class Usuario{
 Venda "0..*" -up--> "1" Cliente: pertence
 ProdutoVenda  "0..*" ---> "1" Produto : possui
 ProdutoVenda "1..*" -up--> "1" Venda : pertence
-
 @enduml
