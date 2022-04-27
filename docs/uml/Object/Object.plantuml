@@ -51,7 +51,7 @@ object Venda2 {
 object ProdutoVenda1{
 -id : 1
 -venda : Venda1
--produto : Produto2
+-produto : Produto1
 -quantidade : 50
 -valor : 500,00
 }
@@ -79,8 +79,8 @@ Produto1 -up--> ProdutoVenda1
 Produto2 -up--> ProdutoVenda2
 Produto2 -up--> ProdutoVenda3
 
-Venda1 <--- ProdutoVenda1
-Venda1 <--- ProdutoVenda2
-Venda2 <--- ProdutoVenda3
+Venda1 ---> ProdutoVenda1
+Venda1 ---> ProdutoVenda2
+Venda2 ---> ProdutoVenda3
 
 @enduml
