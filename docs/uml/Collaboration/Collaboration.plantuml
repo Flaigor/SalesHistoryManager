@@ -1,0 +1,18 @@
+@startuml
+!theme blueprint
+left to right direction
+
+actor Usuário
+agent ProdutoVenda
+database database
+frame JPHistorico
+agent HistoricoDAO
+
+Usuário --> JPHistorico : 1.listener()
+JPHistorico --> JPHistorico : 2.Listar(), 10.addRow()
+JPHistorico --> HistoricoDAO : 3.HistoricoDAO()
+HistoricoDAO --> HistoricoDAO : 4.Listar, 5.montarQuery(), 9.add()
+HistoricoDAO --> database : 6.executeQuery()
+HistoricoDAO --> ProdutoVenda : 7.ProdutoVenda()
+ProdutoVenda --> ProdutoVenda : 8.set()
+@enduml
