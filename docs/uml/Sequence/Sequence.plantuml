@@ -1,0 +1,47 @@
+@startuml
+!theme blueprint
+skinparam responseMessageBelowArrow true
+
+actor       Usuário 
+participant JPHistorico
+participant HistoricoDAO
+database    Database
+participant ProdutoVenda
+
+autonumber 1.1.1
+Usuário --> JPHistorico : Tipo
+Usuário --> JPHistorico : Pesquisa
+Usuário --> JPHistorico : Ordem
+Usuário --> JPHistorico : Pesquisar
+
+autonumber 1.2.1
+JPHistorico --> JPHistorico : Listar()
+JPHistorico --> HistoricoDAO : Instância
+
+autonumber 1.3.1
+HistoricoDAO --> HistoricoDAO : montarQuery()
+HistoricoDAO --> Database : executeQuery()
+Database --> HistoricoDAO : retorna
+
+autonumber 1.4.1
+HistoricoDAO --> ProdutoVenda : Instância
+ProdutoVenda --> ProdutoVenda : Preenche dados
+ProdutoVenda --> HistoricoDAO : retorna
+HistoricoDAO --> HistoricoDAO : Preenche Lista<ProdutoVenda >
+
+autonumber 1.5.1
+HistoricoDAO --> JPHistorico : Retorna Lista<ProdutoVenda >
+JPHistorico --> JPHistorico : Popula tabela
+JPHistorico --> Usuário : Exibe tabela
+
+autonumber 2.1.1
+Usuário --> JPHistorico : Limpar
+JPHistorico --> JPHistorico : Exclui dados da tabela
+JPHistorico --> JPHistorico : Limpa campos
+JPHistorico --> Usuário : Exibe tabela vázia
+
+autonumber 3.1.1
+Usuário --> JPHistorico : Voltar
+JPHistorico --> JPHistorico : remove()
+JPHistorico --> JPHistorico : setTela()
+@enduml
