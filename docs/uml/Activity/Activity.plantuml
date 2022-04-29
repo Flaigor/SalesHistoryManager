@@ -1,0 +1,15 @@
+@startuml
+!theme blueprint
+start
+repeat
+	if (Voltar?) then (sim)
+		stop
+	else (não)
+		repeat
+			:Seleciona: Tipo, Pesquisa e Ordem;
+		repeat while (Pesquisar?) is (sim) not (não)
+	endif
+	:Pesquisa no banco;
+	:Monta tabela;
+repeat while
+@enduml
