@@ -58,7 +58,7 @@ public class JPMenuPrincipal extends JPPadrao {
 		btnPoduto.setBounds( 10 , 50 , 120, 30 );
 		
 		JButton btnHistorico = new JButton("Histórico");
-		btnHistorico.setBounds( 140 , height - 80 , width - 300, 30 );
+		btnHistorico.setBounds( 140 , height - 120 , width - 300, 70 );
 		
 		JButton btnlogOff = new JButton("Logoff");
 		btnlogOff.setBounds( width - 150 , 10 , 120, 30 );
@@ -69,22 +69,33 @@ public class JPMenuPrincipal extends JPPadrao {
 		JButton btnNovaVenda = new JButton("Nova Venda!");
 		btnNovaVenda.setBounds( 140 , 10 , width - 300, 70 );
 		
+		JButton btnEstoque = new JButton("Estoque");
+		btnEstoque.setBounds( 10 , height - 120 , 120, 30 );
+		
 		JButton btnVenda = new JButton("Venda");
 		btnVenda.setBounds( 10 , height - 80 , 120, 30 );
 		
+		JButton btnDatas = new JButton("Datas");
+		btnDatas.setBounds( width - 150 , height - 120 , 120, 30 );
+		
+		JButton btnMencoes = new JButton("Menções");
+		btnMencoes.setBounds( width - 150 , height - 80 , 120, 30 );
 		
 		tVendas = new JTable(new DefaultTableModel(null, colunas));
 		JScrollPane scrollVendas = new JScrollPane(tVendas);
 		
-		tVendas.setBounds( 10 , 90 , width - 40, height - 180 );
-		scrollVendas.setBounds( 10 , 90 , width - 40, height - 180 );
+		tVendas.setBounds( 10 , 90 , width - 40, height - 220 );
+		scrollVendas.setBounds( 10 , 90 , width - 40, height - 220 );
 		
 		add(btnCliente);
 		add(btnPoduto);
+		add(btnEstoque);
 		add(btnVenda);
 		add(btnlogOff);
 		add(btnNovaVenda);
 		add(btnHistorico);
+		add(btnDatas);
+		add(btnMencoes);
 		add(scrollVendas);
 		
 		if(admin)
