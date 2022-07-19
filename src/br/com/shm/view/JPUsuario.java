@@ -107,7 +107,7 @@ public class JPUsuario extends JPPadrao {
 		tUsuarios.setBounds( 10 , 90 , width - 40, height - 180 );
 		scrollUsuarios.setBounds( 10 , 90 , width - 40, height - 180 );
 		
-		JLabel labelResultado = new JLabel("Aqui");
+		JLabel labelResultado = new JLabel("");
 		labelResultado.setBounds( 670 , height - 80 , 120, 30 );
 		
 		add(labelLogin);
