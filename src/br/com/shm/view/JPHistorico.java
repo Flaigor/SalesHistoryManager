@@ -152,6 +152,12 @@ public class JPHistorico extends JPPadrao {
 		JButton btnLimpar = new JButton("Limpar");
 		btnLimpar.setBounds( 450 , height - 80 , 120, 30 );
 		
+		JButton btnImprimir = new JButton("Imprimir");
+		btnImprimir.setBounds( width - 280 , height - 80 , 120, 30 );
+		
+		JButton btnGrafico = new JButton("Gráfico");
+		btnGrafico.setBounds( width - 150 , height - 80 , 120, 30 );
+		
 		add(labelTipo);
 		add(cbTipo);
 		add(labelPesquisa);
@@ -164,6 +170,8 @@ public class JPHistorico extends JPPadrao {
 		add(btnVoltar);
 		add(btnPesquisar);
 		add(btnLimpar);
+		add(btnImprimir);
+		add(btnGrafico);
 		
 		frame.repaint();
 		
