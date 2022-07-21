@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -204,8 +203,6 @@ public class JPProduto extends JPPadrao {
 				ProdutosDAO dao = new ProdutosDAO();
 				if(produtos.size() == 1)
 				{
-					System.out.println("ID: " + produtos.get(0).getId().toString());
-					System.out.println("Nome: " + produtos.get(0).getNome());
 					dao.excluirProduto(produtos.get(0).getId());
 				}
 				else
@@ -309,13 +306,6 @@ public class JPProduto extends JPPadrao {
 					btnAttProd.setEnabled(false);
 					btnDeletarProd.setEnabled(true);
 				}
-				
-				System.out.println("Produtos Selecionados: ");
-				for(int i = 0; i < produtos.size(); i++ )
-				{
-					System.out.println(produtos.get(i).getNome());
-				}
-				System.out.println("=========================================");
 				
 				if(produtos.isEmpty())
 				{

@@ -67,14 +67,14 @@ public class ClientesDAO {
 		}
 	}
 	
-	public void excluirCliente(String id) 
+	public void excluirCliente(int id) 
 	{
 		try
 		{
 			String sql = "Delete From SHMDB.Clientes Where IdCliente = ?";
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setString(1, id);
+			stmt.setInt(1, id);
 			
 			stmt.execute();
 			stmt.close();

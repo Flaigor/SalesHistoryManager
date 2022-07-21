@@ -20,8 +20,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import br.com.shm.dao.ClientesDAO;
+import br.com.shm.dao.ProdutosDAO;
 import br.com.shm.jdbc.PdfFactory;
 import br.com.shm.model.Cliente;
+import br.com.shm.model.Produto;
 
 public class JPCliente extends JPPadrao {
 	
@@ -130,7 +132,7 @@ public class JPCliente extends JPPadrao {
 		scrollClientes.setBounds( 10 , 90 , width - 40, height - 180 );
 		
 		JLabel labelResultado = new JLabel("");
-		labelResultado.setBounds( 670 , height - 80 , 120, 30 );
+		labelResultado.setBounds( 670 , height - 80 , 220, 30 );
 		
 		add(labelIdCli);
 		add(tfIdCli);
@@ -210,15 +212,15 @@ public class JPCliente extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				ClientesDAO dao = new ClientesDAO();
-				if(clientes.size() == 0)
+				if(clientes.size() == 1)
 				{
-					dao.excluirCliente(tfIdCli.getText());
+					dao.excluirCliente(clientes.get(0).getId());
 				}
 				else
 				{
 					for(int i = 0; i < clientes.size(); i++)
 					{
-						dao.excluirCliente(clientes.get(i).getId().toString());
+						dao.excluirCliente(clientes.get(i).getId());
 					}
 				}
 				listar();
@@ -231,7 +233,7 @@ public class JPCliente extends JPPadrao {
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				if(tClientes.getSelectedRow() <= 0)
+				if(clientes.isEmpty())
 				{
 					ClientesDAO dao = new ClientesDAO();
 					List<Cliente> listaCli = dao.listarClientes();
@@ -242,39 +244,15 @@ public class JPCliente extends JPPadrao {
 				}
 				
 				PdfFactory pdfFactory = new PdfFactory();
-				pdfFactory.getPdfCliente(clientes.toArray(new Cliente[clientes.size()]));	
+				pdfFactory.gerarPdfCliente(clientes.toArray(new Cliente[clientes.size()]));
 			}
 		} );
 
 		tClientes.addMouseListener(new MouseListener() {
 
 			public void mouseClicked(MouseEvent e) {
-				if(tClientes.getSelectedRow() > 0)
-				{
-					ClientesDAO dao = new ClientesDAO();
-					List<Cliente> listaCli = dao.listarClientes();
-					Cliente cli = new Cliente();
-					cli = listaCli.get(tClientes.getSelectedRow() - 1);
 				
-					tfIdCli.setText(cli.getId().toString());
-					tfNomeCli.setText(cli.getNome());
-					tfEderecoCli.setText(cli.getEndereco());
-					tfTelefoneCli.setText(cli.getTelefone());
-					btnCadastrarCli.setEnabled(false);
-					btnAttCli.setEnabled(true);
-					btnDeletarCli.setEnabled(true);
-				}
-				else if(tClientes.getSelectedRow() == 0)
-				{
-					tfIdCli.setText("");
-					tfNomeCli.setText("");
-					tfEderecoCli.setText("");
-					tfTelefoneCli.setText("");
-					btnCadastrarCli.setEnabled(true);
-					btnAttCli.setEnabled(false);
-					btnDeletarCli.setEnabled(false);
-				}
-				clientes.clear();
+				
 			}
 
 			public void mousePressed(MouseEvent e) {
@@ -282,28 +260,78 @@ public class JPCliente extends JPPadrao {
 			}
 
 			public void mouseReleased(MouseEvent e) {
-				int[] linhas = tClientes.getSelectedRows();
-				if(linhas[0] > 0)
+				
+				clientes.clear();
+				
+				if(tClientes.getSelectedRows().length == 1)
 				{
-					ClientesDAO dao = new ClientesDAO();
-					List<Cliente> listaCli = dao.listarClientes();
-					for(int i = 0; i < linhas.length; i++)
+					if(tClientes.getSelectedRow() > 0)
 					{
-						clientes.add(listaCli.get(linhas[i] - 1));
+						ClientesDAO dao = new ClientesDAO();
+						List<Cliente> listaCli = dao.listarClientes();
+						Cliente cli = new Cliente();
+						cli = listaCli.get(tClientes.getSelectedRow() - 1);
+					
+						tfIdCli.setText(cli.getId().toString());
+						tfNomeCli.setText(cli.getNome());
+						tfEderecoCli.setText(cli.getEndereco());
+						tfTelefoneCli.setText(cli.getTelefone());
+						btnCadastrarCli.setEnabled(false);
+						btnAttCli.setEnabled(true);
+						btnDeletarCli.setEnabled(true);
+						clientes.add(cli);
+					}
+					else if(tClientes.getSelectedRow() == 0)
+					{
+						tfIdCli.setText("");
+						tfNomeCli.setText("");
+						tfEderecoCli.setText("");
+						tfTelefoneCli.setText("");
+						btnCadastrarCli.setEnabled(true);
+						btnAttCli.setEnabled(false);
+						btnDeletarCli.setEnabled(false);
 					}
 				}
-				else if(linhas[0] == 0)
+				else
 				{
+					List<Integer> linhas = new ArrayList<>();
+					for(int i = 0; i < tClientes.getSelectedRows().length; i++ )
+					{
+						if(tClientes.getSelectedRows()[i] != 0)
+						{
+							linhas.add(tClientes.getSelectedRows()[i]);
+						}
+					}
+					
 					ClientesDAO dao = new ClientesDAO();
 					List<Cliente> listaCli = dao.listarClientes();
-					for(int i = 1; i < linhas.length; i++)
+					for(int i = 0; i < linhas.size(); i++)
 					{
-						clientes.add(listaCli.get(linhas[i] - 1)); 
+						clientes.add(listaCli.get(linhas.get(i) - 1));
 					}
+					
+					tfIdCli.setText("");
+					tfNomeCli.setText("");
+					tfEderecoCli.setText("");
+					tfTelefoneCli.setText("");
+					btnCadastrarCli.setEnabled(false);
+					btnAttCli.setEnabled(false);
+					btnDeletarCli.setEnabled(true);
 				}
-				btnCadastrarCli.setEnabled(false);
-				btnAttCli.setEnabled(false);
-				btnDeletarCli.setEnabled(true);
+				
+				if(clientes.isEmpty())
+				{
+					labelResultado.setText("Cadastrar novo Cliente?");
+				}
+				else if(clientes.size() == 1)
+				{
+					labelResultado.setText( "1 Cliente selecionado");
+				}
+				else
+				{
+					labelResultado.setText( clientes.size() + " Clientes selecionados");
+				}
+				
 			}
 
 			public void mouseEntered(MouseEvent e) {

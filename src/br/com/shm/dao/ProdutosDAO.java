@@ -71,13 +71,10 @@ public class ProdutosDAO {
 	{
 		try
 		{
-			System.out.println("ID no SQL : " + id);
 			String sql = "Delete From SHMDB.Produtos Where IdProduto = ?";
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setInt(1, id);
-			
-			System.out.println("Query Final: " + stmt.toString());
 			
 			stmt.execute();
 			stmt.close();

@@ -95,7 +95,7 @@ public class PdfFactory {
 		return document;
 	}
 	
-	public Document getPdfCliente(Cliente[] clientes)
+	public Document gerarPdfCliente(Cliente[] clientes)
 	{		
 		Document document = new Document();
 		try {
