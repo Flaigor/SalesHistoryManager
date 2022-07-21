@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import br.com.shm.model.Cliente;
+import br.com.shm.model.Produto;
 
 public class PdfFactory {
 	
@@ -138,6 +139,69 @@ public class PdfFactory {
 			
 			List unorderList = new List(List.UNORDERED);
 			unorderList.add(new ListItem("Total de Cliente: " + clientes.length));
+			document.add(unorderList);
+			
+			document.close();
+			writer.close();
+			JOptionPane.showMessageDialog(null, "PDF criado com Sucesso!");
+		} 
+		catch(DocumentException de)
+		{
+			de.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha na criação do PDF, erro: " + de);
+		} 
+		catch(FileNotFoundException fne)
+		{
+			fne.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha na criação do PDF, erro: " + fne);
+		} 
+		return document;
+	}
+	
+	public Document gerarPdfProduto(Produto[] produto)
+	{		
+		Document document = new Document();
+		try {
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("docs\\pdf\\produtos\\SalesHistoryManagerProdutos_" 
+					+ dataHora + ".pdf"));
+			document.open();
+			
+			Logo.setStyle(Font.BOLD);
+			Logo.setSize(24);
+			
+			document.add(new Paragraph("Sales History Manager", Logo));
+			document.add(new Paragraph("Produtos: " + dataHoraDoc));
+			
+			PdfPTable table = new PdfPTable(3);
+			table.setWidthPercentage(105);
+			table.setSpacingBefore(11f);
+			table.setSpacingAfter(11f);
+			
+			float[] colWidth = {2f,2f,2f};
+			table.setWidths(colWidth);
+			PdfPCell cNome = new PdfPCell(new Paragraph("Nome"));
+			PdfPCell cDescricao = new PdfPCell(new Paragraph("Descrição"));
+			PdfPCell cPreco = new PdfPCell(new Paragraph("Preço em Reais"));
+			
+			table.addCell(cNome);
+			table.addCell(cDescricao);
+			table.addCell(cPreco);
+			
+			for(int i = 0; i < produto.length; i++)
+			{
+				PdfPCell prodNome = new PdfPCell(new Paragraph(produto[i].getNome()));
+				PdfPCell prodDescricao = new PdfPCell(new Paragraph(produto[i].getDescricao()));
+				PdfPCell prodPreco = new PdfPCell(new Paragraph(produto[i].getPreco().toString()));
+				
+				table.addCell(prodNome);
+				table.addCell(prodDescricao);
+				table.addCell(prodPreco);
+			}
+			
+			document.add(table);
+			
+			List unorderList = new List(List.UNORDERED);
+			unorderList.add(new ListItem("Total de Produtos: " + produto.length));
 			document.add(unorderList);
 			
 			document.close();

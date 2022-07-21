@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -19,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import br.com.shm.dao.ProdutosDAO;
+import br.com.shm.jdbc.PdfFactory;
 import br.com.shm.model.Produto;
 
 public class JPProduto extends JPPadrao {
@@ -105,6 +107,9 @@ public class JPProduto extends JPPadrao {
 		JButton btnDeletarProd = new JButton("Deletar");
 		btnDeletarProd.setBounds( 450 , height - 80 , 120, 30 );
 		
+		JButton btnGerarPdf = new JButton("Gerar PDF");
+		btnGerarPdf.setBounds( width - 280 , height - 80 , 120, 30 );
+		
 		tProdutos = new JTable(new DefaultTableModel(null, colunas));	
 		JScrollPane scrollProdutos = new JScrollPane(tProdutos);
 		
@@ -126,6 +131,7 @@ public class JPProduto extends JPPadrao {
 		add(btnCadastrarProd);
 		add(btnAttProd);
 		add(btnDeletarProd);
+		add(btnGerarPdf);
 		add(scrollProdutos);
 		add(labelResultado);
 		
@@ -196,15 +202,17 @@ public class JPProduto extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				ProdutosDAO dao = new ProdutosDAO();
-				if(produtos.size() == 0)
+				if(produtos.size() == 1)
 				{
-					dao.excluirProduto(tfIdProd.getText());
+					System.out.println("ID: " + produtos.get(0).getId().toString());
+					System.out.println("Nome: " + produtos.get(0).getNome());
+					dao.excluirProduto(produtos.get(0).getId());
 				}
 				else
 				{
 					for(int i = 0; i < produtos.size(); i++)
 					{
-						dao.excluirProduto(produtos.get(i).getId().toString());
+						dao.excluirProduto(produtos.get(i).getId());
 					}
 				}
 				listar();
@@ -213,35 +221,29 @@ public class JPProduto extends JPPadrao {
 			}
 		} );
 		
-		tProdutos.addMouseListener(new MouseListener() {
-
-			public void mouseClicked(MouseEvent e) {
-				if(tProdutos.getSelectedRow() > 0)
+		btnGerarPdf.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				if(produtos.isEmpty())
 				{
 					ProdutosDAO dao = new ProdutosDAO();
 					List<Produto> listaProd = dao.listarProdutos();
-					Produto prod = new Produto();
-					prod = listaProd.get(tProdutos.getSelectedRow() - 1);
+					for(int i = 0; i < listaProd.size(); i++)
+					{
+						produtos.add(listaProd.get(i));
+					}
+				}
 				
-					tfIdProd.setText(prod.getId().toString());
-					tfNomeProd.setText(prod.getNome());
-					tfDescricaoProd.setText(prod.getDescricao());
-					tfPrecoProd.setText(prod.getPreco().toString().replace(".", ","));
-					btnCadastrarProd.setEnabled(false);
-					btnAttProd.setEnabled(true);
-					btnDeletarProd.setEnabled(true);
-				}
-				else if(tProdutos.getSelectedRow() == 0)
-				{
-					tfIdProd.setText("");
-					tfNomeProd.setText("");
-					tfDescricaoProd.setText("");
-					tfPrecoProd.setText("");
-					btnCadastrarProd.setEnabled(true);
-					btnAttProd.setEnabled(false);
-					btnDeletarProd.setEnabled(false);
-				}
-				produtos.clear();
+				PdfFactory pdfFactory = new PdfFactory();
+				pdfFactory.gerarPdfProduto(produtos.toArray(new Produto[produtos.size()]));
+			}
+		} );
+		
+		tProdutos.addMouseListener(new MouseListener() {
+
+			public void mouseClicked(MouseEvent e) {
+
 			}
 
 			public void mousePressed(MouseEvent e) {
@@ -249,28 +251,86 @@ public class JPProduto extends JPPadrao {
 			}
 
 			public void mouseReleased(MouseEvent e) {
-				int[] linhas = tProdutos.getSelectedRows();
-				if(linhas[0] > 0)
+				
+				produtos.clear();
+				
+				if(tProdutos.getSelectedRows().length == 1)
 				{
-					ProdutosDAO dao = new ProdutosDAO();
-					List<Produto> listaProd = dao.listarProdutos();
-					for(int i = 0; i < linhas.length; i++)
+					if(tProdutos.getSelectedRow() > 0)
 					{
-						produtos.add(listaProd.get(linhas[i] - 1));
+						ProdutosDAO dao = new ProdutosDAO();
+						List<Produto> listaProd = dao.listarProdutos();
+						Produto prod = new Produto();
+						prod = listaProd.get(tProdutos.getSelectedRow() - 1);
+					
+						tfIdProd.setText(prod.getId().toString());
+						tfNomeProd.setText(prod.getNome());
+						tfDescricaoProd.setText(prod.getDescricao());
+						tfPrecoProd.setText(prod.getPreco().toString().replace(".", ","));
+						btnCadastrarProd.setEnabled(false);
+						btnAttProd.setEnabled(true);
+						btnDeletarProd.setEnabled(true);
+						produtos.add(prod);
+					}
+					else if(tProdutos.getSelectedRow() == 0)
+					{
+						tfIdProd.setText("");
+						tfNomeProd.setText("");
+						tfDescricaoProd.setText("");
+						tfPrecoProd.setText("");
+						btnCadastrarProd.setEnabled(true);
+						btnAttProd.setEnabled(false);
+						btnDeletarProd.setEnabled(false);
 					}
 				}
-				else if(linhas[0] == 0)
-				{
+				else
+				{	
+					List<Integer> linhas = new ArrayList<>();
+					for(int i = 0; i < tProdutos.getSelectedRows().length; i++ )
+					{
+						if(tProdutos.getSelectedRows()[i] != 0)
+						{
+							linhas.add(tProdutos.getSelectedRows()[i]);
+						}
+					}
+					
 					ProdutosDAO dao = new ProdutosDAO();
 					List<Produto> listaProd = dao.listarProdutos();
-					for(int i = 1; i < linhas.length; i++)
+					for(int i = 0; i < linhas.size(); i++)
 					{
-						produtos.add(listaProd.get(linhas[i] - 1)); 
+						produtos.add(listaProd.get(linhas.get(i) - 1));
 					}
+					
+					tfIdProd.setText("");
+					tfNomeProd.setText("");
+					tfDescricaoProd.setText("");
+					tfPrecoProd.setText("");
+					btnCadastrarProd.setEnabled(false);
+					btnAttProd.setEnabled(false);
+					btnDeletarProd.setEnabled(true);
 				}
-				btnCadastrarProd.setEnabled(false);
-				btnAttProd.setEnabled(false);
-				btnDeletarProd.setEnabled(true);
+				
+				System.out.println("Produtos Selecionados: ");
+				for(int i = 0; i < produtos.size(); i++ )
+				{
+					System.out.println(produtos.get(i).getNome());
+				}
+				System.out.println("=========================================");
+				
+				if(produtos.isEmpty())
+				{
+					labelResultado.setText("Criar novo produto?");
+				}
+				else if(produtos.size() == 1)
+				{
+					labelResultado.setText( "1 Produto selecionado");
+				}
+				else
+				{
+					labelResultado.setText( produtos.size() + " Produtos selecionados");
+				}
+				
+				
 			}
 
 			public void mouseEntered(MouseEvent e) {
