@@ -116,7 +116,7 @@ public class JPProduto extends JPPadrao {
 		scrollProdutos.setBounds( 10 , 90 , width - 40, height - 180 );
 		
 		JLabel labelResultado = new JLabel("");
-		labelResultado.setBounds( 670 , height - 80 , 120, 30 );
+		labelResultado.setBounds( 670 , height - 80 , 220, 30 );
 		
 		add(labelIdProd);
 		add(tfIdProd);

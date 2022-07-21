@@ -87,6 +87,10 @@ public class JPMenuPrincipal extends JPPadrao {
 		tVendas.setBounds( 10 , 90 , width - 40, height - 220 );
 		scrollVendas.setBounds( 10 , 90 , width - 40, height - 220 );
 		
+		btnEstoque.setEnabled(false);
+		btnDatas.setEnabled(false);
+		btnMencoes.setEnabled(false);
+		
 		add(btnCliente);
 		add(btnPoduto);
 		add(btnEstoque);
