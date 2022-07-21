@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import br.com.shm.dao.ClientesDAO;
+import br.com.shm.jdbc.PdfFactory;
 import br.com.shm.model.Cliente;
 
 public class JPCliente extends JPPadrao {
@@ -119,6 +120,9 @@ public class JPCliente extends JPPadrao {
 		JButton btnDeletarCli = new JButton("Deletar");
 		btnDeletarCli.setBounds( 450 , height - 80 , 120, 30 );
 		
+		JButton btnGerarPdf = new JButton("Gerar PDF");
+		btnGerarPdf.setBounds( width - 280 , height - 80 , 120, 30 );
+		
 		tClientes = new JTable(new DefaultTableModel(null, colunas));	
 		JScrollPane scrollClientes = new JScrollPane(tClientes);
 		
@@ -139,6 +143,7 @@ public class JPCliente extends JPPadrao {
 		add(btnCadastrarCli);
 		add(btnAttCli);
 		add(btnDeletarCli);
+		add(btnGerarPdf);
 		add(scrollClientes);
 		add(labelResultado);
 		
@@ -219,6 +224,25 @@ public class JPCliente extends JPPadrao {
 				listar();
 				labelResultado.setText("");
 				clientes.clear();
+			}
+		} );
+		
+		btnGerarPdf.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				if(tClientes.getSelectedRow() <= 0)
+				{
+					ClientesDAO dao = new ClientesDAO();
+					List<Cliente> listaCli = dao.listarClientes();
+					for(int i = 0; i < listaCli.size(); i++)
+					{
+						clientes.add(listaCli.get(i));
+					}
+				}
+				
+				PdfFactory pdfFactory = new PdfFactory();
+				pdfFactory.getPdfCliente(clientes.toArray(new Cliente[clientes.size()]));	
 			}
 		} );
 

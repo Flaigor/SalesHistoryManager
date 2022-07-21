@@ -15,24 +15,32 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
+import br.com.shm.model.Cliente;
+
 public class PdfFactory {
 	
 	private LocalDateTime now = LocalDateTime.now();
 	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd_HHmmss");
-	private String data = dtf.format(now);
+	private DateTimeFormatter dtfDoc = DateTimeFormatter.ofPattern("dd/MM/YYYY - HH:mm:ss");
+	private String dataHora = dtf.format(now);
+	private String dataHoraDoc = dtfDoc.format(now);
+	private Font Logo = new Font();
 
 	public Document getPdf()
 	{
 		Document document = new Document();
 		try {
-			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("docs\\pdf\\SalesHistoryManager" + data + ".pdf"));
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("docs\\pdf\\SalesHistoryManager_" + dataHora + ".pdf"));
 			document.open();
 			
-			Font f = new Font();
-			f.setStyle(Font.BOLD);
-			f.setSize(24);
+			Logo.setStyle(Font.BOLD);
+			Logo.setSize(24);
 			
-			document.add(new Paragraph("Sales History Manager", f));
+			document.add(new Paragraph("Sales History Manager", Logo));
 			
 			PdfPTable table = new PdfPTable(3);
 			table.setWidthPercentage(105);
@@ -71,14 +79,80 @@ public class PdfFactory {
 			
 			document.close();
 			writer.close();
+			JOptionPane.showMessageDialog(null, "PDF criado com Sucesso!");
 		} 
 		catch(DocumentException de)
 		{
 			de.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha na criação do PDF, erro: " + de);
 		} 
 		catch(FileNotFoundException fne)
 		{
 			fne.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha na criação do PDF, erro: " + fne);
+		} 
+		return document;
+	}
+	
+	public Document getPdfCliente(Cliente[] clientes)
+	{		
+		Document document = new Document();
+		try {
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("docs\\pdf\\clientes\\SalesHistoryManagerClientes_" 
+					+ dataHora + ".pdf"));
+			document.open();
+			
+			Logo.setStyle(Font.BOLD);
+			Logo.setSize(24);
+			
+			document.add(new Paragraph("Sales History Manager", Logo));
+			document.add(new Paragraph("Clientes: " + dataHoraDoc));
+			
+			PdfPTable table = new PdfPTable(3);
+			table.setWidthPercentage(105);
+			table.setSpacingBefore(11f);
+			table.setSpacingAfter(11f);
+			
+			float[] colWidth = {2f,2f,2f};
+			table.setWidths(colWidth);
+			PdfPCell cNome = new PdfPCell(new Paragraph("Nome"));
+			PdfPCell cEndereço = new PdfPCell(new Paragraph("Endereço"));
+			PdfPCell cTelefone = new PdfPCell(new Paragraph("Telefone"));
+			
+			table.addCell(cNome);
+			table.addCell(cEndereço);
+			table.addCell(cTelefone);
+			
+			for(int i = 0; i < clientes.length; i++)
+			{
+				PdfPCell cliNome = new PdfPCell(new Paragraph(clientes[i].getNome()));
+				PdfPCell cliEndereco = new PdfPCell(new Paragraph(clientes[i].getEndereco()));
+				PdfPCell cliTelefone = new PdfPCell(new Paragraph(clientes[i].getTelefone()));
+				
+				table.addCell(cliNome);
+				table.addCell(cliEndereco);
+				table.addCell(cliTelefone);
+			}
+			
+			document.add(table);
+			
+			List unorderList = new List(List.UNORDERED);
+			unorderList.add(new ListItem("Total de Cliente: " + clientes.length));
+			document.add(unorderList);
+			
+			document.close();
+			writer.close();
+			JOptionPane.showMessageDialog(null, "PDF criado com Sucesso!");
+		} 
+		catch(DocumentException de)
+		{
+			de.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha na criação do PDF, erro: " + de);
+		} 
+		catch(FileNotFoundException fne)
+		{
+			fne.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha na criação do PDF, erro: " + fne);
 		} 
 		return document;
 	}
