@@ -2,8 +2,10 @@ package br.com.shm.jdbc;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -15,12 +17,13 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
 
+import br.com.shm.dao.ProdutoVendaDAO;
 import br.com.shm.model.Cliente;
 import br.com.shm.model.Produto;
+import br.com.shm.model.ProdutoVenda;
+import br.com.shm.model.Venda;
 
 public class PdfFactory {
 	
@@ -30,8 +33,9 @@ public class PdfFactory {
 	private String dataHora = dtf.format(now);
 	private String dataHoraDoc = dtfDoc.format(now);
 	private Font Logo = new Font();
+	private DecimalFormat dfpreco = new DecimalFormat(".##");
 
-	public Document getPdf()
+	public void getPdf()
 	{
 		Document document = new Document();
 		try {
@@ -92,10 +96,9 @@ public class PdfFactory {
 			fne.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Falha na criação do PDF, erro: " + fne);
 		} 
-		return document;
 	}
 	
-	public Document gerarPdfCliente(Cliente[] clientes)
+	public void gerarPdfCliente(Cliente[] clientes)
 	{		
 		Document document = new Document();
 		try {
@@ -155,10 +158,9 @@ public class PdfFactory {
 			fne.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Falha na criação do PDF, erro: " + fne);
 		} 
-		return document;
 	}
 	
-	public Document gerarPdfProduto(Produto[] produto)
+	public void gerarPdfProduto(Produto[] produto)
 	{		
 		Document document = new Document();
 		try {
@@ -218,6 +220,144 @@ public class PdfFactory {
 			fne.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Falha na criação do PDF, erro: " + fne);
 		} 
-		return document;
+	}
+	
+	public void gerarPdfVenda(Venda[] venda)
+	{		
+		Document document = new Document();
+		try {
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("docs\\pdf\\vendas\\SalesHistoryManagerVendas_" 
+					+ dataHora + ".pdf"));
+			document.open();
+			
+			Logo.setStyle(Font.BOLD);
+			Logo.setSize(24);
+			
+			document.add(new Paragraph("Sales History Manager", Logo));
+			document.add(new Paragraph("Vendas: " + dataHoraDoc));
+			
+			PdfPTable table = new PdfPTable(4);
+			table.setWidthPercentage(105);
+			table.setSpacingBefore(11f);
+			table.setSpacingAfter(11f);
+			
+			float[] colWidth = {2f,2f,2f,2f};
+			table.setWidths(colWidth);
+			PdfPCell cCliente = new PdfPCell(new Paragraph("Cliente"));
+			PdfPCell cData = new PdfPCell(new Paragraph("Data"));
+			PdfPCell cDescricao = new PdfPCell(new Paragraph("Descricao"));
+			PdfPCell cPago = new PdfPCell(new Paragraph("Pago"));
+			
+			table.addCell(cCliente);
+			table.addCell(cData);
+			table.addCell(cDescricao);
+			table.addCell(cPago);
+			
+			for(int i = 0; i < venda.length; i++)
+			{
+				
+				PdfPCell venCliente = new PdfPCell(new Paragraph(venda[i].getComprador().getNome().toString()));
+				PdfPCell venData = new PdfPCell(new Paragraph(venda[i].getDataVenda()));
+				PdfPCell venDescricao = new PdfPCell(new Paragraph(venda[i].getDescricao()));
+				PdfPCell venPago = new PdfPCell(new Paragraph(venda[i].getPago() ? "Sim" : "Não"));
+			
+				table.addCell(venCliente);
+				table.addCell(venData);
+				table.addCell(venDescricao);
+				table.addCell(venPago);
+			}
+			
+			document.add(table);
+			
+			List unorderList = new List(List.UNORDERED);
+			unorderList.add(new ListItem("Total de Vendas: " + venda.length));
+			document.add(unorderList);
+			
+			ProdutoVendaDAO daoProdVen = new ProdutoVendaDAO();
+			java.util.List<ProdutoVenda> listaProdVen = new ArrayList<>();
+			for(int i = 0; i < venda.length; i++)
+			{
+				listaProdVen = daoProdVen.listarProdutoInnerVenda(venda[i].getId());
+				document = tabelaProdVend(document, listaProdVen.toArray(new ProdutoVenda[listaProdVen.size()]), venda[i]);
+			}
+
+			document.close();
+			writer.close();
+			JOptionPane.showMessageDialog(null, "PDF criado com Sucesso!");
+		} 
+		catch(DocumentException de)
+		{
+			de.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha na criação do PDF, erro: " + de);
+		} 
+		catch(FileNotFoundException fne)
+		{
+			fne.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha na criação do PDF, erro: " + fne);
+		}
+	}
+	
+	public Document tabelaProdVend(Document document, ProdutoVenda[] prodVenda, Venda venda)
+	{
+		try {
+			Logo.setStyle(Font.BOLD);
+			Logo.setSize(16);
+			
+			document.add(new Paragraph(venda.getComprador().getNome() + " - " + venda.getDataVenda(), Logo));
+			
+			PdfPTable table = new PdfPTable(4);
+			table.setWidthPercentage(105);
+			table.setSpacingBefore(11f);
+			table.setSpacingAfter(11f);
+			
+			float[] colWidth = {2f,2f,2f,2f};
+			table.setWidths(colWidth);
+			
+			PdfPCell cProduto = new PdfPCell(new Paragraph("Produto"));
+			PdfPCell cDescricao = new PdfPCell(new Paragraph("Descricao"));
+			PdfPCell cPreco = new PdfPCell(new Paragraph("Preço unitário em Reais"));
+			PdfPCell cQuantidade = new PdfPCell(new Paragraph("Quantidade"));
+			
+			table.addCell(cProduto);
+			table.addCell(cDescricao);
+			table.addCell(cPreco);
+			table.addCell(cQuantidade);
+			
+			Double valor = 0.0;
+			int qtd = 0;
+			for(int i = 0; i < prodVenda.length; i++)
+			{
+				
+				PdfPCell prodVenProduto = new PdfPCell(new Paragraph(prodVenda[i].getProduto().getNome()));
+				PdfPCell prodVenDescricao = new PdfPCell(new Paragraph(prodVenda[i].getProduto().getDescricao()));
+				PdfPCell prodVenPreco = new PdfPCell(new Paragraph(prodVenda[i].getValor().toString()));
+				PdfPCell prodVenQuantidade = new PdfPCell(new Paragraph(prodVenda[i].getQuantidade().toString()));
+			
+				table.addCell(prodVenProduto);
+				table.addCell(prodVenDescricao);
+				table.addCell(prodVenPreco);
+				table.addCell(prodVenQuantidade);
+				
+				qtd += prodVenda[i].getQuantidade();
+				valor += (prodVenda[i].getValor() * prodVenda[i].getQuantidade());
+			}
+			
+			document.add(table);
+			
+			List unorderList = new List(List.UNORDERED);
+			unorderList.add(new ListItem("Numero de Produtos: " + prodVenda.length + " Total de Produtos: " + qtd 
+					+ " Valor total dos Produtos: " + valor));
+			document.add(unorderList);
+			
+			return document;
+			
+		} 
+		catch(DocumentException de)
+		{
+			de.printStackTrace();
+		} 
+		
+		
+		return null;
 	}
 }

@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import javax.swing.text.MaskFormatter;
 
 import br.com.shm.dao.ProdutoVendaDAO;
 import br.com.shm.dao.VendasDAO;
+import br.com.shm.jdbc.PdfFactory;
 import br.com.shm.model.ProdutoVenda;
 import br.com.shm.model.Venda;
 
@@ -42,6 +44,7 @@ public class JPVenda extends JPPadrao {
 	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	private DecimalFormat dfpreco = new DecimalFormat(".##");
 	private LocalDateTime now = LocalDateTime.now();
+	private List<Venda> vendas =  new ArrayList<>();
 	
 	public JPVenda( JFPadrao frame, boolean admin )
 	{
@@ -67,7 +70,7 @@ public class JPVenda extends JPPadrao {
 		
 	}
 	
-	public Double listarProdVenda(String id)
+	public Double listarProdVenda(int id)
 	{
 		Double valor = 0.0;
 		ProdutoVendaDAO daoProdVen = new ProdutoVendaDAO();
@@ -101,7 +104,7 @@ public class JPVenda extends JPPadrao {
 		ven = listaVen.get(tVendas.getSelectedRow());
 		
 		ProdutoVendaDAO daoProdVen = new ProdutoVendaDAO();
-		List<ProdutoVenda> listaProdVen = daoProdVen.listarProdutoPorVenda(ven.getId().toString());
+		List<ProdutoVenda> listaProdVen = daoProdVen.listarProdutoPorVenda(ven.getId());
 		
 		for(int i = 0; i < listaProdVen.size(); i++)
 		{
@@ -204,6 +207,9 @@ public class JPVenda extends JPPadrao {
 		JButton btnDeletarVenda = new JButton("Deletar");
 		btnDeletarVenda.setBounds( 460 , height - 80 , 120, 30 );
 		
+		JButton btnGerarPdf = new JButton("Gerar PDF");
+		btnGerarPdf.setBounds( 600 , height - 80 , 120, 30 );
+		
 		add(labelNomeCli);
 		add(tfNomeCli);
 		add(labelDescricaoVenda);
@@ -218,6 +224,7 @@ public class JPVenda extends JPPadrao {
 		add(btnVoltar);
 		add(btnAttVenda);
 		add(btnDeletarVenda);
+		add(btnGerarPdf);
 		
 		listarVendas();
 		
@@ -280,7 +287,7 @@ public class JPVenda extends JPPadrao {
 				}
 
 				ProdutoVendaDAO daoProdVen = new ProdutoVendaDAO();
-				List<ProdutoVenda> listaProdVen = daoProdVen.listarProdutoPorVenda(ven.getId().toString());
+				List<ProdutoVenda> listaProdVen = daoProdVen.listarProdutoPorVenda(ven.getId());
 				ProdutoVenda prodVen = new ProdutoVenda();
 				
 				Integer qtd;
@@ -342,7 +349,7 @@ public class JPVenda extends JPPadrao {
 				
 				ProdutoVendaDAO daoProdVen = new ProdutoVendaDAO();
 				
-				daoProdVen.excluirProdutoVendaPorVenda(ven.getId().toString());
+				daoProdVen.excluirProdutoVendaPorVenda(ven.getId());
 				daoVen.excluirVenda(ven.getId().toString());
 				
 				attTabelaVenda();
@@ -356,22 +363,27 @@ public class JPVenda extends JPPadrao {
 			}
 		} );
 		
-		tVendas.addMouseListener(new MouseListener() {
-
-			public void mouseClicked(MouseEvent e) {
-				Double valor = 0.0;
+		btnGerarPdf.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
 				VendasDAO daoVen = new VendasDAO();
 				List<Venda> listaVen = daoVen.listarVendaJoinCliente();
 				Venda ven = new Venda();
+				
 				ven = listaVen.get(tVendas.getSelectedRow());
 				
-				tfNomeCli.setText(ven.getComprador().getNome());
-				taDescricaoVenda.setText(ven.getDescricao());
-				tfDataVenda.setText(ven.getDataVenda());
-				chkbxPago.setSelected(ven.getPago());
+				ProdutoVendaDAO daoProdVen = new ProdutoVendaDAO();
+				List<ProdutoVenda> listaProdVen = daoProdVen.listarProdutoPorVenda(ven.getId());
 				
-				valor += listarProdVenda(ven.getId().toString());
-				tfValorVenda.setText(dfpreco.format(valor));
+				PdfFactory pdfFactory = new PdfFactory();
+				pdfFactory.gerarPdfVenda(vendas.toArray(new Venda[vendas.size()]));
+			}
+		} );
+		
+		tVendas.addMouseListener(new MouseListener() {
+
+			public void mouseClicked(MouseEvent e) {
 				
 			}
 
@@ -381,6 +393,40 @@ public class JPVenda extends JPPadrao {
 
 			public void mouseReleased(MouseEvent e) {
 				
+				vendas.clear();
+				
+				if(tVendas.getSelectedRows().length == 1)
+				{
+					Double valor = 0.0;
+					VendasDAO daoVen = new VendasDAO();
+					List<Venda> listaVen = daoVen.listarVendaJoinCliente();
+					Venda ven = new Venda();
+					ven = listaVen.get(tVendas.getSelectedRow());
+					
+					tfNomeCli.setText(ven.getComprador().getNome());
+					taDescricaoVenda.setText(ven.getDescricao());
+					tfDataVenda.setText(ven.getDataVenda());
+					chkbxPago.setSelected(ven.getPago());
+					
+					valor += listarProdVenda(ven.getId());
+					tfValorVenda.setText(dfpreco.format(valor));
+					
+					vendas.add(ven);
+				}
+				else
+				{
+					VendasDAO daoVen = new VendasDAO();
+					List<Venda> listaVen = daoVen.listarVendaJoinCliente();
+					
+					for(int i = 0; i < tVendas.getSelectedRows().length; i++)
+					{
+						vendas.add(listaVen.get(tVendas.getSelectedRows()[i]));
+					}
+					
+					taDescricaoVenda.setText("");
+					tfDataVenda.setText("");
+					chkbxPago.setSelected(false);
+				}
 			}
 
 			public void mouseEntered(MouseEvent e) {

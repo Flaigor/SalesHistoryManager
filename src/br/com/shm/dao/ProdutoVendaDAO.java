@@ -82,14 +82,14 @@ private Connection con;
 		}
 	}
 	
-	public void excluirProdutoVendaPorVenda(String id) 
+	public void excluirProdutoVendaPorVenda(int id) 
 	{
 		try
 		{
 			String sql = "Delete From SHMDB.ProdutoVenda Where IdVenda = ?";
 			
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setString(1, id);
+			stmt.setInt(1, id);
 			
 			stmt.execute();
 			stmt.close();
@@ -147,7 +147,7 @@ private Connection con;
 		}
 	}
 	
-	public List<ProdutoVenda> listarProdutoPorVenda(String id)
+	public List<ProdutoVenda> listarProdutoPorVenda(int id)
 	{
 		try
 		{
@@ -159,7 +159,44 @@ private Connection con;
 					+ "FROM shmdb.produtovenda prodVen right JOIN shmdb.produtos prod ON prodVen.IdProduto = prod.IdProduto "
 					+ "AND prodVen.IdVenda = ?;";
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setString(1, id);
+			stmt.setInt(1, id);
+			ResultSet rs = stmt.executeQuery();
+
+			while(rs.next())
+			{
+				ProdutoVenda prodVend = new ProdutoVenda();
+				Produto prod = new Produto();
+				prodVend.setId(rs.getInt("Id"));
+				prod.setId(rs.getInt("IdProduto"));
+				prod.setNome(rs.getString("Nome"));
+				prod.setDescricao(rs.getString("Descrição"));
+				prodVend.setProduto(prod);
+				prodVend.setQuantidade(rs.getInt("Quantidade"));
+				prodVend.setValor(rs.getDouble("Preço"));
+				
+				lista.add(prodVend);
+			}
+			
+			return lista;
+		} catch(SQLException erro)
+		{
+			JOptionPane.showMessageDialog(null, "Falha em listar os ProdutosVendas, erro: " + erro);
+			return null;
+		}
+	}
+	
+	public List<ProdutoVenda> listarProdutoInnerVenda(int id)
+	{
+		try
+		{
+			List<ProdutoVenda> lista = new ArrayList<>();
+			String sql = "SELECT prodVen.IdProdutoVenda Id, prod.IdProduto IdProduto ,prod.NomeProduto Nome, "
+					+ "prod.DescricaoProduto Descrição, prodVen.QuantidadeProdutoVenda Quantidade, "
+					+ "prodVen.ValorProdutoVenda Preço FROM shmdb.produtovenda prodVen "
+					+ "inner JOIN shmdb.produtos prod ON prodVen.IdProduto = prod.IdProduto "
+					+ "AND prodVen.IdVenda = ?;";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
 
 			while(rs.next())
