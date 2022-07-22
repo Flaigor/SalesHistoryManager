@@ -174,7 +174,7 @@ public class JPVenda extends JPPadrao {
 		chkbxPago.setBackground(color);
 		
 		JLabel labelResultado = new JLabel("");
-		labelResultado.setBounds( 600, height - 80, 330, 30);
+		labelResultado.setBounds( 140, height - 80, 330, 30);
 		
 		JLabel labelValorVenda = new JLabel("Valor: ");
 		labelValorVenda.setBounds( width - 190, height - 80, 40, 30);
@@ -209,6 +209,9 @@ public class JPVenda extends JPPadrao {
 		
 		JButton btnGerarPdf = new JButton("Gerar PDF");
 		btnGerarPdf.setBounds( 600 , height - 80 , 120, 30 );
+		
+		btnAttVenda.setEnabled(false);
+		btnDeletarVenda.setEnabled(false);
 		
 		add(labelNomeCli);
 		add(tfNomeCli);
@@ -314,7 +317,7 @@ public class JPVenda extends JPPadrao {
 						prodVen = listaProdVen.get(i);
 						prodVen.setQuantidade(qtd);
 						prodVen.setValor(preco);
-						prodVen.getVenda().setId(ven.getId());
+						prodVen.setVenda(ven);
 						daoProdVen.cadastrarProdutoVenda(prodVen);
 					}
 				}
@@ -411,6 +414,9 @@ public class JPVenda extends JPPadrao {
 					valor += listarProdVenda(ven.getId());
 					tfValorVenda.setText(dfpreco.format(valor));
 					
+					btnAttVenda.setEnabled(true);
+					btnDeletarVenda.setEnabled(true);
+					
 					vendas.add(ven);
 				}
 				else
@@ -426,6 +432,21 @@ public class JPVenda extends JPPadrao {
 					taDescricaoVenda.setText("");
 					tfDataVenda.setText("");
 					chkbxPago.setSelected(false);
+					btnAttVenda.setEnabled(false);
+					btnDeletarVenda.setEnabled(false);
+				}
+				
+				if(vendas.isEmpty())
+				{
+					labelResultado.setText("");
+				}
+				else if(vendas.size() == 1)
+				{
+					labelResultado.setText( "1 Venda selecionada");
+				}
+				else
+				{
+					labelResultado.setText( vendas.size() + " Vendas selecionadas");
 				}
 			}
 
