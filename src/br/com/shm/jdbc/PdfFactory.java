@@ -35,7 +35,6 @@ public class PdfFactory {
 	private String dataHora = dtf.format(now);
 	private String dataHoraDoc = dtfDoc.format(now);
 	private Font Logo = new Font();
-	//private DecimalFormat dfpreco = new DecimalFormat(".##");
 
 	public void getPdf()
 	{
