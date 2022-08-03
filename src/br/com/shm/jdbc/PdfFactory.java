@@ -370,6 +370,91 @@ public class PdfFactory {
 		return null;
 	}
 	
+	public void gerarPdfHistorico(ProdutoVenda[] pordVen, String[] colunas, String[] pesquisa)
+	{		
+		Document document = new Document();
+		String caminho = "docs\\pdf\\historico\\SalesHistoryManagerHistorico_" + dataHora + ".pdf";
+		try {
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(caminho));
+			document.open();
+			
+			Logo.setStyle(Font.BOLD);
+			Logo.setSize(24);
+			
+			document.add(new Paragraph("Sales History Manager", Logo));
+			document.add(new Paragraph("Historico de " + pesquisa[0] + ": " + dataHoraDoc));
+			document.add(new Paragraph("Filtros: " + pesquisa[1] + " e " + pesquisa[2]));
+
+			PdfPTable table = new PdfPTable(2);
+			table.setWidthPercentage(105);
+			table.setSpacingBefore(11f);
+			table.setSpacingAfter(11f);
+			
+			float[] colWidth = {2f,2f};
+			table.setWidths(colWidth);
+			PdfPCell coluna1 = new PdfPCell(new Paragraph(colunas[0]));
+			PdfPCell coluna2 = new PdfPCell(new Paragraph(colunas[1]));
+			
+			table.addCell(coluna1);
+			table.addCell(coluna2);
+			
+			switch(pesquisa[0])
+			{
+				case "Cliente":
+					for(int i = 0; i < pordVen.length; i++)
+					{
+						PdfPCell histCampo1 = new PdfPCell(new Paragraph(pordVen[i].getVenda().getComprador().getNome()));
+						PdfPCell histCampo2 = new PdfPCell(new Paragraph(pordVen[i].getQuantidade().toString()));
+						
+						table.addCell(histCampo1);
+						table.addCell(histCampo2);
+					}
+					break;
+				case "Venda":
+					for(int i = 0; i < pordVen.length; i++)
+					{
+						PdfPCell histCampo1 = new PdfPCell(new Paragraph(pordVen[i].getVenda().getDataVenda()));
+						PdfPCell histCampo2 = new PdfPCell(new Paragraph(pordVen[i].getQuantidade().toString()));
+						
+						table.addCell(histCampo1);
+						table.addCell(histCampo2);
+					}
+					break;
+				case "Produto":
+					for(int i = 0; i < pordVen.length; i++)
+					{
+						PdfPCell histCampo1 = new PdfPCell(new Paragraph(pordVen[i].getProduto().getNome()));
+						PdfPCell histCampo2 = new PdfPCell(new Paragraph(pordVen[i].getQuantidade().toString()));
+						
+						table.addCell(histCampo1);
+						table.addCell(histCampo2);
+					}
+					break;
+			}
+			
+			document.add(table);
+			
+			List unorderList = new List(List.UNORDERED);
+			unorderList.add(new ListItem("Total de linhas: " + pordVen.length));
+			document.add(unorderList);
+			
+			document.close();
+			writer.close();
+			
+			abrirPdf(caminho);
+		} 
+		catch(DocumentException de)
+		{
+			de.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha na criação do PDF, erro: " + de);
+		} 
+		catch(FileNotFoundException fne)
+		{
+			fne.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha na criação do PDF, erro: " + fne);
+		} 
+	}
+	
 	public void abrirPdf(String caminho)
 	{
 		caminho = new File("").getAbsolutePath() + "\\" + caminho;

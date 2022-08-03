@@ -17,6 +17,7 @@ import javax.swing.table.TableColumnModel;
 
 import br.com.shm.dao.HistoricoDAO;
 import br.com.shm.dao.VendasDAO;
+import br.com.shm.jdbc.PdfFactory;
 import br.com.shm.model.Cliente;
 import br.com.shm.model.Produto;
 import br.com.shm.model.ProdutoVenda;
@@ -206,6 +207,43 @@ public class JPHistorico extends JPPadrao {
 				dados.setNumRows(0);
 				btnGerarPdf.setEnabled(false);
 				btnGrafico.setEnabled(false);
+			}
+		} );
+		
+		btnGerarPdf.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				HistoricoDAO dao = new HistoricoDAO();
+				List<ProdutoVenda> lista = dao.listar(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(), cbOrdem.getSelectedIndex());
+				PdfFactory pdfFactory = new PdfFactory();
+				
+				String[] colunas = {};
+				switch(cbTipo.getSelectedIndex())
+				{
+					case 0:
+						colunas = colRespCli;
+						break;
+					case 1:
+						colunas = colRespVen;
+						break;
+					case 2:
+						colunas = colRespProd;
+						break;
+				}
+				
+				String[] pesquisa = {(String) cbTipo.getSelectedItem(), (String) cbPesquisa.getSelectedItem(), (String) cbOrdem.getSelectedItem()};
+				
+				pdfFactory.gerarPdfHistorico(lista.toArray(new ProdutoVenda[lista.size()]), colunas, pesquisa);
+				
+			}
+		} );
+		
+		btnGrafico.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				
 			}
 		} );
 		
