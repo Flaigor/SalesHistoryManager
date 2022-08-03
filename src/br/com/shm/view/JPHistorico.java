@@ -154,9 +154,11 @@ public class JPHistorico extends JPPadrao {
 		
 		JButton btnGerarPdf = new JButton("Gerar PDF");
 		btnGerarPdf.setBounds( width - 280 , height - 80 , 120, 30 );
+		btnGerarPdf.setEnabled(false);
 		
 		JButton btnGrafico = new JButton("Gráfico");
 		btnGrafico.setBounds( width - 150 , height - 80 , 120, 30 );
+		btnGrafico.setEnabled(false);
 		
 		add(labelTipo);
 		add(cbTipo);
@@ -188,7 +190,9 @@ public class JPHistorico extends JPPadrao {
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				listar(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(), cbOrdem.getSelectedIndex());	
+				listar(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(), cbOrdem.getSelectedIndex());
+				btnGerarPdf.setEnabled(true);
+				btnGrafico.setEnabled(true);
 			}
 		} );
 		
@@ -200,6 +204,8 @@ public class JPHistorico extends JPPadrao {
 				cbPesquisa.setSelectedIndex(0); 
 				cbOrdem.setSelectedIndex(0);
 				dados.setNumRows(0);
+				btnGerarPdf.setEnabled(false);
+				btnGrafico.setEnabled(false);
 			}
 		} );
 		
