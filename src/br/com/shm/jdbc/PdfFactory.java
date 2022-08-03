@@ -1,7 +1,9 @@
 package br.com.shm.jdbc;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,13 +35,16 @@ public class PdfFactory {
 	private String dataHora = dtf.format(now);
 	private String dataHoraDoc = dtfDoc.format(now);
 	private Font Logo = new Font();
-	private DecimalFormat dfpreco = new DecimalFormat(".##");
+	//private DecimalFormat dfpreco = new DecimalFormat(".##");
 
 	public void getPdf()
 	{
 		Document document = new Document();
+		String caminho = "docs\\pdf\\SalesHistoryManager_";
 		try {
-			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("docs\\pdf\\SalesHistoryManager_" + dataHora + ".pdf"));
+			
+			caminho += dataHora + ".pdf";
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(caminho));
 			document.open();
 			
 			Logo.setStyle(Font.BOLD);
@@ -84,7 +89,8 @@ public class PdfFactory {
 			
 			document.close();
 			writer.close();
-			JOptionPane.showMessageDialog(null, "PDF criado com Sucesso!");
+
+			abrirPdf(caminho);
 		} 
 		catch(DocumentException de)
 		{
@@ -101,9 +107,9 @@ public class PdfFactory {
 	public void gerarPdfCliente(Cliente[] clientes)
 	{		
 		Document document = new Document();
+		String caminho = "docs\\pdf\\clientes\\SalesHistoryManagerClientes_" + dataHora + ".pdf";
 		try {
-			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("docs\\pdf\\clientes\\SalesHistoryManagerClientes_" 
-					+ dataHora + ".pdf"));
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(caminho));
 			document.open();
 			
 			Logo.setStyle(Font.BOLD);
@@ -146,7 +152,8 @@ public class PdfFactory {
 			
 			document.close();
 			writer.close();
-			JOptionPane.showMessageDialog(null, "PDF criado com Sucesso!");
+			
+			abrirPdf(caminho);
 		} 
 		catch(DocumentException de)
 		{
@@ -163,9 +170,9 @@ public class PdfFactory {
 	public void gerarPdfProduto(Produto[] produto)
 	{		
 		Document document = new Document();
+		String caminho = "docs\\pdf\\produtos\\SalesHistoryManagerProdutos_" + dataHora + ".pdf";
 		try {
-			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("docs\\pdf\\produtos\\SalesHistoryManagerProdutos_" 
-					+ dataHora + ".pdf"));
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(caminho));
 			document.open();
 			
 			Logo.setStyle(Font.BOLD);
@@ -208,7 +215,8 @@ public class PdfFactory {
 			
 			document.close();
 			writer.close();
-			JOptionPane.showMessageDialog(null, "PDF criado com Sucesso!");
+			
+			abrirPdf(caminho);
 		} 
 		catch(DocumentException de)
 		{
@@ -225,9 +233,9 @@ public class PdfFactory {
 	public void gerarPdfVenda(Venda[] venda)
 	{		
 		Document document = new Document();
+		String caminho = "docs\\pdf\\vendas\\SalesHistoryManagerVendas_" + dataHora + ".pdf";
 		try {
-			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("docs\\pdf\\vendas\\SalesHistoryManagerVendas_" 
-					+ dataHora + ".pdf"));
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(caminho));
 			document.open();
 			
 			Logo.setStyle(Font.BOLD);
@@ -283,7 +291,8 @@ public class PdfFactory {
 
 			document.close();
 			writer.close();
-			JOptionPane.showMessageDialog(null, "PDF criado com Sucesso!");
+
+			abrirPdf(caminho);
 		} 
 		catch(DocumentException de)
 		{
@@ -359,5 +368,19 @@ public class PdfFactory {
 		
 		
 		return null;
+	}
+	
+	public void abrirPdf(String caminho)
+	{
+		caminho = new File("").getAbsolutePath() + "\\" + caminho;
+		
+		try
+		{
+			Runtime.getRuntime().exec("rundll32 url.dll, FileProtocolHandler " + caminho);
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, "PDF não pode ser exibido: " + e);
+		}
 	}
 }
