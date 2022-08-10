@@ -41,7 +41,7 @@ public class GraficoFactory {
 		return painel;
 	}
 	
-	public ChartPanel  GeraGraficoBarra() {
+	public ChartPanel GeraGraficoTesteBarra() {
 		DefaultCategoryDataset barra = new DefaultCategoryDataset();
 		barra.setValue(1400, "China", "");
 		barra.setValue(1200, "Índia", "");
@@ -66,4 +66,21 @@ public class GraficoFactory {
 		
 		return painel;
 	}
+	
+	public ChartPanel GeraGraficoBarra(String[] barras, Integer[] valores, String titulo, String linhaX, String linhaY) {
+		DefaultCategoryDataset barra = new DefaultCategoryDataset();
+		
+		for(int i = 0; i < barras.length; i++)
+		{
+			barra.setValue(valores[i], barras[i], "");
+		}
+		
+		JFreeChart grafico = ChartFactory.createBarChart( titulo, linhaY, linhaX, barra, PlotOrientation.VERTICAL, true, true, false);
+		
+		ChartPanel painel = new ChartPanel(grafico);
+		
+		return painel;
+	}
+	
+	
 }

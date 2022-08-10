@@ -22,7 +22,7 @@ public class TestaGrafico extends JFrame  {
 	{
 		GraficoFactory gf = new GraficoFactory();
 		
-		add(gf.GeraGraficoBarra());
+		add(gf.GeraGraficoTesteBarra());
 	}
 
 }

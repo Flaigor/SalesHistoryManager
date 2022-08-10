@@ -2,8 +2,6 @@ package br.com.shm.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -11,17 +9,13 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
+
 
 import br.com.shm.dao.HistoricoDAO;
-import br.com.shm.dao.VendasDAO;
+import br.com.shm.jdbc.GraficoFactory;
 import br.com.shm.jdbc.PdfFactory;
-import br.com.shm.model.Cliente;
-import br.com.shm.model.Produto;
 import br.com.shm.model.ProdutoVenda;
-import br.com.shm.model.Venda;
 
 public class JPHistorico extends JPPadrao {
 	
@@ -49,8 +43,7 @@ public class JPHistorico extends JPPadrao {
 	
 	public void listar(int tipo, int pesquisa, int ordem)
 	{
-		HistoricoDAO dao = new HistoricoDAO();
-		List<ProdutoVenda> lista = dao.listar(tipo, pesquisa, ordem);
+		List<ProdutoVenda> lista = getLista(tipo,  pesquisa,  ordem);
 		
 		if(tipo == 0)
 		{
@@ -109,19 +102,19 @@ public class JPHistorico extends JPPadrao {
 		JLabel labelTipo = new JLabel("Tipo: ");
 		labelTipo.setBounds( 10, 10, 70, 30);
 		
-		JComboBox cbTipo = new JComboBox(stTipo);
+		JComboBox<Object> cbTipo = new JComboBox<Object>(stTipo);
 		cbTipo.setBounds( 80, 10, 150, 30);
 		
 		JLabel labelPesquisa = new JLabel("Pesquisa: ");
 		labelPesquisa.setBounds( 290, 10, 70, 30);
 		
-		JComboBox cbPesquisa = new JComboBox(stClientePesquisa);
+		JComboBox<String> cbPesquisa = new JComboBox<String>(stClientePesquisa);
 		cbPesquisa.setBounds( 350, 10, 150, 30);
 		
 		JLabel labelOrden = new JLabel("Ordem: ");
 		labelOrden.setBounds( 550, 10, 70, 30);
 		
-		JComboBox cbOrdem = new JComboBox(stOrdem);
+		JComboBox<Object> cbOrdem = new JComboBox<Object>(stOrdem);
 		cbOrdem.setBounds( 620, 10, 150, 30);
 		
 		tResultadoCli = new JTable(new DefaultTableModel(null, colRespCli));
@@ -213,24 +206,11 @@ public class JPHistorico extends JPPadrao {
 		btnGerarPdf.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
-			{
-				HistoricoDAO dao = new HistoricoDAO();
-				List<ProdutoVenda> lista = dao.listar(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(), cbOrdem.getSelectedIndex());
+			{	
+				List<ProdutoVenda> lista = getLista(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(), cbOrdem.getSelectedIndex());
 				PdfFactory pdfFactory = new PdfFactory();
 				
-				String[] colunas = {};
-				switch(cbTipo.getSelectedIndex())
-				{
-					case 0:
-						colunas = colRespCli;
-						break;
-					case 1:
-						colunas = colRespVen;
-						break;
-					case 2:
-						colunas = colRespProd;
-						break;
-				}
+				String[] colunas = getColunas(cbTipo.getSelectedIndex());
 				
 				String[] pesquisa = {(String) cbTipo.getSelectedItem(), (String) cbPesquisa.getSelectedItem(), (String) cbOrdem.getSelectedItem()};
 				
@@ -243,7 +223,39 @@ public class JPHistorico extends JPPadrao {
 		{
 			public void actionPerformed( ActionEvent e )
 			{
+				List<ProdutoVenda> lista = getLista(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(), cbOrdem.getSelectedIndex());
+				String[] colunas = getColunas(cbTipo.getSelectedIndex());
 				
+				String[] barras = new String[lista.size()];
+				Integer[] valores = new Integer[lista.size()];	
+				
+				for(int i = 0; i < lista.size(); i++)
+				{
+					switch(cbTipo.getSelectedIndex())
+					{
+						case 0:
+							barras[i] = lista.get(i).getVenda().getComprador().getNome();
+							break;
+						case 1:
+							barras[i] = lista.get(i).getVenda().getDataVenda().toString();
+							break;
+						case 2:
+							barras[i] = lista.get(i).getProduto().getNome();
+							break;
+					}
+					
+					valores[i] = lista.get(i).getQuantidade();
+				}
+				
+				GraficoFactory gf = new GraficoFactory();
+				
+				String titulo = cbTipo.getSelectedItem().toString() + " " + cbPesquisa.getSelectedItem().toString() + " "
+						+ cbOrdem.getSelectedItem().toString();
+				String colunaX = colunas[1];
+				String colunaY = colunas[0];
+				
+				frame.remove(JPHistorico.this);
+				frame.setTela(new JPGrafico(frame, admin, gf.GeraGraficoBarra(barras, valores, titulo,  colunaX, colunaY)), false );
 			}
 		} );
 		
@@ -279,5 +291,25 @@ public class JPHistorico extends JPPadrao {
 			}
 		} );
 		
+	}
+	
+	public List<ProdutoVenda> getLista(int tipo, int pesquisa, int ordem)
+	{
+			HistoricoDAO dao = new HistoricoDAO();		
+			return dao.listar(tipo, pesquisa, ordem);
+	}
+	
+	public String[] getColunas(int tipo)
+	{
+		switch(tipo)
+		{
+			case 0:
+				return colRespCli;
+			case 1:
+				return colRespVen;
+			case 2:
+				return colRespProd;
+		}
+		return null;
 	}
 }
