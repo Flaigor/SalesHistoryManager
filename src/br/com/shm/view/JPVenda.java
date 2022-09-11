@@ -338,6 +338,9 @@ public class JPVenda extends JPPadrao {
 					labelResultado.setText("Venda e seus Produtos foram Atualizados");
 				}
 				
+				btnAttVenda.setEnabled(false);
+				btnDeletarVenda.setEnabled(false);
+				
 			}
 		} );
 		
@@ -361,6 +364,9 @@ public class JPVenda extends JPPadrao {
 				taDescricaoVenda.setText("");
 				chkbxPago.setSelected(false);
 				tfValorVenda.setText(dfpreco.format(0.0));
+				
+				btnAttVenda.setEnabled(false);
+				btnDeletarVenda.setEnabled(false);
 				
 				labelResultado.setText("Venda e seus Produtos foram Deletados");
 			}

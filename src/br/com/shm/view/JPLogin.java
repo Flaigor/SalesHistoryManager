@@ -62,27 +62,27 @@ public class JPLogin extends JPPadrao {
 		labelLogo.setFont(titulo);
 		
 		JLabel labelUser = new JLabel("Usuário: ");
-		labelUser.setBounds(400, 320, 100, 30);
+		labelUser.setBounds(400, 330, 100, 30);
 		
 		JTextField tfUsuario = new JTextField();
-		tfUsuario.setBounds(450, 320, 300, 30);
+		tfUsuario.setBounds(450, 330, 300, 30);
 		
 		JLabel labelSenha = new JLabel("Senha: ");
-		labelSenha.setBounds(400, 390, 100, 30);
+		labelSenha.setBounds(400, 400, 100, 30);
 		
 		JPasswordField tfSenha = new JPasswordField();
-		tfSenha.setBounds(450, 390, 300, 30);
+		tfSenha.setBounds(450, 400, 300, 30);
 		
 		JCheckBox chkbxSenha = new JCheckBox("Monstrar Senha");
-		chkbxSenha.setBounds(770, 390, 120, 30);
+		chkbxSenha.setBounds(770, 400, 120, 30);
 		chkbxSenha.setBackground(color);
 		
 		JLabel labelResposta = new JLabel();
-		labelResposta.setBounds(510, 430, 200, 30);
+		labelResposta.setBounds(510, 440, 200, 30);
 		labelResposta.setHorizontalAlignment(JTextField.CENTER);		
 		
 		JButton btnLogin = new JButton("Login");
-		btnLogin.setBounds(545 , 490 , 120, 30);
+		btnLogin.setBounds(545 , 500 , 120, 30);
 		
 		add(labelLogo);
 		add(btnLogin);
