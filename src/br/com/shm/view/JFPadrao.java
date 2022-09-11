@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class JFPadrao extends JFrame {
@@ -13,6 +14,7 @@ public class JFPadrao extends JFrame {
 	private Integer height = 600;
 	private JPPadrao tela;
 	private String versao = "V1.0";
+	private final String ICONE = "img\\shm.png";
 	
 	public static void main( String[ ] args )
 	{
@@ -26,14 +28,14 @@ public class JFPadrao extends JFrame {
 	}
 	
 	public JFPadrao( )
-	{
+	{		
 		this.setVisible( true );
 		this.setSize( width, height );
 		this.setResizable(false);
 		this.setLocationRelativeTo( null );
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		this.setLayout( null );
-		this.setTitle("Sales History Manager " + versao);
+		this.setTitle("Sales History Manager " + versao);		
 		
 		setTela( new JPLogin( this ), true );
 
