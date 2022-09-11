@@ -24,7 +24,7 @@ import br.com.shm.model.Usuario;
 public class JPLogin extends JPPadrao {
 
 	private Font titulo = new Font("Serif", Font.BOLD, 50);
-	private final String ICONE = "img\\shm.png";
+	private final String LOGO = "img\\Shm_150.png";
 	
 	public JPLogin( JFPadrao frame )
 	{
@@ -40,10 +40,16 @@ public class JPLogin extends JPPadrao {
 		
 		try
 		{
-			BufferedImage imgLogo = ImageIO.read(new File(ICONE));
-			JLabel imgLabel = new JLabel(new ImageIcon(imgLogo));
-			imgLabel.setBounds(525, 10, 150, 150);
+			JLabel imgLabel = new JLabel("");
+			imgLabel.setBounds(500, 10, 200, 200);
 			
+			ImageIcon logoApp = new ImageIcon(LOGO);
+			
+	        logoApp = new ImageIcon( logoApp.getImage( ).getScaledInstance( imgLabel.getWidth( ), imgLabel.getHeight( ),
+	        		logoApp.getImage( ).SCALE_DEFAULT ) );
+	        
+	        imgLabel.setIcon(logoApp);
+	        
 			add(imgLabel);
 		}
 		catch(Exception e)
@@ -52,31 +58,31 @@ public class JPLogin extends JPPadrao {
 		}
 		
 		JLabel labelLogo = new JLabel("Sales History Manager " + frame.getVersao());
-		labelLogo.setBounds(300, 170, 600, 90);
+		labelLogo.setBounds(300, 220, 600, 90);
 		labelLogo.setFont(titulo);
 		
-		JButton btnLogin = new JButton("Login");
-		btnLogin.setBounds(545 , 470 , 120, 30);
-		
 		JLabel labelUser = new JLabel("Usuário: ");
-		labelUser.setBounds(400, 300, 100, 30);
+		labelUser.setBounds(400, 320, 100, 30);
 		
 		JTextField tfUsuario = new JTextField();
-		tfUsuario.setBounds(450, 300, 300, 30);
+		tfUsuario.setBounds(450, 320, 300, 30);
 		
 		JLabel labelSenha = new JLabel("Senha: ");
-		labelSenha.setBounds(400, 370, 100, 30);
+		labelSenha.setBounds(400, 390, 100, 30);
 		
 		JPasswordField tfSenha = new JPasswordField();
-		tfSenha.setBounds(450, 370, 300, 30);
+		tfSenha.setBounds(450, 390, 300, 30);
+		
+		JCheckBox chkbxSenha = new JCheckBox("Monstrar Senha");
+		chkbxSenha.setBounds(770, 390, 120, 30);
+		chkbxSenha.setBackground(color);
 		
 		JLabel labelResposta = new JLabel();
 		labelResposta.setBounds(510, 430, 200, 30);
-		labelResposta.setHorizontalAlignment(JTextField.CENTER);
+		labelResposta.setHorizontalAlignment(JTextField.CENTER);		
 		
-		JCheckBox chkbxSenha = new JCheckBox("Monstrar Senha");
-		chkbxSenha.setBounds(770, 370, 120, 30);
-		chkbxSenha.setBackground(color);
+		JButton btnLogin = new JButton("Login");
+		btnLogin.setBounds(545 , 490 , 120, 30);
 		
 		add(labelLogo);
 		add(btnLogin);

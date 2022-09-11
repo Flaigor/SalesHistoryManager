@@ -14,7 +14,7 @@ public class JFPadrao extends JFrame {
 	private Integer height = 600;
 	private JPPadrao tela;
 	private String versao = "V1.0";
-	private final String ICONE = "img\\shm.png";
+	private final String ICONE = "img\\Shm_20.png";
 	
 	public static void main( String[ ] args )
 	{
@@ -35,7 +35,13 @@ public class JFPadrao extends JFrame {
 		this.setLocationRelativeTo( null );
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		this.setLayout( null );
-		this.setTitle("Sales History Manager " + versao);		
+		this.setTitle("Sales History Manager " + versao);
+		
+		ImageIcon iconeApp = new ImageIcon(ICONE);
+		iconeApp = new ImageIcon( iconeApp.getImage( ).getScaledInstance( 20, 20,
+				iconeApp.getImage( ).SCALE_DEFAULT ) );
+		
+		this.setIconImage(iconeApp.getImage());
 		
 		setTela( new JPLogin( this ), true );
 
