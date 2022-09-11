@@ -34,7 +34,7 @@ public class JPHistorico extends JPPadrao {
 	private String[] stClientePesquisa = {"Comprador", "Devedor"};
 	private String[] stVendaPesquisa = {"Por Mês", "Por Ano"};
 	private String[] stProdutoPesquisa = {"Quantidade vendida"};
-	private String[] stOrdem = {"Crescente", "Decrescente", "Nenhum"};
+	private String[] stOrdem = {"Crescente", "Decrescente"};
 	private List<String> stAnos = new ArrayList<String>();
 	
 	public JPHistorico( JFPadrao frame, boolean admin )
@@ -48,9 +48,9 @@ public class JPHistorico extends JPPadrao {
 		stAnos = dao.listarAnos();
 	}
 	
-	public void listar(int tipo, int pesquisa, int ordem)
+	public void listar(int tipo, int pesquisa, int ordem, String ano)
 	{
-		List<ProdutoVenda> lista = getLista(tipo,  pesquisa,  ordem);
+		List<ProdutoVenda> lista = getLista(tipo,  pesquisa,  ordem, ano);
 		
 		if(tipo == 0)
 		{
@@ -124,13 +124,13 @@ public class JPHistorico extends JPPadrao {
 		JComboBox<Object> cbOrdem = new JComboBox<Object>(stOrdem);
 		cbOrdem.setBounds( 495, 10, 150, 30);
 		
-		JLabel labelAno = new JLabel("Ano: ");
-		labelAno.setBounds( 655, 10, 60, 30);
+		JLabel labelAnos = new JLabel("Ano: ");
+		labelAnos.setBounds( 655, 10, 60, 30);
 		
 		listarAnos();
 		
-		JComboBox<Object> cbAno = new JComboBox<Object>(stAnos.toArray());
-		cbAno.setBounds( 695, 10, 150, 30);
+		JComboBox<Object> cbAnos = new JComboBox<Object>(stAnos.toArray());
+		cbAnos.setBounds( 695, 10, 150, 30);
 		
 		tResultadoCli = new JTable(new DefaultTableModel(null, colRespCli));
 		tResultadoVen = new JTable(new DefaultTableModel(null, colRespVen));
@@ -175,8 +175,8 @@ public class JPHistorico extends JPPadrao {
 		add(cbPesquisa);
 		add(labelOrden);
 		add(cbOrdem);
-		add(labelAno);
-		add(cbAno);
+		add(labelAnos);
+		add(cbAnos);
 		add(scrollResCli);
 		add(scrollResVen);
 		add(scrollResProd);
@@ -201,7 +201,7 @@ public class JPHistorico extends JPPadrao {
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				listar(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(), cbOrdem.getSelectedIndex());
+				listar(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(), cbOrdem.getSelectedIndex(), cbAnos.getSelectedItem().toString());
 				btnGerarPdf.setEnabled(true);
 				btnGrafico.setEnabled(true);
 			}
@@ -224,7 +224,8 @@ public class JPHistorico extends JPPadrao {
 		{
 			public void actionPerformed( ActionEvent e )
 			{	
-				List<ProdutoVenda> lista = getLista(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(), cbOrdem.getSelectedIndex());
+				List<ProdutoVenda> lista = getLista(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(),
+						cbOrdem.getSelectedIndex(), cbAnos.getSelectedItem().toString());
 				PdfFactory pdfFactory = new PdfFactory();
 				
 				String[] colunas = getColunas(cbTipo.getSelectedIndex());
@@ -240,7 +241,8 @@ public class JPHistorico extends JPPadrao {
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				List<ProdutoVenda> lista = getLista(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(), cbOrdem.getSelectedIndex());
+				List<ProdutoVenda> lista = getLista(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(),
+						cbOrdem.getSelectedIndex(), cbAnos.getSelectedItem().toString());
 				String[] colunas = getColunas(cbTipo.getSelectedIndex());
 				
 				List<String> barras = new ArrayList<String>();
@@ -267,7 +269,7 @@ public class JPHistorico extends JPPadrao {
 				GraficoFactory gf = new GraficoFactory();
 				
 				String titulo = cbTipo.getSelectedItem().toString() + " " + cbPesquisa.getSelectedItem().toString() + " "
-						+ cbOrdem.getSelectedItem().toString();
+						+ cbOrdem.getSelectedItem().toString() + " em " + cbAnos.getSelectedItem().toString();
 				String colunaX = colunas[1];
 				String colunaY = colunas[0];
 				
@@ -310,10 +312,10 @@ public class JPHistorico extends JPPadrao {
 		
 	}
 	
-	public List<ProdutoVenda> getLista(int tipo, int pesquisa, int ordem)
+	public List<ProdutoVenda> getLista(int tipo, int pesquisa, int ordem, String ano)
 	{
 			HistoricoDAO dao = new HistoricoDAO();		
-			return dao.listar(tipo, pesquisa, ordem);
+			return dao.listar(tipo, pesquisa, ordem, ano);
 	}
 	
 	public String[] getColunas(int tipo)

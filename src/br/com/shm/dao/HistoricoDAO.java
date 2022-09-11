@@ -25,12 +25,12 @@ public class HistoricoDAO {
 		this.con = new ConnectionFactory().getConnection();
 	}
 	
-	public List<ProdutoVenda> listar(int tipo, int pesquisa, int ordem)
+	public List<ProdutoVenda> listar(int tipo, int pesquisa, int ordem, String ano)
 	{
 		try
 		{
 			List<ProdutoVenda> lista = new ArrayList<>();
-			String sql = montarQuery(tipo, pesquisa, ordem);
+			String sql = montarQuery(tipo, pesquisa, ordem, ano);
 			PreparedStatement stmt = con.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			
@@ -97,21 +97,30 @@ public class HistoricoDAO {
 
 	}
 	
-	public String montarQuery(int tipo, int pesquisa, int ordem)
+	public String montarQuery(int tipo, int pesquisa, int ordem, String ano)
 	{
 		String sql = "";
+		
+		if(ano.compareTo("Todos os anos") == 0)
+		{
+			ano = "";
+		}
+		else {
+			ano = "where substring(v.DataVenda, 7, 4) = '" + ano + "' ";
+		}
+		
 		if(tipo == 0)
 		{
 			if(pesquisa == 0)
 			{
 				sql = "Select c.NomeCliente cliente, count(*) compras from shmdb.clientes c "
-						+ "inner join shmdb.vendas v on c.IdCliente = v.IdCliente "
+						+ "inner join shmdb.vendas v on c.IdCliente = v.IdCliente " + ano
 						+ "group by c.NomeCliente order by count(*) ";
 			}
 			else if(pesquisa == 1)
 			{
 				sql = "Select c.NomeCliente cliente, count(*) compras from shmdb.clientes c "
-						+ "inner join shmdb.vendas v on c.IdCliente = v.IdCliente and v.PagoVenda = 0 "
+						+ "inner join shmdb.vendas v on c.IdCliente = v.IdCliente and v.PagoVenda = 0 " + ano
 						+ "group by c.NomeCliente order by count(*) ";
 			}
 		}
@@ -119,15 +128,17 @@ public class HistoricoDAO {
 		{
 			if(pesquisa == 0)
 			{
-				sql = "Select month(str_to_date(DataVenda, '%d/%m/%Y')) mes, count(IdVenda) vendas "
-					+ "from shmdb.vendas group by month(str_to_date(DataVenda, '%d/%m/%Y')) "
-					+ "order by count(IdVenda) ";
+				sql = "Select month(str_to_date(v.DataVenda, '%d/%m/%Y')) mes, count(v.IdVenda) vendas "
+					+ "from shmdb.vendas v " + ano
+					+ "group by month(str_to_date(v.DataVenda, '%d/%m/%Y')) " 
+					+ "order by count(v.IdVenda) ";
 			}
 			else if(pesquisa == 1)
 			{
-				sql = "Select year(str_to_date(DataVenda, '%d/%m/%Y')) mes, count(IdVenda) vendas "
-						+ "from shmdb.vendas group by year(str_to_date(DataVenda, '%d/%m/%Y')) "
-						+ "order by count(IdVenda) ";
+				sql = "Select year(str_to_date(v.DataVenda, '%d/%m/%Y')) mes, count(v.IdVenda) vendas "
+						+ "from shmdb.vendas v " + ano
+						+ "group by year(str_to_date(v.DataVenda, '%d/%m/%Y')) " 
+						+ "order by count(v.IdVenda) ";
 			}
 		}
 		else if(tipo == 2)
@@ -136,6 +147,7 @@ public class HistoricoDAO {
 			{
 				sql += "SELECT p.NomeProduto produto, sum(pv.QuantidadeProdutoVenda) quantidade FROM shmdb.produtos p "
 						+ "inner join shmdb.produtovenda pv on p.IdProduto = pv.IdProduto "
+						+ "inner join shmdb.vendas v on v.IdVenda = pv.IdVenda " + ano
 						+ "group by p.NomeProduto order by sum(pv.QuantidadeProdutoVenda) ";
 			}
 		}
