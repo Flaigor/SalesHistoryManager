@@ -153,4 +153,30 @@ public class HistoricoDAO {
 		return sql;
 	}
 	
+	public List<String> listarAnos()
+	{
+		List<String> anos = new ArrayList<String>();
+		
+		try
+		{
+			String sql = "select distinct substring(DataVenda, 7, 4) ano from shmdb.vendas order by DataVenda asc;";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			anos.add("Todos os anos");
+			
+			while(rs.next())
+			{
+				anos.add(rs.getString("ano"));
+			}
+			
+		} catch(SQLException erro)
+		{
+			JOptionPane.showMessageDialog(null, "Falha no retorno dos Anos, erro: " + erro);
+			return null;
+		}
+		
+		return anos;
+	}
+	
 }

@@ -1,6 +1,7 @@
 package br.com.shm.jdbc;
 
 import java.awt.Color;
+import java.util.List;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -67,12 +68,12 @@ public class GraficoFactory {
 		return painel;
 	}
 	
-	public ChartPanel GeraGraficoBarra(String[] barras, Integer[] valores, String titulo, String linhaX, String linhaY) {
+	public ChartPanel GeraGraficoBarra(List<String> barras, List<Integer> valores, String titulo, String linhaX, String linhaY) {
 		DefaultCategoryDataset barra = new DefaultCategoryDataset();
 		
-		for(int i = 0; i < barras.length; i++)
+		for(int i = 0; i < barras.size(); i++)
 		{
-			barra.setValue(valores[i], barras[i], "");
+			barra.setValue(valores.get(i), barras.get(i), "");
 		}
 		
 		JFreeChart grafico = ChartFactory.createBarChart( titulo, linhaY, linhaX, barra, PlotOrientation.VERTICAL, true, true, false);

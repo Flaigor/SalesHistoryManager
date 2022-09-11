@@ -25,9 +25,13 @@ public class JPGrafico extends JPPadrao {
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setBounds( width - 150 , 10 , 120, 30 );
 		
+		JButton btnPrevisao = new JButton("Prever");
+		btnPrevisao.setBounds( 10 , 10 , 120, 30 );
+		
 		grafico.setBounds(10, 50, width - 40, height - 100);
 		
 		add(btnVoltar);
+		add(btnPrevisao);
 		add(grafico);
 		
 		frame.repaint();

@@ -2,6 +2,7 @@ package br.com.shm.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -33,12 +34,18 @@ public class JPHistorico extends JPPadrao {
 	private String[] stClientePesquisa = {"Comprador", "Devedor"};
 	private String[] stVendaPesquisa = {"Por Mês", "Por Ano"};
 	private String[] stProdutoPesquisa = {"Quantidade vendida"};
-	private String[] stOrdem = {"Crescente", "Decrescente"};
-	
+	private String[] stOrdem = {"Crescente", "Decrescente", "Nenhum"};
+	private List<String> stAnos = new ArrayList<String>();
 	
 	public JPHistorico( JFPadrao frame, boolean admin )
 	{
 		montaTelaHistorico( frame, admin );
+	}
+	
+	public void listarAnos()
+	{
+		HistoricoDAO dao = new HistoricoDAO();
+		stAnos = dao.listarAnos();
 	}
 	
 	public void listar(int tipo, int pesquisa, int ordem)
@@ -100,22 +107,30 @@ public class JPHistorico extends JPPadrao {
 		this.setBounds( 0, 0, width, height );
 		
 		JLabel labelTipo = new JLabel("Tipo: ");
-		labelTipo.setBounds( 10, 10, 70, 30);
+		labelTipo.setBounds( 10, 10, 60, 30);
 		
 		JComboBox<Object> cbTipo = new JComboBox<Object>(stTipo);
-		cbTipo.setBounds( 80, 10, 150, 30);
+		cbTipo.setBounds( 50, 10, 150, 30);
 		
 		JLabel labelPesquisa = new JLabel("Pesquisa: ");
-		labelPesquisa.setBounds( 290, 10, 70, 30);
+		labelPesquisa.setBounds( 210, 10, 60, 30);
 		
 		JComboBox<String> cbPesquisa = new JComboBox<String>(stClientePesquisa);
-		cbPesquisa.setBounds( 350, 10, 150, 30);
+		cbPesquisa.setBounds( 280, 10, 150, 30);
 		
 		JLabel labelOrden = new JLabel("Ordem: ");
-		labelOrden.setBounds( 550, 10, 70, 30);
+		labelOrden.setBounds( 440, 10, 60, 30);
 		
 		JComboBox<Object> cbOrdem = new JComboBox<Object>(stOrdem);
-		cbOrdem.setBounds( 620, 10, 150, 30);
+		cbOrdem.setBounds( 495, 10, 150, 30);
+		
+		JLabel labelAno = new JLabel("Ano: ");
+		labelAno.setBounds( 655, 10, 60, 30);
+		
+		listarAnos();
+		
+		JComboBox<Object> cbAno = new JComboBox<Object>(stAnos.toArray());
+		cbAno.setBounds( 695, 10, 150, 30);
 		
 		tResultadoCli = new JTable(new DefaultTableModel(null, colRespCli));
 		tResultadoVen = new JTable(new DefaultTableModel(null, colRespVen));
@@ -160,6 +175,8 @@ public class JPHistorico extends JPPadrao {
 		add(cbPesquisa);
 		add(labelOrden);
 		add(cbOrdem);
+		add(labelAno);
+		add(cbAno);
 		add(scrollResCli);
 		add(scrollResVen);
 		add(scrollResProd);
@@ -226,25 +243,25 @@ public class JPHistorico extends JPPadrao {
 				List<ProdutoVenda> lista = getLista(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(), cbOrdem.getSelectedIndex());
 				String[] colunas = getColunas(cbTipo.getSelectedIndex());
 				
-				String[] barras = new String[lista.size()];
-				Integer[] valores = new Integer[lista.size()];	
-				
+				List<String> barras = new ArrayList<String>();
+				List<Integer> valores = new ArrayList<Integer>();
+
 				for(int i = 0; i < lista.size(); i++)
 				{
 					switch(cbTipo.getSelectedIndex())
 					{
 						case 0:
-							barras[i] = lista.get(i).getVenda().getComprador().getNome();
+							barras.add(lista.get(i).getVenda().getComprador().getNome());
 							break;
 						case 1:
-							barras[i] = lista.get(i).getVenda().getDataVenda().toString();
+							barras.add(lista.get(i).getVenda().getDataVenda().toString());
 							break;
 						case 2:
-							barras[i] = lista.get(i).getProduto().getNome();
+							barras.add(lista.get(i).getProduto().getNome());
 							break;
 					}
 					
-					valores[i] = lista.get(i).getQuantidade();
+					valores.add(lista.get(i).getQuantidade());
 				}
 				
 				GraficoFactory gf = new GraficoFactory();
