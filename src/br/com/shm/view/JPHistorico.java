@@ -50,7 +50,7 @@ public class JPHistorico extends JPPadrao {
 	
 	public void listar(int tipo, int pesquisa, int ordem, String ano)
 	{
-		List<ProdutoVenda> lista = getLista(tipo,  pesquisa,  ordem, ano);
+		List<ProdutoVenda> lista = getLista(tipo, pesquisa, ordem, ano);
 		
 		if(tipo == 0)
 		{
@@ -97,6 +97,29 @@ public class JPHistorico extends JPPadrao {
 			scrollResVen.setVisible(false);
 			scrollResProd.setVisible(true);
 		}
+	}
+	
+	public void listarComPrevisao(int tipo, int pesquisa, int ordem, String ano)
+	{
+		List<ProdutoVenda> lista = getLista(tipo, pesquisa, ordem, ano);
+		
+		int contador = 0;
+		
+		dados = (DefaultTableModel) tResultadoVen.getModel();
+		dados.setNumRows(0);
+		for(ProdutoVenda pv: lista)
+		{
+			dados.addRow(new Object[]{
+					pv.getVenda().getDataVenda(),
+					pv.getQuantidade()
+			});
+			contador++;
+		}
+		
+		scrollResCli.setVisible(false);
+		scrollResVen.setVisible(true);
+		scrollResProd.setVisible(false);
+		
 	}
 	
 	public void montaTelaHistorico( JFPadrao frame, boolean admin )

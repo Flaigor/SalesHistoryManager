@@ -78,7 +78,7 @@ public class PrevisaoFactory {
 	}
 	
 	
-	public List<Integer> previsaoAno(List<Integer> listaNum, int mesIni)
+	public void previsaoAno(List<Integer> listaNum, int mesIni)
 	{
 		List<Integer> pedaco = new ArrayList<Integer>();
 		int umQuarto = listaNum.size() / 4;
@@ -89,7 +89,7 @@ public class PrevisaoFactory {
 			listaNum.set( (umQuarto * 3) + (i - 1), previsaoMes(pedaco, i));
 		}
 		
-		return listaNum;
+		//return listaNum;
 	}
 	
 	
