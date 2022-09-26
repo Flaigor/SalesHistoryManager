@@ -16,8 +16,6 @@ import br.com.shm.jdbc.PrevisaoFactory;
 
 public class JPGrafico extends JPPadrao {
 	
-	private LocalDateTime now = LocalDateTime.now();
-	
 	public JPGrafico( JFPadrao frame, boolean admin, ChartPanel grafico  )
 	{
 		montaTelaGrafico( frame, admin, grafico );
@@ -33,13 +31,9 @@ public class JPGrafico extends JPPadrao {
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setBounds( width - 150 , 10 , 120, 30 );
 		
-		JButton btnPrevisao = new JButton("Prever");
-		btnPrevisao.setBounds( 10 , 10 , 120, 30 );
-		
 		grafico.setBounds(10, 50, width - 40, height - 100);
 		
 		add(btnVoltar);
-		add(btnPrevisao);
 		add(grafico);
 		
 		frame.repaint();
@@ -53,6 +47,7 @@ public class JPGrafico extends JPPadrao {
 			}
 		} );
 		
+		/*
 		btnPrevisao.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
@@ -93,6 +88,7 @@ public class JPGrafico extends JPPadrao {
 				
 			}
 		} );
+		*/
 	}
 	
 }

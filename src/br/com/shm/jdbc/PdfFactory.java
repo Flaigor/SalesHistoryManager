@@ -454,6 +454,68 @@ public class PdfFactory {
 		} 
 	}
 	
+	public void gerarPdfPrevisao( java.util.List<String> list, java.util.List<Integer> list2, int j) {
+		
+		Document document = new Document();
+		String caminho = "docs\\pdf\\previsao\\SalesHistoryManagerPrevisao_" + dataHora + ".pdf";
+		try
+		{
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(caminho));
+			document.open();
+			
+			Logo.setStyle(Font.BOLD);
+			Logo.setSize(24);
+			
+			document.add(new Paragraph("Sales History Manager", Logo));
+			document.add(new Paragraph("Previsão de Vendas de " + j + ": " + dataHoraDoc));
+			
+			PdfPTable table = new PdfPTable(2);
+			table.setWidthPercentage(105);
+			table.setSpacingBefore(11f);
+			table.setSpacingAfter(11f);
+			
+			float[] colWidth = {2f,2f};
+			table.setWidths(colWidth);
+			PdfPCell coluna1 = new PdfPCell(new Paragraph("Mês"));
+			PdfPCell coluna2 = new PdfPCell(new Paragraph("Vendas"));
+			
+			table.addCell(coluna1);
+			table.addCell(coluna2);
+			
+			for(int i = 0; i < list2.size(); i++)
+			{
+				PdfPCell histCampo1 = new PdfPCell(new Paragraph(list.get(i)));
+				PdfPCell histCampo2 = new PdfPCell(new Paragraph(list2.get(i).toString()));
+				
+				table.addCell(histCampo1);
+				table.addCell(histCampo2);
+			}
+			
+			document.add(table);
+			
+			List unorderList = new List(List.UNORDERED);
+			unorderList.add(new ListItem("Total de linhas: " + list2.size()));
+			document.add(unorderList);
+			
+			document.close();
+			writer.close();
+			
+			abrirPdf(caminho);
+			
+		}
+		catch(DocumentException de)
+		{
+			de.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha na criação do PDF, erro: " + de);
+		} 
+		catch(FileNotFoundException fne)
+		{
+			fne.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha na criação do PDF, erro: " + fne);
+		}
+		
+	}
+	
 	public void abrirPdf(String caminho)
 	{
 		caminho = new File("").getAbsolutePath() + "\\" + caminho;
