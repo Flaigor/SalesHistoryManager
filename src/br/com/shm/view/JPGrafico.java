@@ -47,48 +47,6 @@ public class JPGrafico extends JPPadrao {
 			}
 		} );
 		
-		/*
-		btnPrevisao.addActionListener( new ActionListener( )
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				PrevisaoFactory pf = new PrevisaoFactory();
-				HistoricoDAO dao = new HistoricoDAO();
-				
-				List<Integer> lp = new ArrayList<Integer>();
-				
-				List<Integer> laux = new ArrayList<Integer>();
-				
-				for(int i = 3; i >= 0; i--)
-				{
-					laux = dao.getListPrevisao(now.getYear() - i);
-					for(Integer j : laux)
-					{
-						lp.add(j);
-					}
-					laux.clear();
-				}
-				
-				for(int i = lp.size(); i <= 47; i++)
-				{
-					lp.add(0);
-				}
-				
-				pf.previsaoAno(lp, now.getMonthValue() + 1);
-							
-				for(int i = lp.size() - 12; i < lp.size(); i++)
-				{
-					laux.add(lp.get(i));
-				}
-				
-				GraficoFactory gf = new GraficoFactory();
-				
-				frame.remove(JPGrafico.this);
-				frame.setTela(new JPGrafico(frame, admin, gf.GeraGraficoBarra(dao.getMeses(), laux, "Previsão de " + now.getYear(), "Numero de Vendas", "Mês")), false );
-				
-			}
-		} );
-		*/
 	}
 	
 }
