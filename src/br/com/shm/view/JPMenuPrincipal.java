@@ -161,7 +161,7 @@ public class JPMenuPrincipal extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove(JPMenuPrincipal.this);
-				frame.setTela(new JPHistorico(frame, admin), false);	
+				frame.setTela(new JPHistorico(frame, admin, 0), false);	
 			}
 		} );
 		

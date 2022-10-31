@@ -2,7 +2,6 @@ package br.com.shm.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,21 +16,17 @@ import javax.swing.table.DefaultTableModel;
 import br.com.shm.dao.HistoricoDAO;
 import br.com.shm.jdbc.GraficoFactory;
 import br.com.shm.jdbc.PdfFactory;
-import br.com.shm.jdbc.PrevisaoFactory;
 import br.com.shm.model.ProdutoVenda;
 
 public class JPHistorico extends JPPadrao {
 	
-	private JTable tResultadoPrev;
 	private JTable tResultadoCli;
 	private JTable tResultadoVen;
 	private JTable tResultadoProd;
-	private JScrollPane scrollResPrev;
 	private JScrollPane scrollResCli;
 	private JScrollPane scrollResVen;
 	private JScrollPane scrollResProd;
 	private DefaultTableModel dados;
-	private String[] colRespPrev = {"Mês", "Numero de Vendas;"};
 	private String[] colRespCli = {"Cliente", "Numero de Compras"};
 	private String[] colRespVen = {"Mes/Ano", "Numero de Vendas"};
 	private String[] colRespProd = {"Produto", "Quantidade"};
@@ -41,11 +36,10 @@ public class JPHistorico extends JPPadrao {
 	private String[] stProdutoPesquisa = {"Quantidade vendida"};
 	private String[] stOrdem = {"Crescente", "Decrescente"};
 	private List<String> stAnos = new ArrayList<String>();
-	private LocalDateTime now = LocalDateTime.now();
 	
-	public JPHistorico( JFPadrao frame, boolean admin )
+	public JPHistorico( JFPadrao frame, boolean admin, int indexTipo )
 	{
-		montaTelaHistorico( frame, admin );
+		montaTelaHistorico( frame, admin, indexTipo );
 	}
 	
 	public void listarAnos()
@@ -69,7 +63,6 @@ public class JPHistorico extends JPPadrao {
 						pv.getQuantidade()
 				});
 			}
-			scrollResPrev.setVisible(false);
 			scrollResCli.setVisible(true);
 			scrollResVen.setVisible(false);
 			scrollResProd.setVisible(false);
@@ -85,7 +78,6 @@ public class JPHistorico extends JPPadrao {
 						pv.getQuantidade()
 				});
 			}
-			scrollResPrev.setVisible(false);
 			scrollResCli.setVisible(false);
 			scrollResVen.setVisible(true);
 			scrollResProd.setVisible(false);
@@ -101,42 +93,13 @@ public class JPHistorico extends JPPadrao {
 						pv.getQuantidade()
 				});
 			}
-			scrollResPrev.setVisible(false);
 			scrollResCli.setVisible(false);
 			scrollResVen.setVisible(false);
 			scrollResProd.setVisible(true);
 		}
 	}
 	
-	public void previsao()
-	{
-		HistoricoDAO dao = new HistoricoDAO();
-		
-		List<Integer> laux = getValoresPrevisao();
-		
-		dados = (DefaultTableModel) tResultadoPrev.getModel();
-		dados.setNumRows(0);
-		for(int i = 0; i < laux.size(); i++)
-		{
-			dados.addRow(new Object[]{
-					dao.getMeses().get(i),
-					laux.get(i)
-			});
-		}
-		scrollResPrev.setVisible(true);
-		scrollResCli.setVisible(false);
-		scrollResVen.setVisible(false);
-		scrollResProd.setVisible(false);
-		
-		/*
-		GraficoFactory gf = new GraficoFactory();
-		
-		frame.remove(JPGrafico.this);
-		frame.setTela(new JPGrafico(frame, admin, gf.GeraGraficoBarra(dao.getMeses(), laux, "Previsão de " + now.getYear(), "Numero de Vendas", "Mês")), false );
-		*/
-	}
-	
-	public void montaTelaHistorico( JFPadrao frame, boolean admin )
+	public void montaTelaHistorico( JFPadrao frame, boolean admin, int indexTipo )
 	{
 		limpaTela( );
 		width = frame.getBounds( ).width;
@@ -148,6 +111,7 @@ public class JPHistorico extends JPPadrao {
 		
 		JComboBox<Object> cbTipo = new JComboBox<Object>(stTipo);
 		cbTipo.setBounds( 50, 10, 150, 30);
+		cbTipo.setSelectedIndex(indexTipo);
 		
 		JLabel labelPesquisa = new JLabel("Pesquisa: ");
 		labelPesquisa.setBounds( 210, 10, 60, 30);
@@ -169,27 +133,23 @@ public class JPHistorico extends JPPadrao {
 		JComboBox<Object> cbAnos = new JComboBox<Object>(stAnos.toArray());
 		cbAnos.setBounds( 695, 10, 150, 30);
 		
-		tResultadoPrev  = new JTable(new DefaultTableModel(null, colRespPrev));
 		tResultadoCli = new JTable(new DefaultTableModel(null, colRespCli));
 		tResultadoVen = new JTable(new DefaultTableModel(null, colRespVen));
 		tResultadoProd = new JTable(new DefaultTableModel(null, colRespProd));
 		
-		scrollResPrev = new JScrollPane(tResultadoPrev); 
 		scrollResCli = new JScrollPane(tResultadoCli);
 		scrollResVen = new JScrollPane(tResultadoVen);
 		scrollResProd = new JScrollPane(tResultadoProd);
 		
-		tResultadoPrev.setBounds( 10 , 50 , width - 40, height - 140 );
+
 		tResultadoCli.setBounds( 10 , 50 , width - 40, height - 140 );
 		tResultadoVen.setBounds( 10 , 50 , width - 40, height - 140 );
 		tResultadoProd.setBounds( 10 , 50 , width - 40, height - 140 );
 		
-		scrollResPrev.setBounds( 10 , 50 , width - 40, height - 140 );
 		scrollResCli.setBounds( 10 , 50 , width - 40, height - 140 );
 		scrollResVen.setBounds( 10 , 50 , width - 40, height - 140 );
 		scrollResProd.setBounds( 10 , 50 , width - 40, height - 140 );
 		
-		scrollResPrev.setVisible(false);
 		scrollResCli.setVisible(true);
 		scrollResVen.setVisible(false);
 		scrollResProd.setVisible(false);
@@ -224,7 +184,6 @@ public class JPHistorico extends JPPadrao {
 		add(cbOrdem);
 		add(labelAnos);
 		add(cbAnos);
-		add(scrollResPrev);
 		add(scrollResCli);
 		add(scrollResVen);
 		add(scrollResProd);
@@ -258,17 +217,6 @@ public class JPHistorico extends JPPadrao {
 			}
 		} );
 		
-		btnPrevisao.addActionListener( new ActionListener( )
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				previsao();
-				btnLimpar.setEnabled(true);
-				btnGerarPdf.setEnabled(true);
-				btnGrafico.setEnabled(true);
-			}
-		} );
-		
 		btnLimpar.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
@@ -280,7 +228,6 @@ public class JPHistorico extends JPPadrao {
 				btnGerarPdf.setEnabled(false);
 				btnGrafico.setEnabled(false);
 				btnLimpar.setEnabled(false);
-				btnPrevisao.setEnabled(false);
 			}
 		} );
 		
@@ -290,25 +237,12 @@ public class JPHistorico extends JPPadrao {
 			{	
 				PdfFactory pdfFactory = new PdfFactory();
 				
-				if(cbTipo.getSelectedIndex() != 3)
-				{
-					List<ProdutoVenda> lista = getLista(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(),
-							cbOrdem.getSelectedIndex(), cbAnos.getSelectedItem().toString());
-					String[] colunas = getColunas(cbTipo.getSelectedIndex());
-					String[] pesquisa = {(String) cbTipo.getSelectedItem(), (String) cbPesquisa.getSelectedItem(), (String) cbOrdem.getSelectedItem()};
-					
-					pdfFactory.gerarPdfHistorico(lista.toArray(new ProdutoVenda[lista.size()]), colunas, pesquisa);
-				}
-				else
-				{
-					HistoricoDAO dao = new HistoricoDAO();
-					List<Integer> li = getValoresPrevisao();
-					pdfFactory.gerarPdfPrevisao( dao.getMeses(), li, now.getYear());
-				}
+				List<ProdutoVenda> lista = getLista(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(),
+						cbOrdem.getSelectedIndex(), cbAnos.getSelectedItem().toString());
+				String[] colunas = getColunas(cbTipo.getSelectedIndex());
+				String[] pesquisa = {(String) cbTipo.getSelectedItem(), (String) cbPesquisa.getSelectedItem(), (String) cbOrdem.getSelectedItem()};
 				
-				
-				
-				
+				pdfFactory.gerarPdfHistorico(lista.toArray(new ProdutoVenda[lista.size()]), colunas, pesquisa);
 			}
 		} );
 		
@@ -324,48 +258,35 @@ public class JPHistorico extends JPPadrao {
 				String colunaX;
 				String colunaY;
 				
-				if(cbTipo.getSelectedIndex() != 3)
-				{
-					List<ProdutoVenda> lista = getLista(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(),
-						cbOrdem.getSelectedIndex(), cbAnos.getSelectedItem().toString());
-					
-					colunaX = colunas[1];
-					colunaY = colunas[0];
+				List<ProdutoVenda> lista = getLista(cbTipo.getSelectedIndex(), cbPesquisa.getSelectedIndex(),
+					cbOrdem.getSelectedIndex(), cbAnos.getSelectedItem().toString());
 				
-					for(int i = 0; i < lista.size(); i++)
+				colunaX = colunas[1];
+				colunaY = colunas[0];
+			
+				for(int i = 0; i < lista.size(); i++)
+				{
+					switch(cbTipo.getSelectedIndex())
 					{
-						switch(cbTipo.getSelectedIndex())
-						{
-							case 0:
-								barras.add(lista.get(i).getVenda().getComprador().getNome());
-								break;
-							case 1:
-								barras.add(lista.get(i).getVenda().getDataVenda().toString());
-								break;
-							case 2:
-								barras.add(lista.get(i).getProduto().getNome());
-								break;
-						}
-						valores.add(lista.get(i).getQuantidade());
+						case 0:
+							barras.add(lista.get(i).getVenda().getComprador().getNome());
+							break;
+						case 1:
+							barras.add(lista.get(i).getVenda().getDataVenda().toString());
+							break;
+						case 2:
+							barras.add(lista.get(i).getProduto().getNome());
+							break;
 					}
-					titulo = cbTipo.getSelectedItem().toString() + " " + cbPesquisa.getSelectedItem().toString() + " "
-						+ cbOrdem.getSelectedItem().toString() + " em " + cbAnos.getSelectedItem().toString();
+					valores.add(lista.get(i).getQuantidade());
 				}
-				else
-				{
-					HistoricoDAO dao = new HistoricoDAO();
-					barras = dao.getMeses();
-					valores = getValoresPrevisao();
-					titulo = "Previsão de " + now.getYear();
-					colunaX = "Meses";
-					colunaY = "Numero de Vendas";
-				}
-				
+				titulo = cbTipo.getSelectedItem().toString() + " " + cbPesquisa.getSelectedItem().toString() + " "
+					+ cbOrdem.getSelectedItem().toString() + " em " + cbAnos.getSelectedItem().toString();
 				
 				GraficoFactory gf = new GraficoFactory();
 				
 				frame.remove(JPHistorico.this);
-				frame.setTela(new JPGrafico(frame, admin, gf.GeraGraficoBarra(barras, valores, titulo,  colunaX, colunaY)), false );
+				frame.setTela(new JPGrafico(frame, admin, gf.GeraGraficoBarra(barras, valores, titulo,  colunaX, colunaY), indexTipo), false );
 			}
 		} );
 		
@@ -404,13 +325,9 @@ public class JPHistorico extends JPPadrao {
 				}
 				else if(cbTipo.getSelectedIndex() == 3)
 				{
-					cbPesquisa.setEnabled(false);
-					cbOrdem.setEnabled(false);
-					cbAnos.setSelectedIndex(cbAnos.getItemCount() - 1);
-					cbAnos.setEnabled(false);
-					btnPesquisar.setEnabled(false);
-					btnLimpar.setEnabled(false);
-					btnPrevisao.setEnabled(true);
+					frame.remove(JPHistorico.this);
+					frame.setTela(new JPPrevisao(frame, admin), false);
+					
 				}
 				
 			}
@@ -422,40 +339,6 @@ public class JPHistorico extends JPPadrao {
 	{
 			HistoricoDAO dao = new HistoricoDAO();		
 			return dao.listar(tipo, pesquisa, ordem, ano);
-	}
-	
-	public List<Integer> getValoresPrevisao()
-	{
-		PrevisaoFactory pf = new PrevisaoFactory();
-		HistoricoDAO dao = new HistoricoDAO();
-		
-		List<Integer> lp = new ArrayList<Integer>();
-		
-		List<Integer> laux = new ArrayList<Integer>();
-		
-		for(int i = 3; i >= 0; i--)
-		{
-			laux = dao.getListPrevisao(now.getYear() - i);
-			for(Integer j : laux)
-			{
-				lp.add(j);
-			}
-			laux.clear();
-		}
-		
-		for(int i = lp.size(); i <= 47; i++)
-		{
-			lp.add(0);
-		}
-		
-		pf.previsaoAno(lp, now.getMonthValue() + 1);
-					
-		for(int i = lp.size() - 12; i < lp.size(); i++)
-		{
-			laux.add(lp.get(i));
-		}
-		
-		return laux;
 	}
 	
 	public String[] getColunas(int tipo)

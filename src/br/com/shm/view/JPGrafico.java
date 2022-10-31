@@ -16,12 +16,12 @@ import br.com.shm.jdbc.PrevisaoFactory;
 
 public class JPGrafico extends JPPadrao {
 	
-	public JPGrafico( JFPadrao frame, boolean admin, ChartPanel grafico  )
+	public JPGrafico( JFPadrao frame, boolean admin, ChartPanel grafico, int indexTipo  )
 	{
-		montaTelaGrafico( frame, admin, grafico );
+		montaTelaGrafico( frame, admin, grafico, indexTipo );
 	}
 	
-	public void montaTelaGrafico( JFPadrao frame, boolean admin, ChartPanel grafico )
+	public void montaTelaGrafico( JFPadrao frame, boolean admin, ChartPanel grafico, int indexTipo )
 	{
 		limpaTela( );
 		width = frame.getBounds( ).width;
@@ -42,8 +42,17 @@ public class JPGrafico extends JPPadrao {
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				frame.remove(JPGrafico.this);
-				frame.setTela(new JPHistorico(frame, admin), false);		
+				if(indexTipo == 3)
+				{
+					frame.remove(JPGrafico.this);
+					frame.setTela(new JPPrevisao(frame, admin), false);
+				}
+				else
+				{
+					frame.remove(JPGrafico.this);
+					frame.setTela(new JPHistorico(frame, admin, indexTipo), false);
+				}
+						
 			}
 		} );
 		
