@@ -88,8 +88,6 @@ public class PrevisaoFactory {
 			pedaco = arrumarArray(listaNum, i );
 			listaNum.set( (umQuarto * 3) + (i - 1), previsaoMes(pedaco, i));
 		}
-		
-		//return listaNum;
 	}
 	
 	

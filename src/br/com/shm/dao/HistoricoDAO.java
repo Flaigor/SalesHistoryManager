@@ -191,34 +191,6 @@ public class HistoricoDAO {
 		return anos;
 	}
 	
-	public List<Integer> getListPrevisao(int ano)
-	{
-		List<Integer> listaPrevisao = new ArrayList<Integer>();
-		
-		try
-		{
-			String sql = "Select month(str_to_date(v.DataVenda, '%d/%m/%Y')) mes, count(v.IdVenda) vendas "
-					+ "from shmdb.vendas v where substring(v.DataVenda, 7, 4) = '" + ano
-					+ "' group by month(str_to_date(v.DataVenda, '%d/%m/%Y')) "
-					+ "order by month(str_to_date(v.DataVenda, '%d/%m/%Y'));";
-			
-			PreparedStatement stmt = con.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery();
-			
-			while(rs.next())
-			{
-				listaPrevisao.add(rs.getInt(2));
-			}
-			
-		} catch(SQLException erro)
-		{
-			JOptionPane.showMessageDialog(null, "Falha no retorno da Lista para previsão, erro: " + erro);
-			return null;
-		}
-		
-		return listaPrevisao;
-	}
-	
 	public List<String> getMeses()
 	{
 		List<String> lst = new ArrayList<String>();

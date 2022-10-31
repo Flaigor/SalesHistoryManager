@@ -14,6 +14,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import br.com.shm.dao.HistoricoDAO;
+import br.com.shm.dao.PrevisaoDAO;
 import br.com.shm.jdbc.GraficoFactory;
 import br.com.shm.jdbc.PdfFactory;
 import br.com.shm.jdbc.PrevisaoFactory;
@@ -240,7 +241,7 @@ public class JPPrevisao extends JPPadrao {
 	public List<Integer> getValoresPrevisao()
 	{
 		PrevisaoFactory pf = new PrevisaoFactory();
-		HistoricoDAO dao = new HistoricoDAO();
+		PrevisaoDAO dao = new PrevisaoDAO();
 		
 		List<Integer> lp = new ArrayList<Integer>();
 		
@@ -248,7 +249,7 @@ public class JPPrevisao extends JPPadrao {
 		
 		for(int i = 3; i >= 0; i--)
 		{
-			laux = dao.getListPrevisao(now.getYear() - i);
+			laux = dao.getListPrevisaoMes(now.getYear() - i);
 			for(Integer j : laux)
 			{
 				lp.add(j);
