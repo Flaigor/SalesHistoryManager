@@ -454,7 +454,7 @@ public class PdfFactory {
 		} 
 	}
 	
-	public void gerarPdfPrevisao( java.util.List<String> list, java.util.List<Integer> list2, int j) {
+	public void gerarPdfPrevisaoFull( java.util.List<String> list, java.util.List<Integer> list2, java.util.List<Integer> list3, java.util.List<Cliente> clientes , int j) {
 		
 		Document document = new Document();
 		String caminho = "docs\\pdf\\previsao\\SalesHistoryManagerPrevisao_" + dataHora + ".pdf";
@@ -469,33 +469,62 @@ public class PdfFactory {
 			document.add(new Paragraph("Sales History Manager", Logo));
 			document.add(new Paragraph("Previsão de Vendas de " + j + ": " + dataHoraDoc));
 			
-			PdfPTable table = new PdfPTable(2);
-			table.setWidthPercentage(105);
-			table.setSpacingBefore(11f);
-			table.setSpacingAfter(11f);
+			PdfPTable tableMes = new PdfPTable(2);
+			tableMes.setWidthPercentage(105);
+			tableMes.setSpacingBefore(11f);
+			tableMes.setSpacingAfter(11f);
 			
-			float[] colWidth = {2f,2f};
-			table.setWidths(colWidth);
-			PdfPCell coluna1 = new PdfPCell(new Paragraph("Mês"));
-			PdfPCell coluna2 = new PdfPCell(new Paragraph("Vendas"));
+			float[] colWidthMes = {2f,2f};
+			tableMes.setWidths(colWidthMes);
+			PdfPCell colunaMes = new PdfPCell(new Paragraph("Mês"));
+			PdfPCell colunaVendas = new PdfPCell(new Paragraph("Vendas"));
 			
-			table.addCell(coluna1);
-			table.addCell(coluna2);
+			tableMes.addCell(colunaMes);
+			tableMes.addCell(colunaVendas);
 			
 			for(int i = 0; i < list2.size(); i++)
 			{
-				PdfPCell histCampo1 = new PdfPCell(new Paragraph(list.get(i)));
-				PdfPCell histCampo2 = new PdfPCell(new Paragraph(list2.get(i).toString()));
+				PdfPCell histCampoMesNome = new PdfPCell(new Paragraph(list.get(i)));
+				PdfPCell histCampoMesVenda = new PdfPCell(new Paragraph(list2.get(i).toString()));
 				
-				table.addCell(histCampo1);
-				table.addCell(histCampo2);
+				tableMes.addCell(histCampoMesNome);
+				tableMes.addCell(histCampoMesVenda);
 			}
 			
-			document.add(table);
+			document.add(tableMes);
 			
-			List unorderList = new List(List.UNORDERED);
-			unorderList.add(new ListItem("Total de linhas: " + list2.size()));
-			document.add(unorderList);
+			List unorderListMes = new List(List.UNORDERED);
+			unorderListMes.add(new ListItem("Total de linhas: " + list2.size()));
+			document.add(unorderListMes);
+			
+			document.add(new Paragraph("Previsão de Vendas por Cliente: "));
+			
+			PdfPTable tableCli = new PdfPTable(2);
+			tableCli.setWidthPercentage(105);
+			tableCli.setSpacingBefore(11f);
+			tableCli.setSpacingAfter(11f);
+			
+			float[] colWidthCli = {2f,2f};
+			tableCli.setWidths(colWidthCli);
+			PdfPCell colunaCliente = new PdfPCell(new Paragraph("Cliente"));
+			
+			tableCli.addCell(colunaCliente);
+			tableCli.addCell(colunaVendas);
+			
+			for(int i = 0; i < list3.size(); i++)
+			{
+				PdfPCell histCampoCliNome = new PdfPCell(new Paragraph(clientes.get(i).getNome()));
+				PdfPCell histCampoCliVenda = new PdfPCell(new Paragraph(list3.get(i).toString()));
+				
+				tableCli.addCell(histCampoCliNome);
+				tableCli.addCell(histCampoCliVenda);
+			}
+			
+			document.add(tableCli);
+			
+			List unorderListCli = new List(List.UNORDERED);
+			unorderListCli.add(new ListItem("Total de linhas: " + list3.size()));
+			document.add(unorderListCli);
 			
 			document.close();
 			writer.close();

@@ -2,6 +2,8 @@ package br.com.shm.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +15,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import br.com.shm.dao.ClientesDAO;
 import br.com.shm.dao.HistoricoDAO;
 import br.com.shm.dao.PrevisaoDAO;
+import br.com.shm.dao.ProdutosDAO;
 import br.com.shm.jdbc.GraficoFactory;
 import br.com.shm.jdbc.PdfFactory;
 import br.com.shm.jdbc.PrevisaoFactory;
+import br.com.shm.model.Cliente;
+import br.com.shm.model.Produto;
 import br.com.shm.model.ProdutoVenda;
 
 public class JPPrevisao extends JPPadrao {
@@ -28,13 +34,18 @@ public class JPPrevisao extends JPPadrao {
 	private JScrollPane scrollResPrevCli;
 	private JTable tResultadoPrevProd;
 	private JScrollPane scrollResPrevProd;
-	private DefaultTableModel dados;
+	private DefaultTableModel dadosMes;
+	private DefaultTableModel dadosCli;
 	private String[] stTipo = {"Cliente", "Venda", "Produto", "Previsão"};
 	private String[] colRespPrevMeses = {"Mês", "Numero de Vendas"};
 	private String[] colRespPrevCli = {"Cliente", "Numero de Compras"};
 	private String[] colRespPrevProd = {"Produto", "Previsão de Venda"};
 	private List<String> stAnos = new ArrayList<String>();
 	private LocalDateTime now = LocalDateTime.now();
+	private List<Integer> matrixPrevisao = new ArrayList<Integer>();
+	private List<Integer> somaMeses = new  ArrayList<Integer>();
+	private List<Integer> somaClientes = new  ArrayList<Integer>();
+	private List<Cliente> clientes = new  ArrayList<Cliente>();
 	
 	public JPPrevisao( JFPadrao frame, boolean admin )
 	{
@@ -47,19 +58,31 @@ public class JPPrevisao extends JPPadrao {
 		stAnos.add("" + (now.getYear() + 1));
 	}
 	
-	public void previsao()
+	public void popularTabelaMes()
 	{
 		HistoricoDAO dao = new HistoricoDAO();
 		
-		List<Integer> laux = getValoresPrevisao();
-		
-		dados = (DefaultTableModel) tResultadoPrevMeses.getModel();
-		dados.setNumRows(0);
-		for(int i = 0; i < laux.size(); i++)
+		dadosMes = (DefaultTableModel) tResultadoPrevMeses.getModel();
+		dadosMes.setNumRows(0);
+		for(int i = 0; i < somaMeses.size(); i++)
 		{
-			dados.addRow(new Object[]{
+			dadosMes.addRow(new Object[]{
 					dao.getMeses().get(i),
-					laux.get(i)
+					somaMeses.get(i)
+			});
+		}
+	}
+	
+	public void popularTabelaCli()
+	{	
+		dadosCli = (DefaultTableModel) tResultadoPrevCli.getModel();
+		dadosCli.setNumRows(0);
+		
+		for(int i = 0; i < clientes.size(); i++)
+		{
+			dadosCli.addRow(new Object[]{
+					clientes.get(i).getNome(),
+					somaClientes.get(i)
 			});
 		}
 	}
@@ -180,7 +203,14 @@ public class JPPrevisao extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{
 				cbTipo.setSelectedIndex(3); 
-				dados.setNumRows(0);
+				dadosMes.setNumRows(0);
+				dadosCli.setNumRows(0);
+				
+				matrixPrevisao.clear();
+				somaMeses.clear();
+				somaClientes.clear();
+				clientes.clear();
+				
 				btnGerarPdf.setEnabled(false);
 				btnGrafico.setEnabled(false);
 				btnLimpar.setEnabled(false);;
@@ -192,11 +222,23 @@ public class JPPrevisao extends JPPadrao {
 			public void actionPerformed( ActionEvent e )
 			{	
 				PdfFactory pdfFactory = new PdfFactory();
-					
-				HistoricoDAO dao = new HistoricoDAO();
-				List<Integer> li = getValoresPrevisao();
-				pdfFactory.gerarPdfPrevisao( dao.getMeses(), li, now.getYear());
 				
+				if(tResultadoPrevMeses.getSelectedRowCount() > 0)
+				{
+					List<String> mesesNome = new ArrayList<String>();
+					List<Integer> mesesValor = new ArrayList<Integer>();
+					
+					getMesesSelecionados(mesesNome, mesesValor);
+					
+					pdfFactory.gerarPdfPrevisaoFull( mesesNome, mesesValor, somaClientes, clientes, now.getYear());
+				}
+				else
+				{
+					HistoricoDAO dao = new HistoricoDAO();
+					List<String> meses = dao.getMeses();
+					
+					pdfFactory.gerarPdfPrevisaoFull( meses, somaMeses, somaClientes, clientes, now.getYear());
+				}
 			}
 		} );
 		
@@ -206,14 +248,10 @@ public class JPPrevisao extends JPPadrao {
 			{
 				
 				List<String> barras = new ArrayList<String>();
-				List<Integer> valores = new ArrayList<Integer>();
 				String titulo = "";
 				String colunaX;
 				String colunaY;
-				
-				HistoricoDAO dao = new HistoricoDAO();
-				barras = dao.getMeses();
-				valores = getValoresPrevisao();
+
 				titulo = "Previsão de " + now.getYear();
 				colunaX = "Meses";
 				colunaY = "Numero de Vendas";
@@ -221,7 +259,23 @@ public class JPPrevisao extends JPPadrao {
 				GraficoFactory gf = new GraficoFactory();
 				
 				frame.remove(JPPrevisao.this);
-				frame.setTela(new JPGrafico(frame, admin, gf.GeraGraficoBarra(barras, valores, titulo,  colunaX, colunaY), 3), false );
+				
+				if(tResultadoPrevMeses.getSelectedRowCount() > 0)
+				{
+					List<String> barraNome = new ArrayList<String>();
+					List<Integer> barraValor = new ArrayList<Integer>();
+					
+					getMesesSelecionados(barraNome, barraValor);
+					
+					frame.setTela(new JPGrafico(frame, admin, gf.GeraGraficoBarra(barraNome, barraValor, titulo,  colunaX, colunaY), 3), false );
+				}
+				else
+				{
+					HistoricoDAO dao = new HistoricoDAO();
+					barras = dao.getMeses();
+					
+					frame.setTela(new JPGrafico(frame, admin, gf.GeraGraficoBarra(barras, somaMeses, titulo,  colunaX, colunaY), 3), false );
+				}
 			}
 		} );
 			
@@ -229,46 +283,130 @@ public class JPPrevisao extends JPPadrao {
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				previsao();
+				PrevisaoFactory pf = new PrevisaoFactory();
+				
+				matrixPrevisao = pf.populaMatrixVendaMes( now.getYear(), now.getMonthValue());
+				popularClientes();
+				previsaoInicial();
+				popularTabelaMes();
+				popularTabelaCli();
 				btnLimpar.setEnabled(true);
 				btnGerarPdf.setEnabled(true);
 				btnGrafico.setEnabled(true);
 			}
 		} );
+		
+		tResultadoPrevMeses.addMouseListener(new MouseListener() {
+
+			public void mouseClicked(MouseEvent e) {
+
+			}
+
+			public void mousePressed(MouseEvent e) {
+				
+			}
+
+			public void mouseReleased(MouseEvent e) {
+				
+				if(tResultadoPrevMeses.getSelectedRows().length == 1)
+				{
+					previsaoMes(tResultadoPrevMeses.getSelectedRow());
+					popularTabelaCli();
+				}
+				else
+				{
+					previsaoMeses(tResultadoPrevMeses.getSelectedRows());
+					popularTabelaCli();
+				}
+				
+			}
+
+			public void mouseEntered(MouseEvent e) {
+				
+			}
+
+			public void mouseExited(MouseEvent e) {
+				
+			}
+			
+		});
 
 	}
 	
-	public List<Integer> getValoresPrevisao()
+	public void popularClientes()
 	{
-		PrevisaoFactory pf = new PrevisaoFactory();
-		PrevisaoDAO dao = new PrevisaoDAO();
+		clientes.clear();
+		ClientesDAO cliDao = new ClientesDAO();
+		clientes = cliDao.listarClientes();
+	}
+	
+	public void getMesesSelecionados(List<String> meses, List<Integer> valores)
+	{ 
+		HistoricoDAO dao = new HistoricoDAO();
+		List<String> mesestotal = dao.getMeses();
 		
-		List<Integer> lp = new ArrayList<Integer>();
-		
-		List<Integer> laux = new ArrayList<Integer>();
-		
-		for(int i = 3; i >= 0; i--)
+		for(int i = 0; i < tResultadoPrevMeses.getSelectedRowCount(); i++)
 		{
-			laux = dao.getListPrevisaoMes(now.getYear() - i);
-			for(Integer j : laux)
+			meses.add(mesestotal.get(tResultadoPrevMeses.getSelectedRows()[i]));
+			valores.add(somaMeses.get(tResultadoPrevMeses.getSelectedRows()[i]));
+		}
+	}
+	
+	public void previsaoInicial()
+	{
+		somaMeses.clear();
+		somaClientes.clear();
+		
+		int somaMes;
+		int somaCliente;
+		
+		for(int i = 0; i < clientes.size(); i++)
+		{
+			somaCliente = 0;
+			for(int j = 12 * i;  j < 12 * (i + 1); j++)
 			{
-				lp.add(j);
+				somaCliente += matrixPrevisao.get(j);
 			}
-			laux.clear();
+			somaClientes.add(somaCliente);
 		}
 		
-		for(int i = lp.size(); i <= 47; i++)
+		for(int i = 0; i < 12; i ++)
 		{
-			lp.add(0);
+			somaMes = 0;
+			for(int j = i; j < (12 * clientes.size()); j += 12)
+			{
+				somaMes += matrixPrevisao.get(j);
+			}
+			somaMeses.add(somaMes);
 		}
 		
-		pf.previsaoAno(lp, now.getMonthValue() + 1);
-					
-		for(int i = lp.size() - 12; i < lp.size(); i++)
+	}
+	
+	public void previsaoMes(int mes)
+	{
+		somaClientes.clear();
+		
+		for(int i = mes; i < matrixPrevisao.size(); i += 12)
 		{
-			laux.add(lp.get(i));
+			somaClientes.add(matrixPrevisao.get(i));
+		}
+	}
+	
+	public void previsaoMeses(int[] meses)
+	{
+		somaClientes.clear();
+		
+		for(int i = 0; i < clientes.size(); i++ )
+		{
+			somaClientes.add(0);
 		}
 		
-		return laux;
+		for(int i = 0; i < meses.length; i++)
+		{
+			for(int j = 0; j < clientes.size(); j++)
+			{
+				somaClientes.set( j, somaClientes.get(j) + matrixPrevisao.get(meses[i] + (12 * j)));
+			}
+		}
 	}
 }

@@ -48,14 +48,42 @@ public class PrevisaoDAO {
 		return listaPrevisaoMes;
 	}
 	
-	public List<Integer> getListPrevisaoCli(Cliente cli, int mes)
+	public List<Integer> getListPrevisaoCli(Cliente cli, int ano)
 	{
 		List<Integer> listaPrevisaoCli = new ArrayList<Integer>();
+		
+		for(int i = 0; i < 12; i++)
+		{
+			listaPrevisaoCli.add(0);
+		}
+		
+		try
+		{
+			String sql = "Select month(str_to_date(v.DataVenda, '%d/%m/%Y')) mes, count(v.IdVenda) vendas "
+					+ "from shmdb.vendas v, shmdb.clientes c "
+					+ "where substring(v.DataVenda, 7, 4) = '" + ano
+					+ "' and c.IdCliente = v.IdCliente and c.IdCliente = '" + cli.getId()
+					+ "' group by month(str_to_date(v.DataVenda, '%d/%m/%Y')) "
+					+ "order by month(str_to_date(v.DataVenda, '%d/%m/%Y'));";
+			
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next())
+			{
+				listaPrevisaoCli.set(rs.getInt(1) - 1, rs.getInt(2));
+			}
+			
+		} catch(SQLException erro)
+		{
+			JOptionPane.showMessageDialog(null, "Falha no retorno da Lista para previsão Clientes, erro: " + erro);
+			return null;
+		}
 		
 		return listaPrevisaoCli;
 	}
 	
-	public List<Integer> getListPrevisaoProd(Produto prod, int mes)
+	public List<Integer> getListPrevisaoProd(Produto prod, int ano)
 	{
 		List<Integer> listaPrevisaoProd = new ArrayList<Integer>();
 		

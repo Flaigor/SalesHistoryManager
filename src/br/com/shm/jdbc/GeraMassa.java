@@ -16,8 +16,8 @@ public class GeraMassa {
 	
 	public static void main(String[] args) {
 		
-		String mes = "06";
-		String ano = "2021";
+		String mes = "11";
+		String ano = "2022";
 		
 		ClientesDAO dao = new ClientesDAO();
 		List<Cliente> listaCli = dao.listarClientes();
@@ -31,7 +31,7 @@ public class GeraMassa {
 		
 		GeraMassa gm = new GeraMassa();
 		
-		/*
+		
 		produtos.add(listaProd.get(1));
 		
 		qtd.add(5);
@@ -104,7 +104,7 @@ public class GeraMassa {
 		qtd.clear();
 		preco.clear();
 		
-		*/
+
 		produtos.add(listaProd.get(0));
 		produtos.add(listaProd.get(1));
 		
@@ -208,7 +208,6 @@ public class GeraMassa {
 		qtd.clear();
 		preco.clear();
 		
-		/*
 		produtos.add(listaProd.get(0));
 		produtos.add(listaProd.get(1));
 		
@@ -224,7 +223,6 @@ public class GeraMassa {
 		qtd.clear();
 		preco.clear();
 		
-		/*
 		produtos.add(listaProd.get(0));
 		produtos.add(listaProd.get(1));
 		
@@ -327,7 +325,6 @@ public class GeraMassa {
 		qtd.clear();
 		preco.clear();
 		
-		/*
 		produtos.add(listaProd.get(0));
 		produtos.add(listaProd.get(1));
 		
@@ -343,7 +340,6 @@ public class GeraMassa {
 		qtd.clear();
 		preco.clear();
 		
-		/*
 		produtos.add(listaProd.get(0));
 		produtos.add(listaProd.get(1));
 		
@@ -436,6 +432,7 @@ public class GeraMassa {
 		produtos.clear();
 		qtd.clear();
 		preco.clear();
+		/*
 		
 		produtos.add(listaProd.get(1));
 		
