@@ -454,7 +454,8 @@ public class PdfFactory {
 		} 
 	}
 	
-	public void gerarPdfPrevisaoFull( java.util.List<String> list, java.util.List<Integer> list2, java.util.List<Integer> list3, java.util.List<Cliente> clientes , int j) {
+	public void gerarPdfPrevisaoFull( java.util.List<String> list, java.util.List<Integer> list2, java.util.List<Integer> list3, 
+			java.util.List<Integer> list4, java.util.List<Cliente> clientes, java.util.List<Produto> produtos , int j) {
 		
 		Document document = new Document();
 		String caminho = "docs\\pdf\\previsao\\SalesHistoryManagerPrevisao_" + dataHora + ".pdf";
@@ -525,6 +526,35 @@ public class PdfFactory {
 			List unorderListCli = new List(List.UNORDERED);
 			unorderListCli.add(new ListItem("Total de linhas: " + list3.size()));
 			document.add(unorderListCli);
+			
+			document.add(new Paragraph("Previsão de Vendas por Produto: "));
+			
+			PdfPTable tableProd = new PdfPTable(2);
+			tableProd.setWidthPercentage(105);
+			tableProd.setSpacingBefore(11f);
+			tableProd.setSpacingAfter(11f);
+			
+			float[] colWidthProd = {2f,2f};
+			tableProd.setWidths(colWidthProd);
+			PdfPCell colunaProduto = new PdfPCell(new Paragraph("Produto"));
+			
+			tableProd.addCell(colunaProduto);
+			tableProd.addCell(colunaVendas);
+			
+			for(int i = 0; i < list4.size(); i++)
+			{
+				PdfPCell histCampoProdNome = new PdfPCell(new Paragraph(produtos.get(i).getNome()));
+				PdfPCell histCampoProdVenda = new PdfPCell(new Paragraph(list4.get(i).toString()));
+				
+				tableProd.addCell(histCampoProdNome);
+				tableProd.addCell(histCampoProdVenda);
+			}
+			
+			document.add(tableProd);
+			
+			List unorderListProd = new List(List.UNORDERED);
+			unorderListProd.add(new ListItem("Total de linhas: " + list4.size()));
+			document.add(unorderListProd);
 			
 			document.close();
 			writer.close();

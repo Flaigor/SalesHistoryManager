@@ -87,6 +87,35 @@ public class PrevisaoDAO {
 	{
 		List<Integer> listaPrevisaoProd = new ArrayList<Integer>();
 		
+		for(int i = 0; i < 12; i++)
+		{
+			listaPrevisaoProd.add(0);
+		}
+		
+		try
+		{
+			String sql = "select month(str_to_date(v.DataVenda, '%d/%m/%Y')) mes, sum(pv.QuantidadeProdutoVenda) quantidade "
+					+ "from shmdb.produtos p, shmdb.produtovenda pv, shmdb.vendas v "
+					+ "where pv.IdProduto = p.IdProduto and pv.IdVenda = v.IdVenda "
+					+ "and substring(v.DataVenda, 7, 4) = " + ano
+					+ " and p.IdProduto = " + prod.getId()
+					+ " group by month(str_to_date(v.DataVenda, '%d/%m/%Y')) "
+					+ " order by month(str_to_date(v.DataVenda, '%d/%m/%Y'));";
+			
+			PreparedStatement stmt = con.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next())
+			{
+				listaPrevisaoProd.set(rs.getInt(1) - 1, rs.getInt(2));
+			}
+			
+		} catch(SQLException erro)
+		{
+			JOptionPane.showMessageDialog(null, "Falha no retorno da Lista para previsão Clientes, erro: " + erro);
+			return null;
+		}
+		
 		return listaPrevisaoProd;
 	}
 

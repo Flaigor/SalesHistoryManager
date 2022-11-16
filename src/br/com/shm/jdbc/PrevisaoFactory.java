@@ -5,7 +5,9 @@ import java.util.List;
 
 import br.com.shm.dao.ClientesDAO;
 import br.com.shm.dao.PrevisaoDAO;
+import br.com.shm.dao.ProdutosDAO;
 import br.com.shm.model.Cliente;
+import br.com.shm.model.Produto;
 
 public class PrevisaoFactory {
 	
@@ -113,7 +115,7 @@ public class PrevisaoFactory {
 		return novaLista;
 	}
 	
-	public List<Integer> populaMatrixVendaMes(int ano, int mes)
+	public List<Integer> populaMatrixClienteMes(int ano, int mes)
 	{
 		List<Integer> matrixPrevisao = new ArrayList<Integer>();
 		
@@ -154,7 +156,7 @@ public class PrevisaoFactory {
 				laux.add(lp.get(j));
 			}
 			
-			prepararMatrix(matrixPrevisao);
+			prepararMatrixClienteMes(matrixPrevisao);
 			
 			contador = 0;
 			for(int j = 12 * i; j < 12 * (i + 1); j++)
@@ -167,13 +169,79 @@ public class PrevisaoFactory {
 		return matrixPrevisao;
 	}
 	
-	public void prepararMatrix(List<Integer> matrix) 
+	public void prepararMatrixClienteMes(List<Integer> matrix) 
 	{
 		ClientesDAO cliDao = new ClientesDAO();
 		List<Cliente> clientes = new  ArrayList<Cliente>();
 		clientes = cliDao.listarClientes();
 		
 		for(int i = 0; i < 12 * clientes.size(); i++)
+		{
+			matrix.add(0);
+		}
+	}
+	
+	public List<Integer> populaMatrixProdutoMes(int ano, int mes)
+	{
+		List<Integer> matrixPrevisao = new ArrayList<Integer>();
+		
+		PrevisaoDAO dao = new PrevisaoDAO();
+		
+		ProdutosDAO prodDao = new ProdutosDAO();
+		List<Produto> produtos = new  ArrayList<Produto>();
+		produtos = prodDao.listarProdutos();
+		
+		List<Integer> lp = new ArrayList<Integer>();
+		List<Integer> laux = new ArrayList<Integer>();
+		
+		int contador;
+		
+		for(int i = 0; i < produtos.size(); i++)
+		{
+			lp.clear();
+			for(int j = 3; j >= 0; j--)
+			{
+				laux = dao.getListPrevisaoProd(produtos.get(i), ano - j);
+				
+				for(Integer z : laux)
+				{
+					lp.add(z);
+				}
+				laux.clear();
+			}
+			
+			for(int j = lp.size(); j <= 47; j++)
+			{
+				lp.add(0);
+			}
+			
+			previsaoAno(lp, mes + 1);
+						
+			for(int j = lp.size() - 12; j < lp.size(); j++)
+			{
+				laux.add(lp.get(j));
+			}
+			
+			prepararMatrixProdutoMes(matrixPrevisao);
+			
+			contador = 0;
+			for(int j = 12 * i; j < 12 * (i + 1); j++)
+			{
+				matrixPrevisao.set(j, laux.get(contador));
+				contador++;
+			}
+		}
+		
+		return matrixPrevisao;
+	}
+	
+	public void prepararMatrixProdutoMes(List<Integer> matrix) 
+	{
+		ProdutosDAO prodDao = new ProdutosDAO();
+		List<Produto> produtos = new  ArrayList<Produto>();
+		produtos = prodDao.listarProdutos();
+		
+		for(int i = 0; i < 12 * produtos.size(); i++)
 		{
 			matrix.add(0);
 		}
