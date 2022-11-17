@@ -311,8 +311,18 @@ public class JPPrevisao extends JPPadrao {
 			{
 				PrevisaoFactory pf = new PrevisaoFactory();
 				
-				matrixPrevisaoClineteMes = pf.populaMatrixClienteMes( now.getYear(), now.getMonthValue());
-				matrixPrevisaoProdutoMes = pf.populaMatrixProdutoMes( now.getYear(), now.getMonthValue());
+				if(cbAnos.getSelectedIndex() > 0)
+				{
+					Integer ano = now.getYear() + cbAnos.getSelectedIndex();
+					
+					matrixPrevisaoClineteMes = pf.populaMatrixClienteMes( ano, 0);
+					matrixPrevisaoProdutoMes = pf.populaMatrixProdutoMes( ano, 0);
+				}
+				else
+				{
+					matrixPrevisaoClineteMes = pf.populaMatrixClienteMes( now.getYear(), now.getMonthValue());
+					matrixPrevisaoProdutoMes = pf.populaMatrixProdutoMes( now.getYear(), now.getMonthValue());
+				}
 				
 				popularClientes();
 				previsaoInicialClienteMes();
