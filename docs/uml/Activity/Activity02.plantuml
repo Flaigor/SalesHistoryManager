@@ -1,0 +1,18 @@
+@startuml
+!theme blueprint
+start
+repeat
+	if (Voltar?) then (sim)
+		stop
+	else (não)
+		repeat
+			:Seleciona: Ano;
+		repeat while (Previsão?) is (não) not (sim)
+	endif
+	:Pesquisa no banco;
+	:Monta Matiz;
+	repeat
+		:Monta tabela;
+	repeat while (Seleciona Mês?) is (sim) not (não)
+repeat while
+@enduml

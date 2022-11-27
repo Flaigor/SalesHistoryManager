@@ -7,7 +7,7 @@ repeat
 	else (não)
 		repeat
 			:Seleciona: Tipo, Pesquisa e Ordem;
-		repeat while (Pesquisar?) is (sim) not (não)
+		repeat while (Pesquisar?) is (não) not (sim)
 	endif
 	:Pesquisa no banco;
 	:Monta tabela;
