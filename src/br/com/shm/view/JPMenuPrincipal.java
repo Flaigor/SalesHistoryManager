@@ -93,13 +93,13 @@ public class JPMenuPrincipal extends JPPadrao {
 		
 		add(btnCliente);
 		add(btnPoduto);
-		add(btnEstoque);
+		//add(btnEstoque);
 		add(btnVenda);
 		add(btnlogOff);
 		add(btnNovaVenda);
 		add(btnHistorico);
-		add(btnDatas);
-		add(btnMencoes);
+		//add(btnDatas);
+		//add(btnMencoes);
 		add(scrollVendas);
 		
 		if(admin)

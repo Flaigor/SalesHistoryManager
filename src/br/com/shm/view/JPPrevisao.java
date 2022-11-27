@@ -286,7 +286,7 @@ public class JPPrevisao extends JPPadrao {
 				
 				frame.remove(JPPrevisao.this);
 				
-				if(tResultadoPrevMeses.getSelectedRowCount() > 0)
+				if(tResultadoPrevMeses.getSelectedRowCount() > 1)
 				{
 					List<String> barraNome = new ArrayList<String>();
 					List<Integer> barraValor = new ArrayList<Integer>();
@@ -294,6 +294,20 @@ public class JPPrevisao extends JPPadrao {
 					getMesesSelecionados(barraNome, barraValor);
 					
 					frame.setTela(new JPGrafico(frame, admin, gf.GeraGraficoBarra(barraNome, barraValor, titulo,  colunaX, colunaY), 3), false );
+				}
+				else if(tResultadoPrevMeses.getSelectedRowCount() == 1)
+				{
+					HistoricoDAO dao = new HistoricoDAO();
+
+					colunaX = "Clientes";
+					titulo = "Previsão de " + dao.getMeses().get(tResultadoPrevMeses.getSelectedRow());
+					
+					for(Cliente cli : clientes)
+					{
+						barras.add(cli.getNome());
+					}
+			
+					frame.setTela(new JPGrafico(frame, admin, gf.GeraGraficoBarra(barras, somaClientes, titulo,  colunaX, colunaY), 3), false );
 				}
 				else
 				{
