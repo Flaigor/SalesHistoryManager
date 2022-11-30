@@ -37,10 +37,10 @@ public class JPPrevisao extends JPPadrao {
 	private DefaultTableModel dadosMes;
 	private DefaultTableModel dadosCli;
 	private DefaultTableModel dadosProd;
-	private String[] stTipo = {"Cliente", "Venda", "Produto", "Previsão"};
-	private String[] colRespPrevMeses = {"Mês", "Numero de Vendas"};
+	private String[] stTipo = {"Cliente", "Venda", "Produto", "Previsao"};
+	private String[] colRespPrevMeses = {"Mes", "Numero de Vendas"};
 	private String[] colRespPrevCli = {"Cliente", "Numero de Compras"};
-	private String[] colRespPrevProd = {"Produto", "Previsão de Venda"};
+	private String[] colRespPrevProd = {"Produto", "Previsao de Venda"};
 	private List<String> stAnos = new ArrayList<String>();
 	private LocalDateTime now = LocalDateTime.now();
 	private List<Integer> matrixPrevisaoClineteMes = new ArrayList<Integer>();
@@ -173,7 +173,7 @@ public class JPPrevisao extends JPPadrao {
 		btnGerarPdf.setBounds( width - 280 , height - 80 , 120, 30 );
 		btnGerarPdf.setEnabled(false);
 		
-		JButton btnGrafico = new JButton("Gráfico");
+		JButton btnGrafico = new JButton("Grï¿½fico");
 		btnGrafico.setBounds( width - 150 , height - 80 , 120, 30 );
 		btnGrafico.setEnabled(false);
 		
@@ -278,7 +278,7 @@ public class JPPrevisao extends JPPadrao {
 				String colunaX;
 				String colunaY;
 
-				titulo = "Previsão de " + now.getYear();
+				titulo = "Previsao de " + now.getYear();
 				colunaX = "Meses";
 				colunaY = "Numero de Vendas";
 				
@@ -300,7 +300,7 @@ public class JPPrevisao extends JPPadrao {
 					HistoricoDAO dao = new HistoricoDAO();
 
 					colunaX = "Clientes";
-					titulo = "Previsão de " + dao.getMeses().get(tResultadoPrevMeses.getSelectedRow());
+					titulo = "Previsao de " + dao.getMeses().get(tResultadoPrevMeses.getSelectedRow());
 					
 					for(Cliente cli : clientes)
 					{

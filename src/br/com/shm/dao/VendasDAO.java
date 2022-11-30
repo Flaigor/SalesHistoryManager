@@ -65,7 +65,7 @@ private Connection con;
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha na alteração da Venda, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha na alteracao da Venda, erro: " + erro);
 		}
 	}
 	
@@ -81,11 +81,11 @@ private Connection con;
 			stmt.execute();
 			stmt.close();
 			
-			JOptionPane.showMessageDialog(null, "Venda excluída com sucesso!");
+			JOptionPane.showMessageDialog(null, "Venda excluida com sucesso!");
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha na exclusão da Venda, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha na exclusao da Venda, erro: " + erro);
 		}
 	}
 	
@@ -101,11 +101,11 @@ private Connection con;
 			stmt.execute();
 			stmt.close();
 			
-			JOptionPane.showMessageDialog(null, "Venda excluída com sucesso!");
+			JOptionPane.showMessageDialog(null, "Venda excluida com sucesso!");
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha na exclusão da Venda, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha na exclusao da Venda, erro: " + erro);
 		}
 	}
 	

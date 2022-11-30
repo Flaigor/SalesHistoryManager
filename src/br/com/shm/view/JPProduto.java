@@ -26,7 +26,7 @@ public class JPProduto extends JPPadrao {
 	
 	private JTable tProdutos;
 	private DefaultTableModel dados;
-	private String[] colunas = {"ID","Nome","Descrição","Preço"};
+	private String[] colunas = {"ID","Nome","Descricao","Preco"};
 	private List<Produto> produtos = new ArrayList<>();
 	
 	public JPProduto( JFPadrao frame, boolean admin )
@@ -80,7 +80,7 @@ public class JPProduto extends JPPadrao {
 		JTextField tfNomeProd = new JTextField();
 		tfNomeProd.setBounds( 90, 10 , 300, 30 );
 		
-		JLabel labelPrecoProd = new JLabel("Preço: ");
+		JLabel labelPrecoProd = new JLabel("Preco: ");
 		labelPrecoProd.setBounds( 400, 10, 40, 30);
 		
 		DecimalFormat dfPreco = new DecimalFormat("0.##");
@@ -88,7 +88,7 @@ public class JPProduto extends JPPadrao {
 		tfPrecoProd.setColumns(7);
 		tfPrecoProd.setBounds( 450, 10 , 100, 30 );
 		
-		JLabel labelDescricaoProd = new JLabel("Descrição: ");
+		JLabel labelDescricaoProd = new JLabel("Descricao: ");
 		labelDescricaoProd.setBounds( 10, 50, 70, 30);
 		
 		JTextField tfDescricaoProd = new JTextField();
@@ -102,9 +102,11 @@ public class JPProduto extends JPPadrao {
 		
 		JButton btnAttProd = new JButton("Atualizar");
 		btnAttProd.setBounds( 230 , height - 80 , 120, 30 );
+		btnAttProd.setEnabled(false);
 		
 		JButton btnDeletarProd = new JButton("Deletar");
 		btnDeletarProd.setBounds( 450 , height - 80 , 120, 30 );
+		btnDeletarProd.setEnabled(false);
 		
 		JButton btnGerarPdf = new JButton("Gerar PDF");
 		btnGerarPdf.setBounds( width - 280 , height - 80 , 120, 30 );
@@ -168,7 +170,7 @@ public class JPProduto extends JPPadrao {
 				}
 				else
 				{
-					labelResultado.setText("Nome ou preço vazio");
+					labelResultado.setText("Nome ou preco vazio");
 				}
 				
 			}
@@ -190,7 +192,7 @@ public class JPProduto extends JPPadrao {
 				}
 				else
 				{
-					labelResultado.setText("Nome ou preço vazio");
+					labelResultado.setText("Nome ou preco vazio");
 				}
 				
 			}

@@ -41,7 +41,7 @@ public class PrevisaoDAO {
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha no retorno da Lista para previsão, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha no retorno da Lista para previsao, erro: " + erro);
 			return null;
 		}
 		
@@ -76,7 +76,7 @@ public class PrevisaoDAO {
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha no retorno da Lista para previsão Clientes, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha no retorno da Lista para previsao Clientes, erro: " + erro);
 			return null;
 		}
 		
@@ -112,7 +112,7 @@ public class PrevisaoDAO {
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha no retorno da Lista para previsão Clientes, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha no retorno da Lista para previsao Clientes, erro: " + erro);
 			return null;
 		}
 		

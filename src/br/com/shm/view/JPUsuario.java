@@ -42,7 +42,7 @@ public class JPUsuario extends JPPadrao {
 		dados.setNumRows(0);
 		
 		dados.addRow(new Object[]{
-				"Novo Usuário",
+				"Novo Usuario",
 				"",
 				"",
 				""
@@ -54,7 +54,7 @@ public class JPUsuario extends JPPadrao {
 				u.getId(),
 				u.getLogin(),
 				u.getSenha(),
-				u.isAdmin() ? "Sim" : "Não"
+				u.isAdmin() ? "Sim" : "Nao"
 			});
 		}
 	}
@@ -97,9 +97,11 @@ public class JPUsuario extends JPPadrao {
 		
 		JButton btnAttUser = new JButton("Atualizar");
 		btnAttUser.setBounds( 230 , height - 80 , 120, 30 );
+		btnAttUser.setEnabled(false);
 		
 		JButton btnDeletarUser = new JButton("Deletar");
 		btnDeletarUser.setBounds( 450 , height - 80 , 120, 30 );
+		btnDeletarUser.setEnabled(false);
 		
 		tUsuarios = new JTable(new DefaultTableModel(null, colunas));	
 		JScrollPane scrollUsuarios = new JScrollPane(tUsuarios);

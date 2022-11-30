@@ -17,7 +17,7 @@ public class JPMenuPrincipal extends JPPadrao {
 
 	private JTable tVendas;
 	private DefaultTableModel dadosVen;
-	private String[] colunas = {"Nome", "Data", "Descição", "Valor", "Pago"};
+	private String[] colunas = {"Nome", "Data", "Descicao", "Valor", "Pago"};
 	private DecimalFormat dfpreco = new DecimalFormat(".##");
 	
 	public JPMenuPrincipal( JFPadrao frame, boolean admin )
@@ -39,7 +39,7 @@ public class JPMenuPrincipal extends JPPadrao {
 				v.getDataVenda(),
 				v.getDescricao(),
 				dfpreco.format(v.getValor()),
-				"Não"
+				"Nao"
 			});
 		}
 	}
@@ -57,13 +57,13 @@ public class JPMenuPrincipal extends JPPadrao {
 		JButton btnPoduto = new JButton("Produtos");
 		btnPoduto.setBounds( 10 , 50 , 120, 30 );
 		
-		JButton btnHistorico = new JButton("Histórico");
+		JButton btnHistorico = new JButton("Historico");
 		btnHistorico.setBounds( 140 , height - 120 , width - 300, 70 );
 		
-		JButton btnlogOff = new JButton("Logoff");
+		JButton btnlogOff = new JButton("Logout");
 		btnlogOff.setBounds( width - 150 , 10 , 120, 30 );
 		
-		JButton btnUsers = new JButton("Usuários");
+		JButton btnUsers = new JButton("Usuarios");
 		btnUsers.setBounds( width - 150 , 50 , 120, 30 );
 		
 		JButton btnNovaVenda = new JButton("Nova Venda!");
@@ -78,7 +78,7 @@ public class JPMenuPrincipal extends JPPadrao {
 		JButton btnDatas = new JButton("Datas");
 		btnDatas.setBounds( width - 150 , height - 120 , 120, 30 );
 		
-		JButton btnMencoes = new JButton("Menções");
+		JButton btnMencoes = new JButton("Mencoes");
 		btnMencoes.setBounds( width - 150 , height - 80 , 120, 30 );
 		
 		tVendas = new JTable(new DefaultTableModel(null, colunas));

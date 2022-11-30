@@ -43,7 +43,7 @@ public class JPNovaVenda extends JPPadrao {
 	private DefaultTableModel dadosCli;
 	private DefaultTableModel dadosProd;
 	private String[] colunasCli = {"Nome Cliente"};
-	private String[] colunasProd = {"Nome Produto", "Preço", "Quantidade"};
+	private String[] colunasProd = {"Nome Produto", "Preco", "Quantidade"};
 	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	private DecimalFormat dfpreco = new DecimalFormat(".##");
 	private LocalDateTime now = LocalDateTime.now();
@@ -92,7 +92,7 @@ public class JPNovaVenda extends JPPadrao {
 		height = frame.getBounds( ).height;
 		this.setBounds( 0, 0, width, height );
 		
-		JLabel labelDescricaoVenda = new JLabel("Descrição: ");
+		JLabel labelDescricaoVenda = new JLabel("Descricao: ");
 		labelDescricaoVenda.setBounds( 10, 10, 70, 30);
 		
 		JTextArea taDescricaoVenda = new JTextArea(5, 10);
@@ -257,11 +257,11 @@ public class JPNovaVenda extends JPPadrao {
 					}
 					else if(dateErro)
 					{
-						labelResultado.setText("Data não existe");
+						labelResultado.setText("Data nao existe");
 					}
 					else if(erro)
 					{
-						labelResultado.setText("Produto com quantidade ou Preço errado");
+						labelResultado.setText("Produto com quantidade ou Preco errado");
 					}
 				}
 				else

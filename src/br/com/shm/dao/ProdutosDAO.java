@@ -63,7 +63,7 @@ public class ProdutosDAO {
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha na alteração do Produto, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha na alteracao do Produto, erro: " + erro);
 		}
 	}
 	
@@ -79,11 +79,11 @@ public class ProdutosDAO {
 			stmt.execute();
 			stmt.close();
 			
-			JOptionPane.showMessageDialog(null, "Produto excluído com sucesso!");
+			JOptionPane.showMessageDialog(null, "Produto excluido com sucesso!");
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha na exclusão do Produto, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha na exclusao do Produto, erro: " + erro);
 		}
 	}
 	

@@ -60,7 +60,7 @@ private Connection con;
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha na alteração do ProdutoVenda, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha na alteracao do ProdutoVenda, erro: " + erro);
 		}
 	}
 	
@@ -78,7 +78,7 @@ private Connection con;
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha na exclusão do ProdutoVenda, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha na exclusao do ProdutoVenda, erro: " + erro);
 		}
 	}
 	
@@ -96,7 +96,7 @@ private Connection con;
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha na exclusão do ProdutoVenda, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha na exclusao do ProdutoVenda, erro: " + erro);
 		}
 	}
 	
@@ -114,7 +114,7 @@ private Connection con;
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha na exclusão do ProdutoVenda, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha na exclusao do ProdutoVenda, erro: " + erro);
 		}
 	}
 	
@@ -153,9 +153,9 @@ private Connection con;
 		{
 			List<ProdutoVenda> lista = new ArrayList<>();
 			String sql = "SELECT if(prodVen.IdProdutoVenda is null, '0', prodVen.IdProdutoVenda) Id, "
-					+ "prod.IdProduto IdProduto ,prod.NomeProduto Nome, prod.DescricaoProduto Descrição, "
+					+ "prod.IdProduto IdProduto ,prod.NomeProduto Nome, prod.DescricaoProduto Descricao, "
 					+ "if(prodVen.QuantidadeProdutoVenda is null, 0, prodVen.QuantidadeProdutoVenda) Quantidade, "
-					+ "if(prodVen.ValorProdutoVenda is null, prod.PrecoProduto, prodVen.ValorProdutoVenda) Preço "
+					+ "if(prodVen.ValorProdutoVenda is null, prod.PrecoProduto, prodVen.ValorProdutoVenda) Preco "
 					+ "FROM shmdb.produtovenda prodVen right JOIN shmdb.produtos prod ON prodVen.IdProduto = prod.IdProduto "
 					+ "AND prodVen.IdVenda = ?;";
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -169,10 +169,10 @@ private Connection con;
 				prodVend.setId(rs.getInt("Id"));
 				prod.setId(rs.getInt("IdProduto"));
 				prod.setNome(rs.getString("Nome"));
-				prod.setDescricao(rs.getString("Descrição"));
+				prod.setDescricao(rs.getString("Descricao"));
 				prodVend.setProduto(prod);
 				prodVend.setQuantidade(rs.getInt("Quantidade"));
-				prodVend.setValor(rs.getDouble("Preço"));
+				prodVend.setValor(rs.getDouble("Preco"));
 				
 				lista.add(prodVend);
 			}
@@ -191,8 +191,8 @@ private Connection con;
 		{
 			List<ProdutoVenda> lista = new ArrayList<>();
 			String sql = "SELECT prodVen.IdProdutoVenda Id, prod.IdProduto IdProduto ,prod.NomeProduto Nome, "
-					+ "prod.DescricaoProduto Descrição, prodVen.QuantidadeProdutoVenda Quantidade, "
-					+ "prodVen.ValorProdutoVenda Preço FROM shmdb.produtovenda prodVen "
+					+ "prod.DescricaoProduto Descricao, prodVen.QuantidadeProdutoVenda Quantidade, "
+					+ "prodVen.ValorProdutoVenda Preco FROM shmdb.produtovenda prodVen "
 					+ "inner JOIN shmdb.produtos prod ON prodVen.IdProduto = prod.IdProduto "
 					+ "AND prodVen.IdVenda = ?;";
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -206,10 +206,10 @@ private Connection con;
 				prodVend.setId(rs.getInt("Id"));
 				prod.setId(rs.getInt("IdProduto"));
 				prod.setNome(rs.getString("Nome"));
-				prod.setDescricao(rs.getString("Descrição"));
+				prod.setDescricao(rs.getString("Descricao"));
 				prodVend.setProduto(prod);
 				prodVend.setQuantidade(rs.getInt("Quantidade"));
-				prodVend.setValor(rs.getDouble("Preço"));
+				prodVend.setValor(rs.getDouble("Preco"));
 				
 				lista.add(prodVend);
 			}

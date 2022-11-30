@@ -61,7 +61,7 @@ public class JPLogin extends JPPadrao {
 		labelLogo.setBounds(300, 220, 600, 90);
 		labelLogo.setFont(titulo);
 		
-		JLabel labelUser = new JLabel("Usuário: ");
+		JLabel labelUser = new JLabel("Usuario: ");
 		labelUser.setBounds(400, 330, 100, 30);
 		
 		JTextField tfUsuario = new JTextField();
@@ -111,7 +111,7 @@ public class JPLogin extends JPPadrao {
 				}
 				else
 				{
-					labelResposta.setText("Usuário ou senha inválidos");
+					labelResposta.setText("Usuario ou senha invalidos");
 				}
 			}
 		} );

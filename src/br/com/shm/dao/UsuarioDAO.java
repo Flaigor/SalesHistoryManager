@@ -35,11 +35,11 @@ public class UsuarioDAO {
 			stmt.execute();
 			stmt.close();
 			
-			JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+			JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso!");
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha no cadastro do Usuário, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha no cadastro do Usuario, erro: " + erro);
 		}
 	}
 	
@@ -58,11 +58,11 @@ public class UsuarioDAO {
 			stmt.execute();
 			stmt.close();
 			
-			JOptionPane.showMessageDialog(null, "Usuário alterado com sucesso!");
+			JOptionPane.showMessageDialog(null, "Usuario alterado com sucesso!");
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha na alteração do Usuário, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha na alteracao do Usuario, erro: " + erro);
 		}
 	}
 	
@@ -77,11 +77,11 @@ public class UsuarioDAO {
 			stmt.execute();
 			stmt.close();
 			
-			JOptionPane.showMessageDialog(null, "Usuário excluído com sucesso!");
+			JOptionPane.showMessageDialog(null, "Usuario excluido com sucesso!");
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha na exclusão do Usuário, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha na exclusao do Usuario, erro: " + erro);
 		}
 	}
 	
@@ -107,7 +107,7 @@ public class UsuarioDAO {
 			return lista;
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha em listar os Usuário, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha em listar os Usuario, erro: " + erro);
 			return null;
 		}
 	}
@@ -135,7 +135,7 @@ public class UsuarioDAO {
 			return false;
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha em válidar o Usuário, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha em validar o Usuario, erro: " + erro);
 			return false;
 		}
 	}
@@ -165,7 +165,7 @@ public class UsuarioDAO {
 			return null;
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha em achar o Usuário, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha em achar o Usuario, erro: " + erro);
 			return null;
 		}
 	}

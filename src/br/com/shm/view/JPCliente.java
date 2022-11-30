@@ -31,7 +31,7 @@ public class JPCliente extends JPPadrao {
 	private JFormattedTextField tfTelefoneCli;
 	private JTable tClientes;
 	private DefaultTableModel dados;
-	private String[] colunas = {"ID","Nome","Endereço","Telefone"};
+	private String[] colunas = {"ID","Nome","Endereco","Telefone"};
 	private List<Cliente> clientes  = new ArrayList<>();
 	
 	public JPCliente( JFPadrao frame, boolean admin )
@@ -86,7 +86,7 @@ public class JPCliente extends JPPadrao {
 		JTextField tfNomeCli = new JTextField();
 		tfNomeCli.setBounds( 80, 10 , 300, 30 );
 		
-		JLabel labelEderecoCli = new JLabel("Endereço: ");
+		JLabel labelEderecoCli = new JLabel("Endereco: ");
 		labelEderecoCli.setBounds( 200, 50, 60, 30);
 		
 		JTextField tfEderecoCli = new JTextField();
@@ -118,12 +118,14 @@ public class JPCliente extends JPPadrao {
 		
 		JButton btnAttCli = new JButton("Atualizar");
 		btnAttCli.setBounds( 230 , height - 80 , 120, 30 );
+		btnAttCli.setEnabled(false);
 		
 		JButton btnDeletarCli = new JButton("Deletar");
 		btnDeletarCli.setBounds( 450 , height - 80 , 120, 30 );
 		
 		JButton btnGerarPdf = new JButton("Gerar PDF");
 		btnGerarPdf.setBounds( width - 280 , height - 80 , 120, 30 );
+		btnDeletarCli.setEnabled(false);
 		
 		tClientes = new JTable(new DefaultTableModel(null, colunas));	
 		JScrollPane scrollClientes = new JScrollPane(tClientes);

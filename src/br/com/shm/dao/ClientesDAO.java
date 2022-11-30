@@ -63,7 +63,7 @@ public class ClientesDAO {
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha na alteração do Cliente, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha na alteracao do Cliente, erro: " + erro);
 		}
 	}
 	
@@ -79,11 +79,11 @@ public class ClientesDAO {
 			stmt.execute();
 			stmt.close();
 			
-			JOptionPane.showMessageDialog(null, "Cliente excluído com sucesso!");
+			JOptionPane.showMessageDialog(null, "Cliente excluido com sucesso!");
 			
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha na exclusão do Cliente, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha na exclusao do Cliente, erro: " + erro);
 		}
 	}
 	

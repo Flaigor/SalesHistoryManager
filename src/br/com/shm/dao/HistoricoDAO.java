@@ -18,7 +18,7 @@ import br.com.shm.model.Venda;
 public class HistoricoDAO {
 
 	private Connection con;
-	private String[] mes = { "Janerio", "Fevereiro", "Março", "Abril", "Maio", "Junho", 
+	private String[] mes = { "Janerio", "Fevereiro", "Marco", "Abril", "Maio", "Junho", 
 			"Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
 	
 	public HistoricoDAO(){
@@ -91,7 +91,7 @@ public class HistoricoDAO {
 
 		} catch(SQLException erro)
 		{
-			JOptionPane.showMessageDialog(null, "Falha no retorno do histórico, erro: " + erro);
+			JOptionPane.showMessageDialog(null, "Falha no retorno do historico, erro: " + erro);
 			return null;
 		}
 
@@ -171,7 +171,7 @@ public class HistoricoDAO {
 		
 		try
 		{
-			String sql = "select distinct substring(DataVenda, 7, 4) ano from shmdb.vendas order by DataVenda asc;";
+			String sql = "select distinct substring(DataVenda, 7, 4) ano from shmdb.vendas order by ano asc;";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			
@@ -181,13 +181,11 @@ public class HistoricoDAO {
 			{
 				anos.add(rs.getString("ano"));
 			}
-			
 		} catch(SQLException erro)
 		{
 			JOptionPane.showMessageDialog(null, "Falha no retorno dos Anos, erro: " + erro);
 			return null;
 		}
-		
 		return anos;
 	}
 	

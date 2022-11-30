@@ -39,8 +39,8 @@ public class JPVenda extends JPPadrao {
 	private JTable tProdutos;
 	private DefaultTableModel dadosVen;
 	private DefaultTableModel dadosProdVen;
-	private String[] colunasVendas = {"Cliente", "Data", "Descição", "Pago"};
-	private String[] colunasProd = {"Produto", "Descrição", "Preço", "Quantidade"};
+	private String[] colunasVendas = {"Cliente", "Data", "Descicao", "Pago"};
+	private String[] colunasProd = {"Produto", "Descricao", "Preco", "Quantidade"};
 	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	private DecimalFormat dfpreco = new DecimalFormat(".##");
 	private LocalDateTime now = LocalDateTime.now();
@@ -64,7 +64,7 @@ public class JPVenda extends JPPadrao {
 				v.getComprador().getNome(),
 				v.getDataVenda(),
 				v.getDescricao(),
-				v.getPago() ? "Sim" : "Não"
+				v.getPago() ? "Sim" : "Nao"
 			});
 		}
 		
@@ -140,7 +140,7 @@ public class JPVenda extends JPPadrao {
 		
 		tfNomeCli.setEnabled(false);
 		
-		JLabel labelDescricaoVenda = new JLabel("Descrição: ");
+		JLabel labelDescricaoVenda = new JLabel("Descricao: ");
 		labelDescricaoVenda.setBounds( 10, 10, 70, 30);
 		
 		JTextArea taDescricaoVenda = new JTextArea(5, 10);
@@ -331,7 +331,7 @@ public class JPVenda extends JPPadrao {
 				
 				if(dateErro)
 				{
-					labelResultado.setText("Venda e seus Produtos foram Atualizados, Data Inválida");
+					labelResultado.setText("Venda e seus Produtos foram Atualizados, Data Invalida");
 				}
 				else
 				{
@@ -376,17 +376,18 @@ public class JPVenda extends JPPadrao {
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				VendasDAO daoVen = new VendasDAO();
-				List<Venda> listaVen = daoVen.listarVendaJoinCliente();
-				Venda ven = new Venda();
+				PdfFactory pdfFactory = new PdfFactory();			
 				
-				ven = listaVen.get(tVendas.getSelectedRow());
-				
-				ProdutoVendaDAO daoProdVen = new ProdutoVendaDAO();
-				List<ProdutoVenda> listaProdVen = daoProdVen.listarProdutoPorVenda(ven.getId());
-				
-				PdfFactory pdfFactory = new PdfFactory();
-				pdfFactory.gerarPdfVenda(vendas.toArray(new Venda[vendas.size()]));
+				if(tVendas.getSelectedRowCount() > 0)
+				{
+					pdfFactory.gerarPdfVenda(vendas.toArray(new Venda[vendas.size()]));
+				}
+				else 
+				{
+					VendasDAO daoVen = new VendasDAO();
+					List<Venda> listaVen = daoVen.listarVendaJoinCliente();
+					pdfFactory.gerarPdfVenda(listaVen.toArray(new Venda[listaVen.size()]));
+				}	
 			}
 		} );
 		

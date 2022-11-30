@@ -32,6 +32,7 @@ public class PdfFactory {
 	private LocalDateTime now = LocalDateTime.now();
 	private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd_HHmmss");
 	private DateTimeFormatter dtfDoc = DateTimeFormatter.ofPattern("dd/MM/YYYY - HH:mm:ss");
+	private DecimalFormat dfpreco = new DecimalFormat(".##");
 	private String dataHora = dtf.format(now);
 	private String dataHoraDoc = dtfDoc.format(now);
 	private Font Logo = new Font();
@@ -94,12 +95,12 @@ public class PdfFactory {
 		catch(DocumentException de)
 		{
 			de.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Falha na cria��o do PDF, erro: " + de);
+			JOptionPane.showMessageDialog(null, "Falha na criacao do PDF, erro: " + de);
 		} 
 		catch(FileNotFoundException fne)
 		{
 			fne.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Falha na cria��o do PDF, erro: " + fne);
+			JOptionPane.showMessageDialog(null, "Falha na criacao do PDF, erro: " + fne);
 		} 
 	}
 	
@@ -125,7 +126,7 @@ public class PdfFactory {
 			float[] colWidth = {2f,2f,2f};
 			table.setWidths(colWidth);
 			PdfPCell cNome = new PdfPCell(new Paragraph("Nome"));
-			PdfPCell cEndereco = new PdfPCell(new Paragraph("Endere�o"));
+			PdfPCell cEndereco = new PdfPCell(new Paragraph("Endereco"));
 			PdfPCell cTelefone = new PdfPCell(new Paragraph("Telefone"));
 			
 			table.addCell(cNome);
@@ -157,12 +158,12 @@ public class PdfFactory {
 		catch(DocumentException de)
 		{
 			de.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Falha na cria��o do PDF, erro: " + de);
+			JOptionPane.showMessageDialog(null, "Falha na criacao do PDF, erro: " + de);
 		} 
 		catch(FileNotFoundException fne)
 		{
 			fne.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Falha na cria��o do PDF, erro: " + fne);
+			JOptionPane.showMessageDialog(null, "Falha na criacao do PDF, erro: " + fne);
 		} 
 	}
 	
@@ -188,8 +189,8 @@ public class PdfFactory {
 			float[] colWidth = {2f,2f,2f};
 			table.setWidths(colWidth);
 			PdfPCell cNome = new PdfPCell(new Paragraph("Nome"));
-			PdfPCell cDescricao = new PdfPCell(new Paragraph("Descri��o"));
-			PdfPCell cPreco = new PdfPCell(new Paragraph("Pre�o em Reais"));
+			PdfPCell cDescricao = new PdfPCell(new Paragraph("Descricao"));
+			PdfPCell cPreco = new PdfPCell(new Paragraph("Preco em Reais"));
 			
 			table.addCell(cNome);
 			table.addCell(cDescricao);
@@ -220,12 +221,12 @@ public class PdfFactory {
 		catch(DocumentException de)
 		{
 			de.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Falha na cria��o do PDF, erro: " + de);
+			JOptionPane.showMessageDialog(null, "Falha na criacao do PDF, erro: " + de);
 		} 
 		catch(FileNotFoundException fne)
 		{
 			fne.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Falha na cria��o do PDF, erro: " + fne);
+			JOptionPane.showMessageDialog(null, "Falha na criacao do PDF, erro: " + fne);
 		} 
 	}
 	
@@ -266,7 +267,7 @@ public class PdfFactory {
 				PdfPCell venCliente = new PdfPCell(new Paragraph(venda[i].getComprador().getNome().toString()));
 				PdfPCell venData = new PdfPCell(new Paragraph(venda[i].getDataVenda()));
 				PdfPCell venDescricao = new PdfPCell(new Paragraph(venda[i].getDescricao()));
-				PdfPCell venPago = new PdfPCell(new Paragraph(venda[i].getPago() ? "Sim" : "N�o"));
+				PdfPCell venPago = new PdfPCell(new Paragraph(venda[i].getPago() ? "Sim" : "Nao"));
 			
 				table.addCell(venCliente);
 				table.addCell(venData);
@@ -296,12 +297,12 @@ public class PdfFactory {
 		catch(DocumentException de)
 		{
 			de.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Falha na cria��o do PDF, erro: " + de);
+			JOptionPane.showMessageDialog(null, "Falha na criacao do PDF, erro: " + de);
 		} 
 		catch(FileNotFoundException fne)
 		{
 			fne.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Falha na cria��o do PDF, erro: " + fne);
+			JOptionPane.showMessageDialog(null, "Falha na criacao do PDF, erro: " + fne);
 		}
 	}
 	
@@ -323,7 +324,7 @@ public class PdfFactory {
 			
 			PdfPCell cProduto = new PdfPCell(new Paragraph("Produto"));
 			PdfPCell cDescricao = new PdfPCell(new Paragraph("Descricao"));
-			PdfPCell cPreco = new PdfPCell(new Paragraph("Pre�o unit�rio em Reais"));
+			PdfPCell cPreco = new PdfPCell(new Paragraph("Preco unitario em Reais"));
 			PdfPCell cQuantidade = new PdfPCell(new Paragraph("Quantidade"));
 			
 			table.addCell(cProduto);
@@ -350,11 +351,13 @@ public class PdfFactory {
 				valor += (prodVenda[i].getValor() * prodVenda[i].getQuantidade());
 			}
 			
+			
+			
 			document.add(table);
 			
 			List unorderList = new List(List.UNORDERED);
 			unorderList.add(new ListItem("Numero de Produtos: " + prodVenda.length + " Total de Produtos: " + qtd 
-					+ " Valor total dos Produtos: " + valor));
+					+ " Valor total dos Produtos: " + dfpreco.format(valor)));
 			document.add(unorderList);
 			
 			return document;
@@ -445,12 +448,12 @@ public class PdfFactory {
 		catch(DocumentException de)
 		{
 			de.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Falha na cria��o do PDF, erro: " + de);
+			JOptionPane.showMessageDialog(null, "Falha na criacao do PDF, erro: " + de);
 		} 
 		catch(FileNotFoundException fne)
 		{
 			fne.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Falha na cria��o do PDF, erro: " + fne);
+			JOptionPane.showMessageDialog(null, "Falha na criacao do PDF, erro: " + fne);
 		} 
 	}
 	
@@ -468,7 +471,7 @@ public class PdfFactory {
 			Logo.setSize(24);
 			
 			document.add(new Paragraph("Sales History Manager", Logo));
-			document.add(new Paragraph("Previs�o de Vendas de " + j + ": " + dataHoraDoc));
+			document.add(new Paragraph("Previsao de Vendas de " + j + ": " + dataHoraDoc));
 			
 			PdfPTable tableMes = new PdfPTable(2);
 			tableMes.setWidthPercentage(105);
@@ -477,7 +480,7 @@ public class PdfFactory {
 			
 			float[] colWidthMes = {2f,2f};
 			tableMes.setWidths(colWidthMes);
-			PdfPCell colunaMes = new PdfPCell(new Paragraph("M�s"));
+			PdfPCell colunaMes = new PdfPCell(new Paragraph("Mes"));
 			PdfPCell colunaVendas = new PdfPCell(new Paragraph("Vendas"));
 			
 			tableMes.addCell(colunaMes);
@@ -498,7 +501,7 @@ public class PdfFactory {
 			unorderListMes.add(new ListItem("Total de linhas: " + list2.size()));
 			document.add(unorderListMes);
 			
-			document.add(new Paragraph("Previs�o de Vendas por Cliente: "));
+			document.add(new Paragraph("Previsao de Vendas por Cliente: "));
 			
 			PdfPTable tableCli = new PdfPTable(2);
 			tableCli.setWidthPercentage(105);
@@ -527,7 +530,7 @@ public class PdfFactory {
 			unorderListCli.add(new ListItem("Total de linhas: " + list3.size()));
 			document.add(unorderListCli);
 			
-			document.add(new Paragraph("Previs�o de Vendas por Produto: "));
+			document.add(new Paragraph("Previsao de Vendas por Produto: "));
 			
 			PdfPTable tableProd = new PdfPTable(2);
 			tableProd.setWidthPercentage(105);
@@ -565,12 +568,12 @@ public class PdfFactory {
 		catch(DocumentException de)
 		{
 			de.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Falha na cria��o do PDF, erro: " + de);
+			JOptionPane.showMessageDialog(null, "Falha na criacao do PDF, erro: " + de);
 		} 
 		catch(FileNotFoundException fne)
 		{
 			fne.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Falha na cria��o do PDF, erro: " + fne);
+			JOptionPane.showMessageDialog(null, "Falha na criacao do PDF, erro: " + fne);
 		}
 		
 	}
@@ -585,7 +588,7 @@ public class PdfFactory {
 		}
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(null, "PDF n�o pode ser exibido: " + e);
+			JOptionPane.showMessageDialog(null, "PDF nao pode ser exibido: " + e);
 		}
 	}
 }

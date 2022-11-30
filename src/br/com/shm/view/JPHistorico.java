@@ -30,9 +30,9 @@ public class JPHistorico extends JPPadrao {
 	private String[] colRespCli = {"Cliente", "Numero de Compras"};
 	private String[] colRespVen = {"Mes/Ano", "Numero de Vendas"};
 	private String[] colRespProd = {"Produto", "Quantidade"};
-	private String[] stTipo = {"Cliente", "Venda", "Produto", "Previsão"};
+	private String[] stTipo = {"Cliente", "Venda", "Produto", "Previsao"};
 	private String[] stClientePesquisa = {"Comprador", "Devedor"};
-	private String[] stVendaPesquisa = {"Por Mês", "Por Ano"};
+	private String[] stVendaPesquisa = {"Por Mes", "Por Ano"};
 	private String[] stProdutoPesquisa = {"Quantidade vendida"};
 	private String[] stOrdem = {"Crescente", "Decrescente"};
 	private List<String> stAnos = new ArrayList<String>();
@@ -172,7 +172,7 @@ public class JPHistorico extends JPPadrao {
 		btnGerarPdf.setBounds( width - 280 , height - 80 , 120, 30 );
 		btnGerarPdf.setEnabled(false);
 		
-		JButton btnGrafico = new JButton("Gráfico");
+		JButton btnGrafico = new JButton("Grafico");
 		btnGrafico.setBounds( width - 150 , height - 80 , 120, 30 );
 		btnGrafico.setEnabled(false);
 		
