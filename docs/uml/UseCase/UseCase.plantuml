@@ -1,5 +1,6 @@
 @startuml
-!theme blueprint
+!theme cerulean
+
 left to right direction
 
 actor "Administrador" as Admin

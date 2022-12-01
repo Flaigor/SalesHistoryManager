@@ -1,5 +1,5 @@
 @startuml
-!theme blueprint
+!theme cerulean
 
 State Passo1 {
 	Passo1 : Tipo

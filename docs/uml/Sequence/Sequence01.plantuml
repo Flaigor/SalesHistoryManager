@@ -1,5 +1,5 @@
 @startuml
-!theme blueprint
+!theme cerulean
 skinparam responseMessageBelowArrow true
 
 actor       Usuário 

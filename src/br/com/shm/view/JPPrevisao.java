@@ -17,14 +17,12 @@ import javax.swing.table.DefaultTableModel;
 
 import br.com.shm.dao.ClientesDAO;
 import br.com.shm.dao.HistoricoDAO;
-import br.com.shm.dao.PrevisaoDAO;
 import br.com.shm.dao.ProdutosDAO;
 import br.com.shm.jdbc.GraficoFactory;
 import br.com.shm.jdbc.PdfFactory;
 import br.com.shm.jdbc.PrevisaoFactory;
 import br.com.shm.model.Cliente;
 import br.com.shm.model.Produto;
-import br.com.shm.model.ProdutoVenda;
 
 public class JPPrevisao extends JPPadrao {
 	

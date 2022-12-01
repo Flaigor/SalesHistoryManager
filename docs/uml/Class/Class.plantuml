@@ -1,5 +1,5 @@
 @startuml
-!theme blueprint
+!theme cerulean
 left to right direction
 
 class Cliente{
