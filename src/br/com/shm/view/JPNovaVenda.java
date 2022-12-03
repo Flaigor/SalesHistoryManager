@@ -238,12 +238,12 @@ public class JPNovaVenda extends JPPadrao {
 						venda.setId(vendaDao.getMaiorId());
 						qtd = 0;
 						preco = 0.0;
+						ProdutoVendaDAO prodVendaDao = new ProdutoVendaDAO();
 						for(int i = 0; i < produtos.size(); i++)
 						{
 							qtd = Integer.parseInt(tProdutos.getModel().getValueAt(linhas[i], 2).toString());
 							preco = Double.parseDouble(tProdutos.getModel().getValueAt(linhas[i], 1).toString());
 							ProdutoVenda prodVenda = new ProdutoVenda(venda, produtos.get(i), qtd, preco);
-							ProdutoVendaDAO prodVendaDao = new ProdutoVendaDAO();
 							prodVendaDao.cadastrarProdutoVenda(prodVenda);
 						}
 						listar();
