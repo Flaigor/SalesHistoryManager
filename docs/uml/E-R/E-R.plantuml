@@ -1,0 +1,67 @@
+@startuml
+!theme cerulean
+
+agent Users
+agent Clientes
+agent Produtos
+agent Vendas
+agent ProdutoVenda
+
+storage IdUser
+storage NameUser
+storage PasswordUser
+storage AdminUser
+
+storage IdCliente
+storage NomeCliente
+storage EnderecoCliente
+storage TelefoneCliente
+
+storage IdProduto
+storage NomeProduto
+storage DescricaoProduto
+storage PrecoProduto
+
+storage IdVenda
+storage DataVenda
+storage DescricaoVenda
+storage PagoVenda
+
+storage IdProdutoVenda
+storage QuantidadeProdutoVenda
+storage ValorProdutoVenda
+
+hexagon Possuem
+hexagon Solicitam
+hexagon FazemParte
+
+IdUser -- Users
+NameUser -- Users
+PasswordUser -- Users
+AdminUser -- Users
+IdCliente -left- Clientes
+NomeCliente -- Clientes
+EnderecoCliente -- Clientes
+TelefoneCliente -- Clientes
+IdProduto -- Produtos
+NomeProduto -up- Produtos
+DescricaoProduto -up- Produtos
+PrecoProduto -up- Produtos
+IdVenda -- Vendas
+IdCliente -- Vendas
+DataVenda -up- Vendas
+DescricaoVenda -up- Vendas
+PagoVenda -up- Vendas
+IdProdutoVenda -- ProdutoVenda
+IdVenda -up- ProdutoVenda
+IdProduto -left- ProdutoVenda
+QuantidadeProdutoVenda -- ProdutoVenda
+ValorProdutoVenda -- ProdutoVenda
+Clientes -- Solicitam
+Solicitam -right- Vendas
+ProdutoVenda -- FazemParte
+FazemParte-- Vendas
+ProdutoVenda -- Possuem
+Possuem-- Produtos
+
+@enduml

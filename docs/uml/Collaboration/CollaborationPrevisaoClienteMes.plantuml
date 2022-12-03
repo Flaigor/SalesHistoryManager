@@ -1,0 +1,26 @@
+@startuml
+!theme cerulean
+left to right direction
+
+actor Usuário
+agent Cliente
+agent PrevisaoFactory
+agent PrevisaoDAO
+agent ClineteDAO
+agent Integer
+database database
+frame JPPrevisao
+
+Usuário --> JPPrevisao: 1.listener()
+JPPrevisao-----> PrevisaoFactory: 2.populaMatrixClienteMes()
+PrevisaoFactory--> ClineteDAO: 3.listarClientes()
+ClineteDAO--> database: 4.executeQuery()
+ClineteDAO--> Cliente: 5.List<Cliente>()
+Cliente--> Cliente: 6.set(), 7.add()
+PrevisaoFactory--> PrevisaoDAO: 8.getListPrevisaoCli()
+PrevisaoDAO--> database: 9.executeQuery()
+PrevisaoDAO--> Integer: 10.List<Integer>()
+Integer--> Integer: 11.add(), 12.set()
+PrevisaoFactory--> PrevisaoFactory: 13.previsaoAno(), 14.previsaoMes(), 15.prepararMatrixClienteMes(), 16.set()
+JPPrevisao--> JPPrevisao: 17.popularClientes(), 18.previsaoInicialClienteMes(), 19.popularTabelaMes(), 20.popularTabelaCli()
+@enduml

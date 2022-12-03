@@ -1,0 +1,24 @@
+@startuml
+!theme cerulean
+skinparam responseMessageBelowArrow true
+
+actor       Usuário 
+participant JPClasse
+participant ClasseDAO
+database    Database
+participant Objeto
+
+autonumber 1.1.1
+Usuário --> JPClasse : CadastrarListener()
+
+autonumber 1.2.1
+JPClasse --> Objeto : New Objeto()
+JPClasse --> ClasseDAO : New ClasseDAO()
+
+autonumber 1.3.1
+ClasseDAO --> Database : cadastrarCliente()
+
+autonumber 1.4.1
+JPClasse --> JPClasse : listar()
+
+@enduml

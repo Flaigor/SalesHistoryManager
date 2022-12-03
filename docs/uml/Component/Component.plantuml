@@ -1,0 +1,21 @@
+@startuml
+!theme cerulean-outline
+
+() "IUser" - [Manter User]
+[Manter User] .right.> MySql
+MySql <.. [Manter Clinete e Produto]
+[Manter Clinete e Produto] -left- () "ICliente e Produto"
+MySql <.. [Manter Venda]
+[Manter Clinete e Produto] <.right. [Manter Venda]
+[Manter Venda] - () "IVenda"
+MySql <.right. [Historico de vendas]
+[Historico de vendas] - () "IHistorico"
+[Historico de vendas] ..> [Manter Venda]
+() "IPrevisao" - [Previsao de vendas]
+[Previsao de vendas] -- () "ICalculoPrevisao"
+() "ICalculoPrevisao" .right.> [Calcular Previsao]
+[Calcular Previsao] ..> MySql
+
+database "MySql" {
+}
+@enduml

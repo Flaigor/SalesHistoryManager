@@ -1,0 +1,17 @@
+@startuml
+!theme cerulean
+start
+repeat
+	if (Voltar?) then (sim)
+		stop
+	else (não)
+		repeat
+			:Seleciona objeto a ser editado;
+                        :Edita campos;
+		repeat while (Atualizar?) is (não) not (sim)
+	endif
+        :Instancia novo Objeto com os atributo alterados;
+	:Instancia Classe DAO;
+	:Atualiza no Banco;
+repeat while
+@enduml

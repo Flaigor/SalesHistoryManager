@@ -1,0 +1,14 @@
+@startuml
+!theme cerulean
+left to right direction
+
+actor Usuário
+database database
+frame JPClasse
+agent ClasseDAO 
+
+Usuário --> JPClasse : 1.listenerDeletar()
+JPClasse --> JPClasse : 2.get(), 3.getId(), 6.Listar()
+JPClasse --> ClasseDAO : 4.ClasseDAO()
+ClasseDAO --> database : 5.excluirObjeto()
+@enduml

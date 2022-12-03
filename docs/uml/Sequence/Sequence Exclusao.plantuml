@@ -1,0 +1,24 @@
+@startuml
+!theme cerulean
+skinparam responseMessageBelowArrow true
+
+actor       Usuário 
+participant JPClasse
+participant ClasseDAO
+database    Database
+
+autonumber 1.1.1
+Usuário --> JPClasse : DeletarListener()
+
+autonumber 1.2.1
+JPClasse --> JPClasse : get()
+JPClasse--> JPClasse: getId()
+JPClasse --> ClasseDAO : New ClasseDAO()
+
+autonumber 1.4.1
+ClasseDAO --> Database : excluirCliente()
+
+autonumber 1.5.1
+JPClasse --> JPClasse : listar()
+
+@endum

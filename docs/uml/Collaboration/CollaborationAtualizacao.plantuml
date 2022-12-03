@@ -1,0 +1,17 @@
+@startuml
+!theme cerulean
+left to right direction
+
+actor Usuário
+agent Objeto
+database database
+frame JPClasse
+agent ClasseDAO 
+
+Usuário --> JPClasse : 1.listenerAtualizar()
+JPClasse --> Objeto : 2.Objeto()
+JPClasse --> ClasseDAO : 3.ClasseDAO()
+ClasseDAO --> database : 4.atualizarObjeto()
+JPClasse --> JPClasse : 5.Listar()
+
+@enduml

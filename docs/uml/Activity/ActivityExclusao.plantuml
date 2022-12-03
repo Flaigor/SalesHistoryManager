@@ -1,0 +1,15 @@
+@startuml
+!theme cerulean
+start
+repeat
+	if (Voltar?) then (sim)
+		stop
+	else (não)
+		repeat
+			:Seleciona objeto a ser excluido;
+		repeat while (Deletar?) is (não) not (sim)
+	endif
+	:Instancia Classe DAO;
+	:Deleta no Banco;
+repeat while
+@enduml

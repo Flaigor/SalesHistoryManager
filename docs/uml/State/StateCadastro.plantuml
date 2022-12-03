@@ -1,0 +1,40 @@
+@startuml
+!theme cerulean
+
+State Passo1 {
+	Passo1 : Preencher campos
+}
+
+State Passo2 {
+	State Passo2.1 {
+		Passo2.1 : Inserir no banco
+	}
+
+	State Passo2.2 {
+		Passo2.2 : Nova consulta
+	}
+
+        State Passo2.3 {
+		Passo2.3 : Mensagem de erro
+	}
+
+	[*] -> Passo2.1
+	Passo2.1 --> Passo2.2 : Cadastro com Sucesso
+	Passo2.1 -right-> Passo2.3 : Falha no Cadastro
+        Passo2.2 -right-> [*] : Retrono da consulta
+        Passo2.2 -right-> Passo2.3 : Falha na Consulta
+	Passo2.3 --> [*] : Sair
+}
+
+State Passo3 {
+	Passo3 : Preenche tabela da Tela
+}
+
+[*] -> Passo1
+Passo1 --> Passo2 : Cadastrar
+Passo1 -right-> [*] : Voltar
+
+Passo2 --> Passo3 : Resultado
+Passo3  --> Passo3 : Preencher linhas
+Passo3 --> Passo1 : Nova Cadastro
+@enduml

@@ -4,16 +4,16 @@ left to right direction
 
 object Cliente1 {
 	-Id : 1
-	-nome : Mariha
-	-endereco : R. Francisco Real, 375 - Padre Miguel
-	-telefone : (21) 2147-3617 
+	-nome : Sushi do bairro
+	-endereco : Rua do caramelo brasileiro, numero 919 - Meier
+	-telefone : (21) 2107-5839 
 }
 
 object Cliente2 {
 	-Id : 2
-	-nome : Baixo Valqueire
-	-endereco : R. das Camélias, 437 - Vila Valqueire
-	-telefone : (21) 3486-6816
+	-nome : Chopperia Carlinhos DJ
+	-endereco : Rua dos boleiros, 450 - Bonsucesso
+	-telefone : (21) 3283-0927
 }
 
 object Produto1 {
@@ -53,7 +53,7 @@ object ProdutoVenda1{
 	-venda : Venda1
 	-produto : Produto1
 	-quantidade : 50
-	-valor : 500,00
+	-valor : 10,00
 }
 
 object ProdutoVenda2{
@@ -61,7 +61,7 @@ object ProdutoVenda2{
 	-venda : Venda1
 	-produto : Produto2
 	-quantidade : 10
-	-valor : 70,00
+	-valor : 7,00
 }
 
 object ProdutoVenda3{
@@ -69,7 +69,7 @@ object ProdutoVenda3{
 	-venda : Venda2
 	-produto : Produto2
 	-quantidade : 5
-	-valor : 40,00
+	-valor : 8,00
 }
 
 Cliente1 ---> Venda2

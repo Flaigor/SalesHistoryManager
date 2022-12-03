@@ -1,0 +1,18 @@
+@startuml
+!theme cerulean
+left to right direction
+
+actor Usuário
+agent ProdutoVenda
+database database
+frame JPHistorico
+agent HistoricoDAO
+
+Usuário --> JPHistorico : 1.listener()
+JPHistorico --> JPHistorico : 2.Listar(), 3.getLista(), 11.addRow()
+JPHistorico --> HistoricoDAO : 4.HistoricoDAO()
+HistoricoDAO --> HistoricoDAO : 5.Listar(), 7.montarQuery()
+HistoricoDAO --> database : 8.executeQuery()
+HistoricoDAO --> ProdutoVenda : 6.List<ProdutoVenda>()
+ProdutoVenda --> ProdutoVenda : 9.set(), 10.add()
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+!theme cerulean
+start
+repeat
+	if (Voltar?) then (sim)
+		stop
+	else (não)
+		repeat
+			:Seleciona: Cliente;
+                        repeat
+                            :Seleciona: Produto;
+                            :Escolhe: Quantidade e Preço;
+                        repeat while (Mais um produto?) is (sim) not (não)
+                        :Preenche os campos da venda;
+		repeat while (Cadastrar?) is (não) not (sim)
+	endif
+        :Instancia Venda e VendaDAO;
+	:Cadastra Venda no Banco;
+        :Instancia ProdutoVendaDAO;
+        repeat
+	     :Instancia ProdutoVenda;
+             :Associa ProdutoVenda a Venda e Produto;
+	     :Cadastra ProdutoVenda no Banco;
+        repeat while (Ainda tem produto?) is (sim) not (não)
+repeat while
+@enduml

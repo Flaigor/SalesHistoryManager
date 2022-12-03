@@ -1,0 +1,46 @@
+@startuml
+!theme cerulean
+
+State Passo1 {
+	Passo1 : Escolher Objeto
+}
+
+State Passo2 {
+	Passo2 : Alterar campos
+}
+
+State Passo3 {
+	State Passo3.1 {
+		Passo3.1 : Atualizar no banco
+	}
+
+	State Passo3.2 {
+		Passo3.2 : Nova consulta
+	}
+
+        State Passo3.3 {
+		Passo3.3 : Mensagem de erro
+	}
+
+	[*] -> Passo3.1
+	Passo3.1 --> Passo3.2 : Atualização com Sucesso
+	Passo3.1 -right-> Passo3.3 : Falha na Atualização
+        Passo3.2 -right-> [*] : Retrono da consulta
+        Passo3.2 -right-> Passo3.3 : Falha na Consulta
+	Passo3.3 --> [*] : Sair
+}
+
+State Passo4 {
+	Passo4 : Preenche tabela da Tela
+}
+
+[*] -left-> Passo1
+Passo1 --> Passo2 : Objeto selecionado da tabela
+Passo2 --> Passo3 : Atualizar
+Passo1 -left-> [*] : Voltar
+Passo2 -left-> [*] : Voltar
+
+Passo3 --> Passo4 : Resultado
+Passo4  --> Passo4 : Preencher linhas
+Passo4 --> Passo1 : Nova Atualização
+@enduml
