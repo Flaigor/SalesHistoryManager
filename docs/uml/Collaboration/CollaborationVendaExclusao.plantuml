@@ -1,0 +1,23 @@
+@startuml
+!theme cerulean
+left to right direction
+
+actor Usuário
+agent Venda
+agent ListVenda
+database database
+frame JPVenda 
+agent VendaDAO
+agent ProdutoVendaDAO 
+
+Usuário --> JPVenda : 1.listenerDeletarVenda()
+JPVenda --> VendaDAO : 2.VendaDAO()
+JPVenda --> ListVenda: 3.ListVenda()
+JPVenda --> Venda : 4.Venda()
+ListVenda --> ListVenda : 5.get()
+JPVenda --> ProdutoVendaDAO : 6.ProdutoVendaDAO()
+ProdutoVendaDAO --> database: 7.excluirProdutoVendaPorVenda()
+VendaDAO --> database: 8.excluirVenda()
+JPVenda --> JPVenda : 9.attTabelaVenda()
+
+@enduml

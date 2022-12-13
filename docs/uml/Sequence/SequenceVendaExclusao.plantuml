@@ -1,0 +1,36 @@
+@startuml
+!theme cerulean
+skinparam responseMessageBelowArrow true
+
+actor       Usuário 
+participant JPVenda
+participant VendaDAO
+participant ProdutoVendaDAO
+database    Database
+participant Venda
+participant ListaVenda
+
+autonumber 1.1.1
+Usuário --> JPVenda: listener()
+
+autonumber 1.2.1
+JPVenda --> VendaDAO: VendaDAO()
+JPVenda --> ListaVenda: ListaVenda()
+JPVenda --> Venda: Venda()
+
+autonumber 1.3.1
+ListaVenda --> ListaVenda: get()
+
+autonumber 1.4.1
+JPVenda --> ProdutoVendaDAO: ProdutoVendaDAO()
+
+autonumber 1.5.1
+ProdutoVendaDAO --> Database: excluirProdutoVendaPorVenda()
+
+autonumber 1.6.1
+VendaDAO --> Database: excluirVenda()
+
+autonumber 1.7.1
+JPVenda --> JPVenda: attTabelaVenda()
+
+@enduml

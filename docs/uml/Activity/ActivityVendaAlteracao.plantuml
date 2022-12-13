@@ -1,0 +1,24 @@
+@startuml
+!theme cerulean
+start
+repeat
+	if (Voltar?) then (sim)
+		stop
+	else (não)
+		repeat
+			:Selecionar: Cliente;
+                        :Popula tabela produtos;
+                        :Alterar: Produto;
+                        :Alterar: Campos;
+		repeat while (Alterar?) is (não) not (sim)
+	endif
+        :Instancia VendaDAO, lista de Vendas e Venda;
+        :Pega a Venda que vai ser alterada;
+	:Aplica as alterações no banco;
+        :Instancia ProdutoVendaDAO, Lista de ProdutoVenda e ProdutoVenda;
+        repeat
+	     :Pega ProdutoVenda;
+             :Aplica as alterações no banco;
+        repeat while (Ainda tem produto?) is (sim) not (não)
+repeat while
+@enduml

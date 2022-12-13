@@ -1,0 +1,63 @@
+@startuml
+!theme cerulean
+
+State Passo1 {
+	Passo1 : Selecionar Cliente
+}
+
+State Passo2 {
+	Passo2 : Mudar quantidade
+	Passo2 : Mudar valor
+}
+
+State Passo3 {
+	Passo3: Selecionar Produtos
+}
+
+State Passo4 {
+	Passo4: Descrição
+        Passo4: Data
+        Passo4: Venda paga?
+}
+
+State Passo5 {
+	State Passo5.1 {
+		Passo5.1 : Cadastrar Venda no banco
+	}
+
+	State Passo5.2 {
+		Passo5.2 : Cadastrar ProdutoVenda
+	}
+
+        State Passo5.3 {
+		Passo5.3 : Mensagem de erro 
+	}
+
+	[*] -> Passo5.1
+        Passo5.1 --> Passo5.3 : falha
+        Passo5.3  --> [*]
+        Passo5.1 --> Passo5.2 : Venda Cadastrada
+        Passo5.2 --> Passo5.3 : Falha
+        Passo5.2 --> Passo5.2 : Outro Produto
+        Passo5.2 --> [*] : ProdutosVend Cadastrados
+}
+
+State Passo6 {
+	Passo6 : Preencher tabelas
+}
+
+[*] -> Passo1
+Passo1 -left-> [*] : Voltar
+Passo2 --> [*] : Voltar
+Passo3 --> [*] : Voltar
+Passo4 --> [*] : Voltar
+
+Passo1 --> Passo2 : Cliente selecionado
+Passo2 --> Passo3 : Quantidade dos produtos e valores alterados
+Passo3 --> Passo4 : Podutos seleconados
+Passo4 --> Passo5 : Cadastrar
+
+Passo5 -right-> Passo6 : Retorno
+Passo6 --> Passo1 : Cadastrar nova Venda
+
+@enduml

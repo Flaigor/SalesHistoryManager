@@ -1,0 +1,30 @@
+@startuml
+!theme cerulean
+left to right direction
+
+actor Usuário
+agent Venda
+agent ListVenda
+agent ProdutoVenda
+agent ListProdutoVenda
+database database
+frame JPNovaVenda 
+agent VendaDAO
+agent ProdutoVendaDAO 
+
+Usuário --> JPNovaVenda : 1.listenerAtualizarVenda()
+JPNovaVenda --> VendaDAO : 2.VendaDAO()
+JPNovaVenda --> ListVenda : 3.ListVenda()
+JPNovaVenda --> Venda: 4.Venda()
+ListVenda --> ListVenda : 5.get()
+VendaDAO --> database : 6.alterarVenda()
+
+JPNovaVenda --> ProdutoVendaDAO : 7.ProdutoVendaDAO ()
+JPNovaVenda --> ListProdutoVenda: 8.ListProdutoVenda()
+JPNovaVenda --> ProdutoVenda: 9.ProdutoVenda()
+ListProdutoVenda --> ListProdutoVenda: 10.get()
+ProdutoVendaDAO --> database : 11.alterarProdutoVenda()
+
+JPNovaVenda --> JPNovaVenda : 12.attTabelaVenda()
+
+@enduml

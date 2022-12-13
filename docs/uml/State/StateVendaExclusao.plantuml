@@ -1,0 +1,40 @@
+@startuml
+!theme cerulean
+
+State Passo1 {
+	Passo1 : Selecionar Cliente
+}
+
+State Passo2 {
+	State Passo2.1 {
+		Passo2.1 : Deletar ProdutosVenda no banco
+	}
+
+        State Passo2.2 {
+		Passo2.2 : Deletar Produto no banco
+	}
+
+        State Passo2.3 {
+		Passo2.3 : Mensagem de erro 
+	}
+
+	[*] -> Passo2.1
+        Passo2.1 --> Passo2.2 : ProdutosVenda deletados com sucesso
+        Passo2.1 --> Passo2.3 : Falha
+        Passo2.2 --> [*] : Venda deletada com sucesso
+        Passo2.2 --> Passo2.3 : Falha
+        Passo2.3 --> [*]
+}
+
+State Passo3 {
+	Passo3 : Preenche tabela
+}
+
+[*] -> Passo1
+Passo1 -> [*]
+
+Passo1 --> Passo2 : Deletar
+Passo2 --> Passo3 : Retorno
+Passo3 --> Passo1 : Deletar outra Venda
+
+@enduml

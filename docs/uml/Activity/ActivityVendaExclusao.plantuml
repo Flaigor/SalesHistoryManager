@@ -1,0 +1,19 @@
+@startuml
+!theme cerulean
+start
+repeat
+	if (Voltar?) then (sim)
+		stop
+	else (não)
+		repeat
+			:Selecionar: Cliente;
+		repeat while (Deletar?) is (não) not (sim)
+	endif
+        :Instancia VendaDAO, lista de Vendas e Venda;
+        :Pega a Venda que vai ser deletada;
+        :Instancia ProdutoVendaDAO;
+        :Deletar ProdutosVenda associados na Venda;
+	:Deleta no banco;
+	:Atualizar tabela;
+repeat while
+@enduml
